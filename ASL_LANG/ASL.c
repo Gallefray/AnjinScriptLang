@@ -15,6 +15,7 @@ SDL_Surface *screen;
 // Function definitions:
 int randomNum(int min, int max);
 bool initWindow(int height, int width, bool fullscreen, int bitPerPixel);
+bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float By, float Bh, float Bw);
 
 
 // ------------------------- Init's over, here's the funcs:
@@ -70,10 +71,23 @@ bool initWindow(int height, int width, bool fullscreen, int bitPerPixel)
 			}
 		}
 	}
+	SDL_WM_GrabInput(SDL_GRAB_ON);  // This makes the window grab all input :P
 }
 
 int randomNum(int min, int max)
 {	
 	//(rand()%max);
 	return min+(rand()%((max+1)-min)); // inclusive :D
+}
+
+bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float By, float Bh, float Bw)
+{
+	if (Ax + Aw >= Bx && Ax <= Bx+Bw && Ay + Ah >= By && Ay <= By+Bh)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
