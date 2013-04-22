@@ -11,10 +11,11 @@
 #define false 0
 #define bool int
 SDL_Surface *screen;
+const SDL_VideoInfo* info = NULL;
 
 // Function definitions:
 int randomNum(int min, int max);
-bool initWindow(int height, int width, bool fullscreen, int bitPerPixel);
+bool initWindow(int height, int width, bool fullscreen);
 bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float By, float Bh, float Bw);
 
 
@@ -30,45 +31,35 @@ int main(int argc, char** argv) // argc will contain the number of elements in a
 	    exit(1);
 	}
 	atexit(SDL_Quit);// Clean up everything when the program exits! :D
+    info = SDL_GetVideoInfo( ); // Retrieve video information
 }
 
-bool initWindow(int height, int width, bool fullscreen, int bitPerPixel)
+bool initWindow(int height, int width, bool fullscreen)
 {
-	if (bitPerPixel == 0 || bitPerPixel == NULL )
-	{
-		bitPerPixel = 32;
-	}
+	int bitPerPixel = info->vfmt->BitsPerPixel;  // Grabbing the bpp from the screen now ;)
 
 	if (fullscreen == true)
 	{
-		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_HWSURFACE|SDL_FULLSCREEN) == -1)
+		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_OPENGL|SDL_FULLSCREEN) == -1)
 		{
-			printf("ASL | error. Maybe video memory rendering not supported on this system? Switching to system memory");
-			if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_SWSURFACE|SDL_FULLSCREEN) == -1)
-			{	
-				if ( screen == NULL ) 
-				{
-				    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
-				    exit(1);
-				}
-				return;
+			if ( screen == NULL ) 
+			{
+			    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+			    exit(1);
 			}
+			return;
 		}
 	}
 	else
 	{
-		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_HWSURFACE) == -1)
+		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_OPENGL) == -1)
 		{
-			printf("ASL | error. Maybe video memory rendering not supported on this system? Switching to system memory");
-			if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_SWSURFACE) == -1)
-			{	
-				if ( screen == NULL ) 
-				{
-				    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
-				    exit(1);
-				}
-				return;
+			if ( screen == NULL ) 
+			{
+			    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+			    exit(1);
 			}
+			return;
 		}
 	}
 	SDL_WM_GrabInput(SDL_GRAB_ON);  // This makes the window grab all input :P
