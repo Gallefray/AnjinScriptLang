@@ -3,6 +3,8 @@
 
 // Includes:
 #include <SDL/SDL.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <time.h>
 #include <stdio.h>
 
@@ -17,6 +19,7 @@ const SDL_VideoInfo* info = NULL;
 int randomNum(int min, int max);
 bool initWindow(int height, int width, bool fullscreen);
 bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float By, float Bh, float Bw);
+// char keyboardInput();
 
 
 // ------------------------- Init's over, here's the funcs:
@@ -82,3 +85,34 @@ bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float B
 		return false;
 	}
 }
+
+// int doStuff = 0;
+// char keyboardInput()
+// {
+//     SDL_Event event;
+//     while(SDL_PollEvent(&event) )
+//     {
+//         if(event.type == SDLK_KEYDOWN)
+//         {
+//                 switch(event.key.keysym.sym)
+//                 {
+//                     case SDLK_RETURN:
+//                         doStuff = 1
+//                         break;
+//                     default:
+//                         break;
+//                 }
+//         }
+//         if(event.type == SDLK_KEYUP)
+//         {
+//                 switch(event.key.keysym.sym)
+//                 {
+//                     case SDLK_RETURN:
+//                         doStuff = 0;
+//                         break;
+//                     default:
+//                         break;
+//                 }
+//         }
+//     }   
+// }
