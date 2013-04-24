@@ -1,10 +1,8 @@
-// Help given by: #ludumdare(Trangar(rand), Mario(CLI args), Fififox(gcc Commands), ninzine(gcc Commands))
-// Requests by: #ludumdare(Cellusious(rand))
-
 // Includes:
 #include <SDL/SDL.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <SDL/SDL_opengl.h>
+// #include <GL/gl.h>
+// #include <GL/glu.h>
 #include <time.h>
 #include <stdio.h>
 
@@ -14,13 +12,6 @@
 #define bool int
 SDL_Surface *screen;
 const SDL_VideoInfo* info = NULL;
-
-// Function definitions:
-int randomNum(int min, int max);
-bool initWindow(int height, int width, bool fullscreen);
-bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float By, float Bh, float Bw);
-// char keyboardInput();
-
 
 // ------------------------- Init's over, here's the funcs:
 
@@ -37,7 +28,7 @@ int main(int argc, char** argv) // argc will contain the number of elements in a
     info = SDL_GetVideoInfo( ); // Retrieve video information
 }
 
-bool initWindow(int height, int width, bool fullscreen)
+bool initWindow(int height, int width, bool fullscreen, char *name)
 {
 	int bitPerPixel = info->vfmt->BitsPerPixel;  // Grabbing the bpp from the screen now ;)
 
@@ -65,7 +56,12 @@ bool initWindow(int height, int width, bool fullscreen)
 			return;
 		}
 	}
-	SDL_WM_GrabInput(SDL_GRAB_ON);  // This makes the window grab all input :P
+
+	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
+
+	// SDL_WM_GrabInput(SDL_GRAB_ON);  // This makes the window grab all input :P
+	// NEVER. NEVER SET THAT UNLESS KYBOARD INPUT HAS BEEN ENABLED, AND YOU HAVE IT TOP CATCH THE ESC BUTTON. OR YOUR PC WILL DIE.
+	// It *was* pretty funny, though xD
 }
 
 int randomNum(int min, int max)
@@ -84,6 +80,11 @@ bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float B
 	{
 		return false;
 	}
+}
+
+rect(int x, int y, int w, int h)
+{
+	glRecti(x, y, (x+w), (y + h));
 }
 
 // int doStuff = 0;
