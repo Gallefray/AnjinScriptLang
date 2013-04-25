@@ -126,12 +126,10 @@ int rect(char *type, float x, float y, float w, float h)
 	{
 		glBegin( GL_QUADS );
 			glColor4i(red, green, blue, alpha); // set colour
-
-			glVertex2f(x, y);
-            glVertex2f(x+w, y);
-            glVertex2f(x,  y+h);
-            glVertex2f(x+w, y+h);
-            
+			glVertex2f(x, y); 
+			glVertex2f(x, y+h); 
+			glVertex2f(x+w, y+h); 
+			glVertex2f(x+w, y);
         glEnd();
 	}
 	else if (strcmp(type, "line") == 0)
