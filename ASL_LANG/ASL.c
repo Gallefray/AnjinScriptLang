@@ -129,19 +129,9 @@ int rect(char *type, float x, float y, float w, float h)
 
 			glVertex2f(x, y);
             glVertex2f(x+w, y);
-            //printf("WOOO WHEEE WOOO");
-
-            // Left side:
-            glVertex2f(x, y);
             glVertex2f(x,  y+h);
-
-            // bottom side:
-            glVertex2f(x, y+h);
             glVertex2f(x+w, y+h);
-
-            // Right side:
-            glVertex2f(x+w, y);
-            glVertex2f(x+w, y+w);
+            
         glEnd();
 	}
 	else if (strcmp(type, "line") == 0)
