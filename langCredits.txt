@@ -3,11 +3,16 @@ Help given by:
 	Trangar(randFunc), 
 	Mario(CLI args), 
 	Fififox(gcc Commands), 
-	ninzine(gcc Commands)
+	ninzine(gcc Commands),
+	depp(compiling the shared lib),
+	dlagonfry(compiling the shared lib),
+	mads(compiling the shared lib),
+	madpew(compiling the shared lib)
 ), 
-lazyFoo(http://lazyfoo.net/SDL_tutorials/lesson36/ for the openGL help :D),
+http://lazyfoo.net/SDL_tutorials/lesson36/ (for the openGL help :D),
 The SDL docs,
-The openGL docs.
+The openGL docs,
+http://jerome.jouvie.free.fr/opengl-tutorials/Tutorial4.php (for help with the vertices ^__^).
 
 
 Requests by: 
