@@ -36,7 +36,7 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 	    printf("Couldn't initialize SDL: %s\n", SDL_GetError());
 	    exit(1);
 	}
-	
+
 	info = SDL_GetVideoInfo( ); // Retrieve video information
 	int bitPerPixel = info->vfmt->BitsPerPixel;  // Grabbing the bpp from the screen now ;)
 
@@ -65,9 +65,10 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 		}
 	}
 
-	//Initialize OpenGL
+	//Initialize OpenGL:
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
+    // gluPerspective(45.0f, ar, 1.0f, 100.0f);
 
     //Initialize Modelview Matrix
     glMatrixMode( GL_MODELVIEW );
@@ -81,6 +82,11 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
     //Initialize clear color
     glClearColor( 0.f, 0.f, 0.f, 1.f );
 
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glShadeModel(GL_SMOOTH);
+
+	glOrtho(0,1,1,0,-1,1);  // Thanks to wzl. This should set the co ordinate system to the top left ^______^
+	glViewport(0, 0, height, width);
     // GLenum error = glGetError();  // Error catching :3
     // if( error != GL_NO_ERROR )
     // {
@@ -89,9 +95,6 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
     // }
 
 	atexit(SDL_Quit);// Clean up everything when the program exits! :D
-
-	glOrtho(0,1,1,0,-1,1);  // Thanks to wzl. This should set the co ordinate system to the top left ^______^
-
 	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
 
 	// SDL_WM_GrabInput(SDL_GRAB_ON);  // This makes the window grab all input :P

@@ -7,12 +7,16 @@ Help given by:
 	depp(compiling the shared lib),
 	dlagonfry(compiling the shared lib),
 	mads(compiling the shared lib),
-	madpew(compiling the shared lib)
+	madpew(compiling the shared lib),
+	quin(rectangle func),
+	PoV(rectangle func)
+	[Sorry if I've left anyone out, I'm in a bit of a hurry :P]
 ), 
 http://lazyfoo.net/SDL_tutorials/lesson36/ (for the openGL help :D),
 The SDL docs,
 The openGL docs,
 http://jerome.jouvie.free.fr/opengl-tutorials/Tutorial4.php (for help with the vertices ^__^).
+http://www.crowsprogramming.com/archives/117
 
 
 Requests by: 
