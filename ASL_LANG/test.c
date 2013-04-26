@@ -1,3 +1,6 @@
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#endif
 #include "ASL.h"
 
 int main()
@@ -6,11 +9,13 @@ int main()
 	int i = 0;
 	while (i < 900)
 	{
+		grabKeyInput();
+
 		clear();
 		setLineWidth(20);
-		setColour(255, 0, 0, 1);
-		rect("fill", 20, 20, 50, 50);
-		update();
+		setColour(255.0, 0.0, 0.0, 1.0);
+		rect("fill", -10.0, -10.0, 1.0, 1.0);
+		update(30);
 		i++;
 	}
 }

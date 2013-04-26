@@ -2,7 +2,7 @@
 #define false 0
 #define bool int
 
-int red, green, blue, alpha;
+// int red, green, blue, alpha;
 
 // Function definitions:
 int randomNum(int min, int max);
@@ -13,4 +13,5 @@ int setColour(int r, int g, int b, int a);
 int rect(char *type, float x, float y, float w, float h);
 int setLineWidth(float width);
 int clear();
-int update();
+int update(int FPS);
+int grabKeyInput();
