@@ -36,29 +36,7 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 	    printf("Couldn't initialize SDL: %s\n", SDL_GetError());
 	    exit(1);
 	}
-
-	//Initialize OpenGL
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-
-    //Initialize Modelview Matrix
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
-
-    //Initialize clear color
-    glClearColor( 0.f, 0.f, 0.f, 1.f );
-
-    // GLenum error = glGetError();  // Error catching :3
-    // if( error != GL_NO_ERROR )
-    // {
-    //     printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
-    //     return false;
-    // }
-
-	atexit(SDL_Quit);// Clean up everything when the program exits! :D
-
-	glOrtho(0,1,1,0,-1,1);  // Thanks to wzl. This should set the co ordinate system to the top left ^______^
-
+	
 	info = SDL_GetVideoInfo( ); // Retrieve video information
 	int bitPerPixel = info->vfmt->BitsPerPixel;  // Grabbing the bpp from the screen now ;)
 
@@ -86,6 +64,33 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 			return false;
 		}
 	}
+
+	//Initialize OpenGL
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+
+    //Initialize Modelview Matrix
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+
+    // setup depth buffer
+    glClearDepth(1.0f);						
+	glEnable(GL_DEPTH_TEST);						
+	glDepthFunc(GL_LEQUAL);	
+
+    //Initialize clear color
+    glClearColor( 0.f, 0.f, 0.f, 1.f );
+
+    // GLenum error = glGetError();  // Error catching :3
+    // if( error != GL_NO_ERROR )
+    // {
+    //     printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
+    //     return false;
+    // }
+
+	atexit(SDL_Quit);// Clean up everything when the program exits! :D
+
+	glOrtho(0,1,1,0,-1,1);  // Thanks to wzl. This should set the co ordinate system to the top left ^______^
 
 	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
 
@@ -200,20 +205,13 @@ int grabKeyInput()
 	        	printf( "Key release detected\n" );
 	        	break;
 
+	        case SDL_QUIT:
+	        	// put something here to deInit openGL and SDL and quit :D
+                break;
 	      	default:
 	        	break;
 	    }
 	}
-	// while( SDL_PollEvent( &event ) )
- //    {
- //        if(eventType == SDL_KEYDOWN || eventType == SDL_KEYUP)
- //        {
- //            //Handle keypress with current mouse position
- //            // int x = 0, y = 0;
- //            // SDL_GetMouseState( &x, &y );
- //            //printf("%d", event.key.keysym.unicode);
- //        }
- //    }
     return 0;
 }
 

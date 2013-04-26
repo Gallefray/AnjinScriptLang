@@ -14,7 +14,7 @@ int main()
 		clear();
 		setLineWidth(20);
 		setColour(255.0, 0.0, 0.0, 1.0);
-		rect("fill", -10.0, -10.0, 1.0, 1.0);
+		rect("fill", 10.0, 10.0, 10.0, 10.0);
 		update(30);
 		i++;
 	}
