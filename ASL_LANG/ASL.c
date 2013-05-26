@@ -85,14 +85,16 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glShadeModel(GL_SMOOTH);
 
-	glOrtho(0,1,1,0,-1,1);  // Thanks to wzl. This should set the co ordinate system to the top left ^______^
+	//glOrtho(0,1,1,0,-1,1);  // Thanks to wzl. This should set the co ordinate system to the top left ^______^
 	glViewport(0, 0, height, width);
-    // GLenum error = glGetError();  // Error catching :3
-    // if( error != GL_NO_ERROR )
-    // {
-    //     printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
-    //     return false;
-    // }
+
+    GLenum error = glGetError();  // Error catching :3
+    if( error != GL_NO_ERROR )
+    {
+        // printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
+        printf("AAAAH");
+        return false;
+    }
 
 	atexit(SDL_Quit);// Clean up everything when the program exits! :D
 	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
@@ -121,6 +123,8 @@ bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float B
 	}
 }
 
+// int error; if((error = glGetError()) != 0) print(AAAHHHHH); print(error)
+
 int setColour(float r, float g, float b, float a)
 {
 	return 0;
@@ -139,11 +143,15 @@ int rect(char *type, float x, float y, float w, float h)
 		// 	glVertex2f(x+w, y);
   	//     glEnd();
 		glRectf(x, y, x+w, y+h);
+		if(glGetError() != 0)
+		{
+			printf("AAAAAHHHHHHHHHH D: D: D:");
+		}
 
 	}
 	else if (strcmp(type, "line") == 0)
 	{
-		glBegin( GL_LINE );
+		glBegin( GL_LINE_STRIP );
 			// Top side:
             glVertex2f(x, y);
             glVertex2f(x+w, y);

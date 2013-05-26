@@ -9,7 +9,8 @@ Help given by:
 	mads(compiling the shared lib),
 	madpew(compiling the shared lib),
 	quin(rectangle func),
-	PoV(rectangle func)
+	PoV(rectangle func),
+	Kontrol_Keal(Rect > "line" func :D)
 	[Sorry if I've left anyone out, I'm in a bit of a hurry :P]
 ), 
 http://lazyfoo.net/SDL_tutorials/lesson36/ (for the openGL help :D),
