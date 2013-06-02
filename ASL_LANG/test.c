@@ -9,13 +9,13 @@ int main()
 	int i = 0;
 	while (i < 900)
 	{
-		grabKeyInput();
+		//grabKeyInput();
 
 		clear();
-		// setLineWidth(20);
-		setColour(255, 0, 0, 0);
-		//rect("line", 10.0, 10.0, 10.0, 10.0);
-		update();
+		setLineWidth(20);
+		setColour(255.0, 0.0, 0.0, 0.0);
+		rect("line", 10.0, 10.0, 10.0, 10.0);
+		update(25);
 		// glFlush();
 
 	    //Update screen

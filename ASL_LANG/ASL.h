@@ -12,6 +12,6 @@ int setColour(int r, int g, int b, int a);
 // bool keyInput(char key);
 int rect(char *type, float x, float y, float w, float h);
 int setLineWidth(float width);
-// int clear();
-int update();//int FPS);
+int clear();
+int update(int FPS);
 int grabKeyInput();

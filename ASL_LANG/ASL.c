@@ -1,7 +1,7 @@
 // Includes:
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
-// #include <GL/gl.h>
+#include <GL/gl.h>
 #include <GL/glu.h>
 #include <time.h>
 #include <stdio.h>
@@ -11,10 +11,7 @@
 #define false 0
 #define bool int
 
-int red, green, blue, alpha;
-
-// Init the keys
-bool a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, space, enter, tab, shift, ctrl, del;
+// int red, green, blue, alpha;
 
 SDL_Surface *screen;
 SDL_Event event;
@@ -22,12 +19,6 @@ const SDL_VideoInfo* info = NULL;
 
 // Yes, yes. The library structure is a mess... I will reorganise it when the core libs are in :P
 
-// ------------------------- Init's over, here's the funcs:
-
-// int main(int argc, char** argv) // argc will contain the number of elements in argv, where argv[0] is the executable file itself
-// {
-	
-// }
 
 bool initWindow(int height, int width, bool fullscreen, char *name)
 {
@@ -44,7 +35,7 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 
 	if (fullscreen == true)
 	{
-		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN) == -1)
+		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_OPENGL|SDL_FULLSCREEN) == -1)
 		{
 			if ( screen == NULL ) 
 			{
@@ -56,7 +47,7 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 	}
 	else
 	{
-		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_HWSURFACE | SDL_DOUBLEBUF) == -1)
+		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_OPENGL) == -1)
 		{
 			if ( screen == NULL ) 
 			{
@@ -66,6 +57,39 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 			return false;
 		}
 	}
+
+	//Initialize OpenGL:
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    // gluPerspective(45.0f, ar, 1.0f, 100.0f);
+
+    //Initialize Modelview Matrix
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+
+    // setup depth buffer
+    glClearDepth(1.0f);						
+	glEnable(GL_DEPTH_TEST);						
+	glDepthFunc(GL_LEQUAL);	
+
+    //Initialize clear color
+    glClearColor( 0.f, 0.f, 0.f, 1.f );
+
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glShadeModel(GL_SMOOTH);
+
+	float dim = 10.0;
+	glMatrixMode( GL_PROJECTION );
+	// void gluOrtho2D ( left, right, bottom, top);
+	gluOrtho2D( 0.0, dim, dim, 0.0 );
+	glMatrixMode( GL_MODELVIEW );
+
+    // GLenum error = glGetError();  // Error catching :3
+    // if( error != GL_NO_ERROR )
+    // {
+    //     printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
+    //     return false;
+    // }
 
 	atexit(SDL_Quit);// Clean up everything when the program exits! :D
 	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
@@ -94,28 +118,46 @@ bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float B
 	}
 }
 
-// int error; if((error = glGetError()) != 0) print(AAAHHHHH); print(error)
-
-int setColour(int r, int g, int b, int a)
+int setColour(float r, float g, float b, float a)
 {
-	red = r;
-	green = g;
-	blue = b;
-	alpha = a;
 	return 0;
+	glColor4f(r, g, b, a);
 }
 
-int rect(char *type, int x, int y, int w, int h)
+int rect(char *type, float x, float y, float w, float h)
 {
-	int x2 = x + w;
-	int y2 = y + h;
 	if (strcmp(type, "fill") == 0)
 	{
-		// ??
+	// glBegin( GL_QUADS );
+		// 	glColor4i(red, green, blue, alpha); // set colour
+		// 	glVertex2f(x, y); 
+		// 	glVertex2f(x, y+h); 
+		// 	glVertex2f(x+w, y+h); 
+		// 	glVertex2f(x+w, y);
+  	//     glEnd();
+		glRectf(x, y, x+w, y+h);
+
 	}
 	else if (strcmp(type, "line") == 0)
 	{
-		rectangleRGBA(screen, x, y, x2, y2, red, green, blue, alpha);
+		glBegin( GL_LINE );
+			// Top side:
+            glVertex2f(x, y);
+            glVertex2f(x+w, y);
+            //fprintf(stdout, "WOOO WHEEE WOOO");
+
+            // Left side:
+            glVertex2f(x, y);
+            glVertex2f(x,  y+h);
+
+            // bottom side:
+            glVertex2f(x, y+h);
+            glVertex2f(x+w, y+h);
+
+            // Right side:
+            glVertex2f(x+w, y);
+            glVertex2f(x+w, y+w);
+        glEnd();
 	}
 	else
 	{
@@ -129,25 +171,25 @@ int rect(char *type, int x, int y, int w, int h)
 
 int setLineWidth(float width)
 {
-	// ????
+	glLineWidth(width);
 	return 0;
 }
 
-int update()//int FPS)
+int clear()
+{
+	glClear( GL_COLOR_BUFFER_BIT );
+	return 0;
+}
+
+int update(int FPS)
 {
 	#ifdef EMSCRIPTEN
 	emscripten_set_main_loop(main, FPS, 0);
 	#else
 
-	SDL_Flip(screen);
+	SDL_GL_SwapBuffers();
 	return 0;
 	#endif
-}
-
-int clear(int r, int g, int b)
-{
-	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, r, g, b));
-	return 0;
 }
 
 int grabKeyInput()

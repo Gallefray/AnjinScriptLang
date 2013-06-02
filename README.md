@@ -8,6 +8,8 @@ C and SDL/openGL. The ultimate goal is that developers will be able to write the
 same code, and then push it to all native platforms and web (planning integration 
 with Emscripten once the major functions are in). 
 
-It is not designed to be used for production yet. But it's under intensively active 
-development, and the goal is to have the core functions for game development in a usable 
-state for the next ludum dare (27 april 2013).
+The current state of the code is very fluid and could change at a moments notice!  
+This is *not* intended for productio use as I haven't even got the core librarys in yet! D:  
+
+It is currently being developed on a linux machine, with no windows/mac testers so to the people using Win/Mac  
+HERE BE DRAGONS! :D  
