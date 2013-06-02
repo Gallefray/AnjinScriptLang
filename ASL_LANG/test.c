@@ -11,30 +11,15 @@ int main()
 	{
 		grabKeyInput();
 
-		// clear();
+		clear();
 		// setLineWidth(20);
-		// setColour(255.0, 0.0, 0.0, 0.0);
-		// rect("fill", 10.0, 10.0, 10.0, 10.0);
-		// update(30);
+		setColour(255, 0, 0, 0);
+		//rect("line", 10.0, 10.0, 10.0, 10.0);
+		update();
 		// glFlush();
-		
-	    //Clear color buffer
-	    glClear( GL_COLOR_BUFFER_BIT );
-
-	    //Render quad
-	    if( renderQuad == true )
-	    {
-	        glBegin( GL_QUADS );
-	            glVertex2f( -0.5f, -0.5f );
-	            glVertex2f(  0.5f, -0.5f );
-	            glVertex2f(  0.5f,  0.5f );
-	            glVertex2f( -0.5f,  0.5f );
-	        glEnd();
-	    }
 
 	    //Update screen
-	    SDL_GL_SwapBuffers();
-	}
-		i++;
+	    
+	i++;
 	}
 }
