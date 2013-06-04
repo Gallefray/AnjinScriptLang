@@ -1,17 +1,17 @@
 // Includes:
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+//#include "pstdint.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_gfxPrimitives.h>
 
 // Defines:
 #define true 1
 #define false 0
 #define bool int
 
-// int red, green, blue, alpha;
+int red, green, blue, alpha;
 
 SDL_Surface *screen;
 SDL_Event event;
@@ -35,7 +35,7 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 
 	if (fullscreen == true)
 	{
-		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_OPENGL|SDL_FULLSCREEN) == -1)
+		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_HWSURFACE | SDL_DOUBLEBUF |SDL_FULLSCREEN) == -1)
 		{
 			if ( screen == NULL ) 
 			{
@@ -47,7 +47,7 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 	}
 	else
 	{
-		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_OPENGL) == -1)
+		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_HWSURFACE | SDL_DOUBLEBUF) == -1)
 		{
 			if ( screen == NULL ) 
 			{
@@ -57,39 +57,6 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 			return false;
 		}
 	}
-
-	//Initialize OpenGL:
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    // gluPerspective(45.0f, ar, 1.0f, 100.0f);
-
-    //Initialize Modelview Matrix
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
-
-    // setup depth buffer
-    glClearDepth(1.0f);						
-	glEnable(GL_DEPTH_TEST);						
-	glDepthFunc(GL_LEQUAL);	
-
-    //Initialize clear color
-    glClearColor( 0.f, 0.f, 0.f, 1.f );
-
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	glShadeModel(GL_SMOOTH);
-
-	float dim = 10.0;
-	glMatrixMode( GL_PROJECTION );
-	// void gluOrtho2D ( left, right, bottom, top);
-	gluOrtho2D( 0.0, dim, dim, 0.0 );
-	glMatrixMode( GL_MODELVIEW );
-
-    // GLenum error = glGetError();  // Error catching :3
-    // if( error != GL_NO_ERROR )
-    // {
-    //     printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
-    //     return false;
-    // }
 
 	atexit(SDL_Quit);// Clean up everything when the program exits! :D
 	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
@@ -106,7 +73,7 @@ int randomNum(int min, int max)
 	return min+(rand()%((max+1)-min)); // inclusive :D
 }
 
-bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float By, float Bh, float Bw)
+bool rectRectCollision(int Ax, int Ay, int Ah, int Aw, int Bx, int By, int Bh, int Bw)
 {
 	if (Ax + Aw >= Bx && Ax <= Bx+Bw && Ay + Ah >= By && Ay <= By+Bh)
 	{
@@ -118,66 +85,45 @@ bool rectRectCollision(float Ax, float Ay, float Ah, float Aw, float Bx, float B
 	}
 }
 
-int setColour(float r, float g, float b, float a)
+int setColour(unsigned int r, unsigned int g, unsigned int b, unsigned int a)
 {
+	red = r;
+	green = g;
+	blue = b;
+	alpha = a;
 	return 0;
-	glColor4f(r, g, b, a);
 }
 
-int rect(char *type, float x, float y, float w, float h)
+int rect(char *type, signed int x, signed int y, signed int w, signed int h)
 {
 	if (strcmp(type, "fill") == 0)
 	{
-	// glBegin( GL_QUADS );
-		// 	glColor4i(red, green, blue, alpha); // set colour
-		// 	glVertex2f(x, y); 
-		// 	glVertex2f(x, y+h); 
-		// 	glVertex2f(x+w, y+h); 
-		// 	glVertex2f(x+w, y);
-  	//     glEnd();
-		glRectf(x, y, x+w, y+h);
-
+		//float 
+		boxRGBA(screen, x, y, x+w, y+h, red, green, blue, alpha);
 	}
 	else if (strcmp(type, "line") == 0)
 	{
-		glBegin( GL_LINE );
-			// Top side:
-            glVertex2f(x, y);
-            glVertex2f(x+w, y);
-            //fprintf(stdout, "WOOO WHEEE WOOO");
-
-            // Left side:
-            glVertex2f(x, y);
-            glVertex2f(x,  y+h);
-
-            // bottom side:
-            glVertex2f(x, y+h);
-            glVertex2f(x+w, y+h);
-
-            // Right side:
-            glVertex2f(x+w, y);
-            glVertex2f(x+w, y+w);
-        glEnd();
+		rectangleRGBA(screen, x, y, x+w, y+h, red, green, blue, alpha);	
 	}
 	else
 	{
 		printf("Incorrect first argument given to the rect function! D:\n");
-		printf("%s\n", type);
+		printf("You gave %s\n", type);
+		printf("Only 'line' or 'fill' can be accepted.");
 		return 1;
 	}
-
-    return 0;
-}
-
-int setLineWidth(float width)
-{
-	glLineWidth(width);
 	return 0;
 }
 
+// int setLineWidth(int width)
+// {
+	
+// 	return 0;
+// }
+
 int clear()
 {
-	glClear( GL_COLOR_BUFFER_BIT );
+	
 	return 0;
 }
 
@@ -187,7 +133,7 @@ int update(int FPS)
 	emscripten_set_main_loop(main, FPS, 0);
 	#else
 
-	SDL_GL_SwapBuffers();
+	SDL_Flip(screen);
 	return 0;
 	#endif
 }
