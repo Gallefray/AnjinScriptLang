@@ -1,8 +1,6 @@
-AnjinScriptLang
+QuackLang
 ===============
-(Yes I know it's not actually a scripting language :D)
-
-Anjin Scripting Language is a C library and IDE. 
+QuackLang (Thanks to metaldemon and Raimonds) is a C library and IDE. 
 It's designed to abstract much of the complexity of developing and deploying in 
 C and SDL/openGL. The ultimate goal is that developers will be able to write the 
 same code, and then push it to all native platforms and web (planning integration 
