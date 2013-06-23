@@ -12,6 +12,8 @@
 
 uint16_t red, green, blue, alpha;
 
+SDL_Surface *screen;
+
 // Function definitions:
 int randomNum(int min, int max);
 bool initWindow(int height, int width, bool fullscreen, char *name);

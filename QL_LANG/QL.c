@@ -18,58 +18,70 @@ SDL_Event event;
 const SDL_VideoInfo* info = NULL;
 SDL_Surface *screen;
 
+
 // Yes, yes. The library structure is a mess... I will reorganise it when the core libs are in :P
 
 
 bool initWindow(int height, int width, bool fullscreen, char *name)
 {
 	srand(time(NULL));
-	assert(screen != NULL); // Error above here!!!!
-
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) // Init the SDL libs, if there's an error then catch and report it. Yeah, I'm initing all of them, eh.
+
 	{ 
 	    printf("Couldn't initialize SDL: %s\n", SDL_GetError());
 	    exit(1);
 	}
+
+	atexit(SDL_Quit);// Clean up everything when the program exits! :D
 
 	info = SDL_GetVideoInfo( ); // Retrieve video information
 	int bitPerPixel = info->vfmt->BitsPerPixel;  // Grabbing the bpp from the screen now ;)
 
 	if (fullscreen == true)
 	{
-		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_DOUBLEBUF |SDL_FULLSCREEN) == -1)//SDL_HWSURFACE | SDL_DOUBLEBUF |SDL_FULLSCREEN) == -1)
+		screen = SDL_SetVideoMode(height, width, bitPerPixel, SDL_DOUBLEBUF |SDL_FULLSCREEN);// == -1)//SDL_HWSURFACE | SDL_DOUBLEBUF |SDL_FULLSCREEN) == -1)
+		//{
+		if ( screen == NULL ) 
 		{
-			if ( screen == NULL ) 
-			{
-			    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
-			    exit(1);
-			}
-			return false;
+			
+		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+		    exit(1);
 		}
+		//	return false;
+		//}
 	}
 	else
 	{
-		if (SDL_SetVideoMode(height, width, bitPerPixel, SDL_DOUBLEBUF) == -1)//SDL_HWSURFACE | SDL_DOUBLEBUF) == -1)
+		screen = SDL_SetVideoMode(height, width, bitPerPixel, SDL_DOUBLEBUF); //== -1)//SDL_HWSURFACE | SDL_DOUBLEBUF) == -1)
+		//{
+		if ( screen == NULL ) 
 		{
-			if ( screen == NULL ) 
-			{
-			    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
-			    exit(1);
-			}
-			return false;
+		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+		    exit(1);
 		}
+		//	return false;
+		//}
 		// else
 		// {
 		// 	printf("screen data - width: %d, height: %d, BBP: %d \n", width, height, bitPerPixel);	// The SDL surface is def being created!! D:
 		// }
 	}
+	//assert(screen != NULL); // Error above here!!!!
 
-	atexit(SDL_Quit);// Clean up everything when the program exits! :D
 	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
 
 	// SDL_WM_GrabInput(SDL_GRAB_ON);  // This makes the window grab all input :P
 	// NEVER. NEVER SET THAT UNLESS KYBOARD INPUT HAS BEEN ENABLED, AND YOU HAVE IT TOP CATCH THE ESC BUTTON. OR YOUR PC WILL DIE.
 	// It *was* pretty funny, though xD
+	if ( screen == NULL ) 
+	{
+		
+	    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+	    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+	    exit(1);
+	}
 	return true;
 }
 
