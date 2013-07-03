@@ -63,6 +63,41 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 	return true;
 }
 
+void pixel(int x, int y) // Blatantly copied from the SDL example
+{
+	SDL_LockSurface(screen);
+	int bpp = screen->format->BytesPerPixel;
+    /* Here p is the address to the pixel we want to set */
+    Uint8 *p = (Uint8 *)screen->pixels + y * screen->pitch + x * bpp;
+
+    switch(bpp) {
+    case 1:
+        *p = colour;
+        break;
+
+    case 2:
+        *(Uint16 *)p = colour;
+        break;
+
+    case 3:
+        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+            p[0] = (colour >> 16) & 0xff;
+            p[1] = (colour >> 8) & 0xff;
+            p[2] = colour & 0xff;
+        } else {
+            p[0] = colour & 0xff;
+            p[1] = (colour >> 8) & 0xff;
+            p[2] = (colour >> 16) & 0xff;
+        }
+        break;
+
+    case 4:
+        *(Uint32 *)p = colour;
+        break;
+    }
+    SDL_LockSurface(screen);
+}
+
 int randomNum(int min, int max)
 {	
 	return min + (rand() % ((max + 1) - min)); // inclusive :D
@@ -111,6 +146,18 @@ int rect(char *type, int16_t x, int16_t y, int16_t w, int16_t h)
 	{
 		//float 
 		//	boxRGBA(screen, x, y, x+w, y+h, red, green, blue, alpha);
+		int px, py;
+		if (x < x+w)
+		{
+			for (py = y; py < y+h; py++)
+			{
+				for (px = x; px < (x+w); px++) 
+				{
+					pixel(px, py);
+				}
+				px = x;
+			}
+		}
 
 	}
 	else if (strcmp(type, "line") == 0)
@@ -209,36 +256,3 @@ int grabKeyInput()
 //         }
 //     }   
 // }
-
-void pixel(int x, int y) // Blatantly copied from the SDL example
-{
-	int bpp = screen->format->BytesPerPixel;
-    /* Here p is the address to the pixel we want to set */
-    Uint8 *p = (Uint8 *)screen->pixels + y * screen->pitch + x * bpp;
-
-    switch(bpp) {
-    case 1:
-        *p = colour;
-        break;
-
-    case 2:
-        *(Uint16 *)p = colour;
-        break;
-
-    case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-            p[0] = (colour >> 16) & 0xff;
-            p[1] = (colour >> 8) & 0xff;
-            p[2] = colour & 0xff;
-        } else {
-            p[0] = colour & 0xff;
-            p[1] = (colour >> 8) & 0xff;
-            p[2] = (colour >> 16) & 0xff;
-        }
-        break;
-
-    case 4:
-        *(Uint32 *)p = colour;
-        break;
-    }
-}

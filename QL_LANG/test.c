@@ -12,7 +12,7 @@ int main()
 	for (i = 0; i < 900; i++)
 	{
 		setColour(255, 0, 0, 255);
-		pixel(10, 10);
+		rect("fill", 20, 20, 1, 1);
 		update(25);
 	    //Update screen
 	}
