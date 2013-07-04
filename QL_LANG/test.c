@@ -9,11 +9,14 @@ int main()
 	initWindow(480, 320, false, "test :3");
 	// printf("^ error");
 	int i;
-	for (i = 0; i < 900; i++)
+	// int rectX = 20; 
+	setColour(255, 0, 0, 255);
+	for (i = 0; i < 1000; i++)
 	{
-		setColour(255, 0, 0, 255);
-		rect("fill", 20, 20, 1, 1);
+		clear();
+		rect("fill", 20, 20, 50, 50);
 		update(25);
+		// rectX++;
 	    //Update screen
 	}
 	return 0;

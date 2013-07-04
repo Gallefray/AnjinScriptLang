@@ -5,11 +5,26 @@
 #include <time.h>   // Gives access to system time (used to set the seed :D )
 #include <SDL/SDL.h>// SDL library
 #include <SDL/SDL_gfxPrimitives.h> // SDL gfx library. Yeah, so what. I'm using SDL_gfx. And?
+#include <assert.h>
 
 // Defines:
 #define true 1
 #define false 0
 #define bool int
+
+typedef struct 
+{
+	bool F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12;
+	bool ESC, SHIFT, CTRL, ALT, TAB, CAPS;
+	bool one, two, three, four, five, six, seven, eight, nine, zero;
+	bool a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
+	bool A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
+	bool insert, home, delete, end, pgUp, pgDown;
+	bool up, down, left, right;
+	bool NUMone, NUMtwo, NUMthree, NUMfour, NUMfive, NUMsix, NUMseven, NUMeight, NUMnine, NUMzero;
+} keyObj;
+
+keyObj keyInput;
 
 //uint16_t red, green, blue, alpha;
 
@@ -18,6 +33,7 @@ const SDL_VideoInfo* info = NULL;
 SDL_Surface *screen;
 
 int colour;
+int scrColour;
 // Yes, yes. The library structure is a mess... I will reorganise it when the core libs are in :P
 
 
@@ -59,6 +75,7 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 	}
 
 	colour = SDL_MapRGBA(screen->format, 255, 255, 255, 255); // Default colour is white.
+	scrColour = SDL_MapRGBA(screen->format, 0, 0, 0, 255); // Default colour is white.
 	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
 	return true;
 }
@@ -121,6 +138,12 @@ int setColour(int r, int g, int b, int a)
 	return 0;
 }
 
+int setScrColour(int r, int g, int b, int a)
+{
+	scrColour = SDL_MapRGBA(screen->format, r, g, b, a);
+	return 0;
+}
+
 void line(int xi, int yi, int xii, int yii) // This needs to be changed to int later on.
 {
 	int xdelta = xi - xii;
@@ -180,48 +203,104 @@ int rect(char *type, int16_t x, int16_t y, int16_t w, int16_t h)
 // 	return 0;
 // }
 
-// int clear()
-// {
-	
-// 	return 0;
-// }
+void clear()
+{
+	assert(screen != NULL);
+	SDL_FillRect(screen, NULL, scrColour);
+}
+
+void grabKeyInput()
+{
+	SDL_PollEvent(&event);   //Poll our SDL key event for any keystrokes.
+    switch(event.type)
+    {
+	    case SDL_KEYDOWN:
+	    	switch(event.key.keysym.sym)
+	    	{
+	        	case SDLK_LEFT:
+	          		keyInput.left = true;
+	          		printf("OH NOES! 1");
+	          		break;
+	        	case SDLK_RIGHT:
+	          		keyInput.right = true;
+	          		printf("OH NOES! 1");
+	          		break;
+	        	case SDLK_UP:
+	        		printf("OH NOES! 1");
+	          		keyInput.up = true;
+	          		break;
+	        	case SDLK_DOWN:
+	        		printf("OH NOES! 1");
+	          		keyInput.down = true;
+	          		break;
+	        	default:
+	          		break;
+	    	}
+	    	break;
+	    case SDL_KEYUP:
+	    	switch(event.key.keysym.sym)
+	    	{
+	        	case SDLK_LEFT:
+	        		printf("OH NOES! 2");
+	          		keyInput.left = false;
+	          		break;
+	        	case SDLK_RIGHT:
+	        		printf("OH NOES! 2");
+	          		keyInput.right = false;
+	          		break;
+	        	case SDLK_UP:
+	        		printf("OH NOES! 2");
+	          		keyInput.up = false;
+	          		break;
+	        	case SDLK_DOWN:
+	        		printf("OH NOES! 2");
+	          		keyInput.down = false;
+	          		break;
+		        default:
+		          	break;
+		    }
+	  	case SDL_QUIT:
+	  		printf("OH NOES!3");
+	  		SDL_Quit();
+	  		break;
+  	}
+}
 
 int update(int FPS)
 {
 	#ifdef EMSCRIPTEN
 	emscripten_set_main_loop(main, FPS, 0);
 	#else
-	
 	SDL_Flip(screen);
+	grabKeyInput();
 	return 0;
 	#endif
 }
 
-int grabKeyInput()
-{
-	// while( SDL_PollEvent( &event ) ){
-	//     /* We are only worried about SDL_KEYDOWN and SDL_KEYUP events */
-	//     switch( event.type ){
-	//      	case SDL_KEYDOWN:
-	//      		switch(keyevent.key.keysym.sym)
-	//      		{
-	// 	       		printf( "Key press detected\n" );
-	// 	       	}
-	//         	break;
 
-	//       	case SDL_KEYUP:
-	//         	printf( "Key release detected\n" );
-	//         	break;
+// int grabKeyInput()
+// {
+// 	while( SDL_PollEvent() ){
+// 	    /* We are only worried about SDL_KEYDOWN and SDL_KEYUP events */
+// 	    switch( event.type ){
+// 	     	case SDL_KEYDOWN:
+// 	     		switch(keyevent.key.keysym.sym)
+// 	     		{
+// 		       		printf("Key press detected\n" );
+// 		       	}
+// 	        	break;
 
-	//         case SDL_QUIT:
-	//         	// put something here to deInit openGL and SDL and quit :D
- //                break;
-	//       	default:
-	//         	break;
-	//     }
-	// }
-    return 0;
-}
+// 	      	case SDL_KEYUP:
+// 	        	printf( "Key release detected\n" );
+// 	        	break;
+
+// 	        case SDL_QUIT:
+// 	        	SDL_QUIT();
+//                 break;
+// 	    }
+// 	}
+//     return 0;
+// }
 
 // int grabInput()
 // {
