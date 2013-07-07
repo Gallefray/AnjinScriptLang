@@ -3,17 +3,42 @@
 #endif
 #include "QL.h"
 
-int main()
+int main() // error somewhere? :P
 {
-	initWindow(480, 320, false, "test :3");
-	setColour(255, 0, 0, 255);
+	initWindow(1024, 768, false, "test :3");
+	int rX1 = 32;
+	int rY1 = 32;
+	int rX2 = 64;
+	int rY2 = 64;
 	while (keyInput.ESC != true)
 	{
-		if (keyInput.lWIN == true && keyInput.a == true)
+		setScrColour(0, 0, 255, 0);
+		clear();
+		rect("fill", rX1, rY1, 32, 32);
+		setColour(255, 0, 0, 255);
+		rect("fill", rX2, rY2, 32, 32);
+		update(25);	
+		if (keyInput.left == true)
 		{
-			rect("fill", 20, 20, 20, 20);
+			scrTransX--;
 		}
-		update(25);
+		if (keyInput.right == true)
+		{
+			scrTransX++;	
+		}
+		if (keyInput.up == true)
+		{
+			scrTransY--;
+		}
+		if (keyInput.down == true)
+		{
+			scrTransY++;
+		}
+		if (keyInput.zero == true)
+		{
+			scrTransX = 0;
+			scrTransY = 0;
+		}
 	}
 	return 0;
 }

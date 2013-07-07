@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <SDL/SDL.h>
-#include <SDL/SDL_gfxPrimitives.h>
 #include <time.h>
 
 #define true 1
@@ -15,17 +14,19 @@ typedef struct
 	bool ESC, lSHIFT, rSHIFT, lCTRL, rCTRL, lWIN, rWIN, lALT, rALT, CAPS, NUM; // Handled
 	bool one, two, three, four, five, six, seven, eight, nine, zero; // Handled
 	bool a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z; // Handled
-	bool tab, insert, home, delete, end, pgUp, pgDown, backspace; // Handled
+	bool tab, insert, home, del, end, pgUp, pgDown, backspace; // Handled
 	bool up, down, left, right; // Handled
 	bool NUMone, NUMtwo, NUMthree, NUMfour, NUMfive, NUMsix, NUMseven, NUMeight, NUMnine, NUMzero; // Handled
 } keyObj;
 
-keyObj keyInput;
-SDL_Event event;
 SDL_Surface *screen;
+SDL_Event event;
+keyObj keyInput;
 int colour;
 int scrColour;
-//uint16_t red, green, blue, alpha;
+int scrWidth, scrHeight;
+int scrTransX,  scrTransY;
+
 
 // Function definitions:
 bool initWindow(int height, int width, bool fullscreen, char *name);
@@ -34,8 +35,10 @@ int randomNum(int min, int max);
 bool rectRectCollision(int Ax, int Ay, int Ah, int Aw, int Bx, int By, int Bh, int Bw);
 int setColour(int r, int g, int b, int a);
 int setScrColour(int r, int g, int b, int a);
+void setLineWidth(int width);
 void line(int xi, int yi, int xii, int yii);
-int rect(char *type, int16_t x, int16_t y, int16_t w, int16_t h);
+int rect(char *type, int x, int y, int w, int h);
+int circle(char *type, int x, int y, float radius);
 void clear();
 void grabKeyInput();
 int update(int FPS);

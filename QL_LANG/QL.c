@@ -2,10 +2,9 @@
 #include <stdio.h> 	// standard input output library
 #include <stdlib.h> // standard C library I believe?
 #include <stdint.h> // this allows Sint16 and stuff like that
-#include <time.h>   // Gives access to system time (used to set the seed :D )
 #include <SDL/SDL.h>// SDL library
-#include <SDL/SDL_gfxPrimitives.h> // SDL gfx library. Yeah, so what. I'm using SDL_gfx. And?
-#include <assert.h>
+#include <time.h>   // Gives access to system time (used to set the seed :D )
+//#include <SDL/SDL_gfxPrimitives.h> // SDL gfx library. Yeah, so what. I'm using SDL_gfx. And?
 
 // Defines:
 #define true 1
@@ -18,25 +17,25 @@ typedef struct
 	bool ESC, lSHIFT, rSHIFT, lCTRL, rCTRL, lWIN, rWIN, lALT, rALT, CAPS, NUM; // Handled
 	bool one, two, three, four, five, six, seven, eight, nine, zero; // Handled
 	bool a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z; // Handled
-	bool tab, insert, home, delete, end, pgUp, pgDown, backspace; // Handled
+	bool tab, insert, home, del, end, pgUp, pgDown, backspace; // Handled
 	bool up, down, left, right; // Handled
 	bool NUMone, NUMtwo, NUMthree, NUMfour, NUMfive, NUMsix, NUMseven, NUMeight, NUMnine, NUMzero; // Handled
 } keyObj;
 
-keyObj keyInput;
-
-//uint16_t red, green, blue, alpha;
-
-SDL_Event event;
-const SDL_VideoInfo* info = NULL;
 SDL_Surface *screen;
-
-int colour;
+SDL_Event event;
+keyObj keyInput;
+int scrWidth, scrHeight;
+int scrTransX,  scrTransY;
 int scrColour;
+int colour;
+int lineWidth;
+
+const SDL_VideoInfo* info = NULL;
 // Yes, yes. The library structure is a mess... I will reorganise it when the core libs are in :P
 
 
-bool initWindow(int height, int width, bool fullscreen, char *name)
+bool initWindow(int width, int height, bool fullscreen, char *name)
 {
 	srand(time(NULL));
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) // Init the SDL libs, if there's an error then catch and report it. Yeah, I'm initing all of them, eh.
@@ -53,65 +52,72 @@ bool initWindow(int height, int width, bool fullscreen, char *name)
 
 	if (fullscreen == true)
 	{
-		screen = SDL_SetVideoMode(height, width, bitPerPixel, SDL_DOUBLEBUF |SDL_FULLSCREEN);
+		screen = SDL_SetVideoMode(width, height, bitPerPixel, SDL_DOUBLEBUF |SDL_FULLSCREEN);
 		if ( screen == NULL ) 
 		{
 			
-		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
-		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
+		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
 		    exit(1);
 		}
 	}
 	else
 	{
-		screen = SDL_SetVideoMode(height, width, bitPerPixel, SDL_DOUBLEBUF);
+		screen = SDL_SetVideoMode(width, height, bitPerPixel, SDL_DOUBLEBUF);
 		if ( screen == NULL ) 
 		{
-		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
-		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", height, width, SDL_GetError());
+		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
+		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
 		    exit(1);
 		}
 	}
 
 	colour = SDL_MapRGBA(screen->format, 255, 255, 255, 255); // Default colour is white.
 	scrColour = SDL_MapRGBA(screen->format, 0, 0, 0, 255); // Default colour is white.
+	scrWidth = width;
+	scrHeight = height;
 	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
 	return true;
 }
 
 void pixel(int x, int y) // Blatantly copied from the SDL example
 {
-	SDL_LockSurface(screen);
-	int bpp = screen->format->BytesPerPixel;
-    /* Here p is the address to the pixel we want to set */
-    Uint8 *p = (Uint8 *)screen->pixels + y * screen->pitch + x * bpp;
+	int nx = x+scrTransX;
+	int ny = y+scrTransY;
+	if (nx >= 0 && nx < scrWidth && ny >= 0 && ny < scrHeight)
+	{
+		SDL_LockSurface(screen);
+		int bpp = screen->format->BytesPerPixel;
+	    /* Here p is the address to the pixel we want to set */
+	    Uint8 *p = (Uint8 *)screen->pixels + ny * screen->pitch + nx * bpp; // Uint8
 
-    switch(bpp) {
-    case 1:
-        *p = colour;
-        break;
+	    switch(bpp) {
+	    case 1:
+	        *p = colour;
+	        break;
 
-    case 2:
-        *(Uint16 *)p = colour;
-        break;
+	    case 2:
+	        *(Uint16 *)p = colour; // Uint16
+	        break;
 
-    case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-            p[0] = (colour >> 16) & 0xff;
-            p[1] = (colour >> 8) & 0xff;
-            p[2] = colour & 0xff;
-        } else {
-            p[0] = colour & 0xff;
-            p[1] = (colour >> 8) & 0xff;
-            p[2] = (colour >> 16) & 0xff;
-        }
-        break;
+	    case 3:
+	        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+	            p[0] = (colour >> 16) & 0xff;
+	            p[1] = (colour >> 8) & 0xff;
+	            p[2] = colour & 0xff;
+	        } else {
+	            p[0] = colour & 0xff;
+	            p[1] = (colour >> 8) & 0xff;
+	            p[2] = (colour >> 16) & 0xff;
+	        }
+	        break;
 
-    case 4:
-        *(Uint32 *)p = colour;
-        break;
-    }
-    SDL_LockSurface(screen);
+	    case 4:
+	        *(Uint32 *)p = colour; // Unit32
+	        break;
+	    }
+	    SDL_LockSurface(screen);
+	}
 }
 
 int randomNum(int min, int max)
@@ -143,6 +149,11 @@ int setScrColour(int r, int g, int b, int a)
 	return 0;
 }
 
+void setLineWidth(int width)
+{
+	lineWidth = width;
+}
+
 void line(int xi, int yi, int xii, int yii) // This needs to be changed to int later on.
 {
 	int xdelta = xi - xii;
@@ -162,29 +173,26 @@ void line(int xi, int yi, int xii, int yii) // This needs to be changed to int l
 
 }
 
-int rect(char *type, int16_t x, int16_t y, int16_t w, int16_t h)
+int rect(char *type, int x, int y, int w, int h)
 {
 	if (strcmp(type, "fill") == 0)
 	{
 		//float 
-		//	boxRGBA(screen, x, y, x+w, y+h, red, green, blue, alpha);
+		//boxRGBA(screen, x, y, x+w, y+h, 255, 255, 255, 255);
 		int px, py;
-		if (x < x+w)
+		for (py = y; py < y+h; py++)
 		{
-			for (py = y; py < y+h; py++)
+			for (px = x; px < (x+w); px++) 
 			{
-				for (px = x; px < (x+w); px++) 
-				{
 					pixel(px, py);
-				}
-				px = x;
 			}
+			px = x;
 		}
 
 	}
 	else if (strcmp(type, "line") == 0)
 	{
-	//	rectangleRGBA(screen, x, y, x+w, y+h, red, green, blue, alpha);	
+		// rectangleRGBA(screen, x, y, x+w, y+h, red, green, blue, alpha);	
 	}
 	else
 	{
@@ -196,15 +204,27 @@ int rect(char *type, int16_t x, int16_t y, int16_t w, int16_t h)
 	return 0;
 }
 
-// int setLineWidth(int width)
-// {
-	
-// 	return 0;
-// }
+int circle(char *type, int x, int y, float radius)
+{
+	if (strcmp(type, "line") == 0)
+	{
+		float diameter = (radius * 2);
+		int maxDegrees = 360;
+		int angle = 0;
+
+	}
+	else
+	{
+		printf("Incorrect first argument given to the rect function! D:\n");
+		printf("You gave %s\n", type);
+		printf("Only 'line' or 'fill' can be accepted.");
+		return 1;
+	}
+	return 0;
+}
 
 void clear()
 {
-	assert(screen != NULL);
 	SDL_FillRect(screen, NULL, scrColour);
 }
 
@@ -412,7 +432,7 @@ void grabKeyInput()
 	           		keyInput.home = true;
 	           		break;
 	           	case SDLK_DELETE:
-	          		keyInput.delete = true;
+	          		keyInput.del = true;
 	          		break;
 	           	case SDLK_END:
 	           		keyInput.end = true;
@@ -671,7 +691,7 @@ void grabKeyInput()
 	           		keyInput.home = false;
 	           		break;
 	           	case SDLK_DELETE:
-	          		keyInput.delete = false;
+	          		keyInput.del = false;
 	          		break;
 	           	case SDLK_END:
 	           		keyInput.end = false;
