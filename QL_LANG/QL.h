@@ -40,5 +40,5 @@ void line(int xi, int yi, int xii, int yii);
 int rect(char *type, int x, int y, int w, int h);
 int circle(char *type, int x, int y, float radius);
 void clear();
-void grabKeyInput();
-int update(int FPS);
+void grabInput();
+float update(int desFPS);

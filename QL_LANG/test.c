@@ -3,6 +3,8 @@
 #endif
 #include "QL.h"
 
+int dt;
+
 int main() // error somewhere? :P
 {
 	initWindow(1024, 768, false, "test :3");
@@ -17,22 +19,23 @@ int main() // error somewhere? :P
 		rect("fill", rX1, rY1, 32, 32);
 		setColour(255, 0, 0, 255);
 		rect("fill", rX2, rY2, 32, 32);
-		update(25);	
+		dt = update(50);	
+		printf("|  Delta: %f  ", dt);
 		if (keyInput.left == true)
 		{
-			scrTransX--;
+			scrTransX -= 1 * dt;
 		}
 		if (keyInput.right == true)
 		{
-			scrTransX++;	
+			scrTransX += 1 * dt;	
 		}
 		if (keyInput.up == true)
 		{
-			scrTransY--;
+			scrTransY -= 1 * dt;
 		}
 		if (keyInput.down == true)
 		{
-			scrTransY++;
+			scrTransY += 1 * dt;	
 		}
 		if (keyInput.zero == true)
 		{
@@ -40,5 +43,6 @@ int main() // error somewhere? :P
 			scrTransY = 0;
 		}
 	}
+	printf("\n");
 	return 0;
 }

@@ -22,9 +22,16 @@ typedef struct
 	bool NUMone, NUMtwo, NUMthree, NUMfour, NUMfive, NUMsix, NUMseven, NUMeight, NUMnine, NUMzero; // Handled
 } keyObj;
 
+typedef struct
+{
+	int x, y;
+	bool button1, button2, button3, button4, button5, button6, button7, button8, button9;
+} mouseObj;
+
 SDL_Surface *screen;
 SDL_Event event;
 keyObj keyInput;
+mouseObj mouseInput;
 int scrWidth, scrHeight;
 int scrTransX,  scrTransY;
 int scrColour;
@@ -228,7 +235,7 @@ void clear()
 	SDL_FillRect(screen, NULL, scrColour);
 }
 
-void grabKeyInput()
+void grabInput()
 {
 	SDL_PollEvent(&event);   //Poll our SDL key event for any keystrokes.
     switch(event.type)
@@ -755,79 +762,33 @@ void grabKeyInput()
 		        default:
 		          	break;
 		    }
-		// Ladies and gentlemen, I give you, the one, the only. SEG FAULT ROOT CAUSE!!!!!!! (Now commented out)
-	  	case SDL_QUIT:
-	  	//	SDL_Quit();
-	  		break;
+	  	// case SDL_MOUSEMOTION:
+	  	// 	if (event.motion.type)
+	   //  	{
   	}
 }
 
-int update(int FPS)
+float update(int desFPS) // Desired FPS
 {
 	#ifdef EMSCRIPTEN
 	emscripten_set_main_loop(main, FPS, 0);
+	SDL_Flip(screen); // Hmm, does this need to be there? :P
+	grabInput();
 	#else
-	SDL_Flip(screen);
-	grabKeyInput();
-	return 0;
+
+	int wantedDrawTime = 1000/desFPS; // millisecomds
+
+	int time1 = SDL_GetTicks();
+	SDL_Flip(screen); // draw it
+	grabInput();
+	int time2 = SDL_GetTicks();
+
+	float delta = (time2 - time1);
+
+	if (delta <= wantedDrawTime) // If the FPS can be met
+	{
+		SDL_Delay(wantedDrawTime - delta); // Keeping a constant framerate :D
+	}
+	return delta;
 	#endif
 }
-
-
-// int grabKeyInput()
-// {
-// 	while( SDL_PollEvent() ){
-// 	    /* We are only worried about SDL_KEYDOWN and SDL_KEYUP events */
-// 	    switch( event.type ){
-// 	     	case SDL_KEYDOWN:
-// 	     		switch(keyevent.key.keysym.sym)
-// 	     		{
-// 		       		printf("Key press detected\n" );
-// 		       	}
-// 	        	break;
-
-// 	      	case SDL_KEYUP:
-// 	        	printf( "Key release detected\n" );
-// 	        	break;
-
-// 	        case SDL_QUIT:
-// 	        	SDL_QUIT();
-//                 break;
-// 	    }
-// 	}
-//     return 0;
-// }
-
-// int grabInput()
-// {
-	// SDL_WM_GrabInput(SDL_GRAB_ON);  // This makes the window grab all input :P
-	// NEVER. NEVER SET THAT UNLESS KYBOARD INPUT HAS BEEN ENABLED, AND YOU HAVE IT TOP CATCH THE ESC BUTTON. OR YOUR PC WILL DIE.
-	// It *was* pretty funny, though xD
-// }
-
-// int grabMouseInput(float mouseX, float mouseY)
-// {
-// `
-// }
-
-// int doStuff = 0;
-// bool keyInput(char key)
-// {	
-//     while(SDL_PollEvent(&event) )
-//     {
-//         if(event.type == SDLK_KEYDOWN)
-//         {
-//                 switch(event.key.keysym.sym)
-//                 {
-                	
-//                 }
-//         }
-//         if(event.type == SDLK_KEYUP)
-//         {
-//                 switch(event.key.keysym.sym)
-//                 {
-                    
-//                 }
-//         }
-//     }   
-// }
