@@ -4,6 +4,9 @@
 #include <stdint.h> // this allows Sint16 and stuff like that
 #include <SDL/SDL.h>// SDL library
 #include <time.h>   // Gives access to system time (used to set the seed :D )
+#include <math.h> 	// Pi, sin, cos, tan, etc :D
+//#include <limits.h>
+#include <assert.h>
 //#include <SDL/SDL_gfxPrimitives.h> // SDL gfx library. Yeah, so what. I'm using SDL_gfx. And?
 
 // Defines:
@@ -28,19 +31,40 @@ typedef struct
 	bool button1, button2, button3, button4, button5, button6, button7, button8, button9;
 } mouseObj;
 
+// SDL variables needed
 SDL_Surface *screen;
 SDL_Event event;
+
+// Input
 keyObj keyInput;
 mouseObj mouseInput;
+
+// Screen 
 int scrWidth, scrHeight;
-int scrTransX,  scrTransY;
+int scrTransX, scrTransY;
+int scrScaleX, scrScaleY;
 int scrColour;
+
+// Framerate
+int FPS, framesRendered;
+int previousTime, currentTime;
+double previousFPSUpdateTime;
+float deltaTime;
+
+// Shape displaying stuff
 int colour;
 int lineWidth;
 
 const SDL_VideoInfo* info = NULL;
 // Yes, yes. The library structure is a mess... I will reorganise it when the core libs are in :P
 
+// long round(double x) {
+//    assert(x >= LONG_MIN-0.5);
+//    assert(x <= LONG_MAX+0.5);
+//    if (x >= 0)
+//       return (long) (x+0.5);
+//    return (long) (x-0.5);
+// }
 
 bool initWindow(int width, int height, bool fullscreen, char *name)
 {
@@ -83,151 +107,10 @@ bool initWindow(int width, int height, bool fullscreen, char *name)
 	scrColour = SDL_MapRGBA(screen->format, 0, 0, 0, 255); // Default colour is white.
 	scrWidth = width;
 	scrHeight = height;
+	currentTime = SDL_GetTicks();
+	previousFPSUpdateTime = currentTime; // This is going to set it off a bit but :P
 	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
 	return true;
-}
-
-void pixel(int x, int y) // Blatantly copied from the SDL example
-{
-	int nx = x+scrTransX;
-	int ny = y+scrTransY;
-	if (nx >= 0 && nx < scrWidth && ny >= 0 && ny < scrHeight)
-	{
-		SDL_LockSurface(screen);
-		int bpp = screen->format->BytesPerPixel;
-	    /* Here p is the address to the pixel we want to set */
-	    Uint8 *p = (Uint8 *)screen->pixels + ny * screen->pitch + nx * bpp; // Uint8
-
-	    switch(bpp) {
-	    case 1:
-	        *p = colour;
-	        break;
-
-	    case 2:
-	        *(Uint16 *)p = colour; // Uint16
-	        break;
-
-	    case 3:
-	        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-	            p[0] = (colour >> 16) & 0xff;
-	            p[1] = (colour >> 8) & 0xff;
-	            p[2] = colour & 0xff;
-	        } else {
-	            p[0] = colour & 0xff;
-	            p[1] = (colour >> 8) & 0xff;
-	            p[2] = (colour >> 16) & 0xff;
-	        }
-	        break;
-
-	    case 4:
-	        *(Uint32 *)p = colour; // Unit32
-	        break;
-	    }
-	    SDL_LockSurface(screen);
-	}
-}
-
-int randomNum(int min, int max)
-{	
-	return min + (rand() % ((max + 1) - min)); // inclusive :D
-}
-
-bool rectRectCollision(int Ax, int Ay, int Ah, int Aw, int Bx, int By, int Bh, int Bw)
-{
-	if (Ax + Aw >= Bx && Ax <= Bx+Bw && Ay + Ah >= By && Ay <= By+Bh)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-int setColour(int r, int g, int b, int a)
-{
-	colour = SDL_MapRGBA(screen->format, r, g, b, a);
-	return 0;
-}
-
-int setScrColour(int r, int g, int b, int a)
-{
-	scrColour = SDL_MapRGBA(screen->format, r, g, b, a);
-	return 0;
-}
-
-void setLineWidth(int width)
-{
-	lineWidth = width;
-}
-
-void line(int xi, int yi, int xii, int yii) // This needs to be changed to int later on.
-{
-	int xdelta = xi - xii;
-	int ydelta = yi - yii;
-	if (xdelta > ydelta)
-	{
-		SDL_LockSurface(screen);
-		
-		SDL_UnlockSurface(screen);
-	}
-	else if (ydelta < xdelta)
-	{
-		SDL_LockSurface(screen);
-		
-		SDL_UnlockSurface(screen);
-	}
-
-}
-
-int rect(char *type, int x, int y, int w, int h)
-{
-	if (strcmp(type, "fill") == 0)
-	{
-		//float 
-		//boxRGBA(screen, x, y, x+w, y+h, 255, 255, 255, 255);
-		int px, py;
-		for (py = y; py < y+h; py++)
-		{
-			for (px = x; px < (x+w); px++) 
-			{
-					pixel(px, py);
-			}
-			px = x;
-		}
-
-	}
-	else if (strcmp(type, "line") == 0)
-	{
-		// rectangleRGBA(screen, x, y, x+w, y+h, red, green, blue, alpha);	
-	}
-	else
-	{
-		printf("Incorrect first argument given to the rect function! D:\n");
-		printf("You gave %s\n", type);
-		printf("Only 'line' or 'fill' can be accepted.");
-		return 1;
-	}
-	return 0;
-}
-
-int circle(char *type, int x, int y, float radius)
-{
-	if (strcmp(type, "line") == 0)
-	{
-		float diameter = (radius * 2);
-		int maxDegrees = 360;
-		int angle = 0;
-
-	}
-	else
-	{
-		printf("Incorrect first argument given to the rect function! D:\n");
-		printf("You gave %s\n", type);
-		printf("Only 'line' or 'fill' can be accepted.");
-		return 1;
-	}
-	return 0;
 }
 
 void clear()
@@ -767,28 +650,244 @@ void grabInput()
 	   //  	{
   	}
 }
-
-float update(int desFPS) // Desired FPS
+#ifdef EMSCRIPTEN
+float update(int desFPS, void main)
 {
-	#ifdef EMSCRIPTEN
 	emscripten_set_main_loop(main, FPS, 0);
 	SDL_Flip(screen); // Hmm, does this need to be there? :P
 	grabInput();
-	#else
+}
 
-	int wantedDrawTime = 1000/desFPS; // millisecomds
+#else
 
-	int time1 = SDL_GetTicks();
-	SDL_Flip(screen); // draw it
-	grabInput();
-	int time2 = SDL_GetTicks();
+float update(int desFPS) // Desired FPS
+{
+	framesRendered++; // Increment the number of frames rendered since the last update
 
-	float delta = (time2 - time1);
+	previousTime = currentTime;    // Do some wibbly wobbily timey wimey stuff here :D
+	currentTime = SDL_GetTicks();
 
-	if (delta <= wantedDrawTime) // If the FPS can be met
+	deltaTime = (currentTime - previousTime); // Get the delta
+	deltaTime = deltaTime/100;
+
+	double timeSinceLastUpdate = currentTime - previousFPSUpdateTime; // Get the time since the last update
+	printf("boop");
+	if (timeSinceLastUpdate > desFPS) 
 	{
-		SDL_Delay(wantedDrawTime - delta); // Keeping a constant framerate :D
+		printf("beep");
+		FPS = round((framesRendered/timeSinceLastUpdate) + 0.5);
+		previousFPSUpdateTime = currentTime;
+		framesRendered = 0;
 	}
-	return delta;
-	#endif
+	
+	SDL_Flip(screen); // Draw the shapes/images/whatever
+	grabInput();      // Get the input
+	return deltaTime;
+}
+#endif
+
+void pixel(int x, int y) // Blatantly copied from the SDL example
+{
+	int nx = x+scrTransX;
+	int ny = y+scrTransY;
+	if (nx >= 0 && nx < scrWidth && ny >= 0 && ny < scrHeight)
+	{
+		SDL_LockSurface(screen);
+		int bpp = screen->format->BytesPerPixel;
+	    /* Here p is the address to the pixel we want to set */
+	    Uint8 *p = (Uint8 *)screen->pixels + ny * screen->pitch + nx * bpp; // Uint8
+
+	    switch(bpp) {
+	    case 1:
+	        *p = colour;
+	        break;
+
+	    case 2:
+	        *(Uint16 *)p = colour; // Uint16
+	        break;
+
+	    case 3:
+	        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+	            p[0] = (colour >> 16) & 0xff;
+	            p[1] = (colour >> 8) & 0xff;
+	            p[2] = colour & 0xff;
+	        } else {
+	            p[0] = colour & 0xff;
+	            p[1] = (colour >> 8) & 0xff;
+	            p[2] = (colour >> 16) & 0xff;
+	        }
+	        break;
+
+	    case 4:
+	        *(Uint32 *)p = colour; // Unit32
+	        break;
+	    }
+	    SDL_LockSurface(screen);
+	}
+}
+
+// ----------------------------------------------------------------------
+// Collision handling functions START
+bool rectRectCollision(int Ax, int Ay, int Ah, int Aw, int Bx, int By, int Bh, int Bw)
+{
+	if (Ax + Aw >= Bx && Ax <= Bx+Bw && Ay + Ah >= By && Ay <= By+Bh)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+// Collision handling functions END
+// ----------------------------------------------------------------------
+// Set functions START (Funcs that set variables :D)
+int setColour(int r, int g, int b, int a)
+{
+	colour = SDL_MapRGBA(screen->format, r, g, b, a);
+	return 0;
+}
+
+int setScrColour(int r, int g, int b, int a)
+{
+	scrColour = SDL_MapRGBA(screen->format, r, g, b, a);
+	return 0;
+}
+
+void setLineWidth(int width)
+{
+	lineWidth = width;
+}
+// Set functions END
+// ----------------------------------------------------------------------
+// Shape functions START
+void line(int xi, int yi, int xii, int yii) // This needs to be changed to int later on.
+{
+	int lX, rX, tY, bY; // leftX, rightX, topY, bottomY;
+	if (xi > xii)
+	{
+		lX = xii;
+		rX = xi;
+	}
+	else 
+	{
+		lX = xi;
+		rX = xii;
+	}
+
+	if (yi > yii)
+	{
+		tY = yii;
+		bY = yi;
+	}
+	else 
+	{
+		tY = yi;
+		bY = yii;
+	}
+
+	int xdelta = rX - lX;
+	int ydelta = bY - tY;
+	int px, py; // plotx-ploty or pixelx-pixely
+	if (xdelta > ydelta)
+	{
+		SDL_LockSurface(screen);
+		py = tY;
+		for (px = lX; px <= rX ; px++)
+		{
+			pixel(px, py);
+			px++;
+			pixel(px, py);
+			if (py < bY)
+			{
+				py++;
+			}
+		}
+		SDL_UnlockSurface(screen);
+	}
+	else if (ydelta < xdelta)
+	{
+		SDL_LockSurface(screen);
+		
+		SDL_UnlockSurface(screen);
+	}
+}
+
+int rect(char *type, int x, int y, int w, int h)
+{
+	if (strcmp(type, "fill") == 0)
+	{
+		//float 
+		//boxRGBA(screen, x, y, x+w, y+h, 255, 255, 255, 255);
+		int px, py;
+		for (py = y; py < y+h; py++)
+		{
+			for (px = x; px < (x+w); px++) 
+			{
+					pixel(px, py);
+			}
+			px = x;
+		}
+
+	}
+	else if (strcmp(type, "line") == 0)
+	{
+		// rectangleRGBA(screen, x, y, x+w, y+h, red, green, blue, alpha);	
+	}
+	else
+	{
+		printf("Incorrect first argument given to the rect function! D:\n");
+		printf("You gave %s\n", type);
+		printf("Only 'line' or 'fill' can be accepted.");
+		return 1;
+	}
+	return 0;
+}
+
+int circle(char *type, int x, int y, float radius)
+{
+	if (strcmp(type, "line") == 0)
+	{
+		float maxDegrees = 360.0;
+		float angle;
+		int px, py;
+		for (angle = 0.0; angle <= maxDegrees; angle += 1.0)
+		{
+			px = (cosf(angle)*radius + x);
+			py = (sinf(angle)*radius + y);
+			pixel(px, py);
+		}
+	}
+	else if (strcmp(type, "fill") == 0)
+	{
+		// This might be an inefficient way of doing it, but I'm aiming for readability at this stage ;)
+		// Step back through the radius until it becomes 0 and the entire circle has been plot
+		float maxDegrees = 360.0;
+		float r, angle;
+		int px, py;
+		for (r = radius; r >= 0; r -= 1.0)
+		{
+			for (angle = 0.0; angle <= maxDegrees; angle += 1.0)
+			{
+				px = (cosf(angle)*radius + x);
+				py = (sinf(angle)*radius + y);
+				pixel(px, py);
+			}
+		}
+	}
+	else
+	{
+		printf("Incorrect first argument given to the rect function! D:\n");
+		printf("You gave %s\n", type);
+		printf("Only 'line' or 'fill' can be accepted.");
+		return 1;
+	}
+	return 0;
+}
+// Shape functions END
+// ----------------------------------------------------------------------
+// Misc functions START
+int randomNum(int min, int max)
+{	
+	return min + (rand() % ((max + 1) - min)); // inclusive :D
 }

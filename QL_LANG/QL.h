@@ -3,6 +3,9 @@
 #include <stdint.h>
 #include <SDL/SDL.h>
 #include <time.h>
+#include <math.h>
+#include <limits.h>
+#include <assert.h>
 
 #define true 1
 #define false 0
@@ -19,26 +22,48 @@ typedef struct
 	bool NUMone, NUMtwo, NUMthree, NUMfour, NUMfive, NUMsix, NUMseven, NUMeight, NUMnine, NUMzero; // Handled
 } keyObj;
 
+// SDL variables needed
 SDL_Surface *screen;
 SDL_Event event;
-keyObj keyInput;
-int colour;
-int scrColour;
-int scrWidth, scrHeight;
-int scrTransX,  scrTransY;
 
+// Input
+keyObj keyInput;
+
+// Screen 
+int scrWidth, scrHeight;
+int scrTransX, scrTransY;
+int scrScaleX, scrScaleY;
+int scrColour;
+
+// Framerate
+int FPS, framesRendered;
+int previousTime, currentTime;
+int previousFPSUpdateTime;
+float deltaTime;
+
+// Shape displaying stuff
+int colour;
+int lineWidth;
 
 // Function definitions:
 bool initWindow(int height, int width, bool fullscreen, char *name);
+void clear();
+void grabInput();
+#ifdef EMSCRIPTEN
+float update(int desFPS, void main)
+#else
+float update(int desFPS);
+#endif
 void pixel(int x, int y); // Blatantly copied from the SDL example
-int randomNum(int min, int max);
+
 bool rectRectCollision(int Ax, int Ay, int Ah, int Aw, int Bx, int By, int Bh, int Bw);
+
 int setColour(int r, int g, int b, int a);
 int setScrColour(int r, int g, int b, int a);
 void setLineWidth(int width);
+
 void line(int xi, int yi, int xii, int yii);
 int rect(char *type, int x, int y, int w, int h);
 int circle(char *type, int x, int y, float radius);
-void clear();
-void grabInput();
-float update(int desFPS);
+
+int randomNum(int min, int max);
