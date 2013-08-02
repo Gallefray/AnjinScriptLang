@@ -3,26 +3,36 @@
 #endif
 #include "QL.h"
 
-int main() 
+int main(int argc, char *argv[])
 {
 	initWindow(400, 400, false, "test :3");
+	int cX = 32; int cY = 32;
+	int r, g, b;
+	g = 0;
+	b = 0;
+	r = 255;
 	while (keyInput.ESC != true)
 	{
 		setScrColour(0, 0, 255, 0);
-		setColour(255, 0, 0, 255);
+		setColour(r, g, b, 255);
 		clear();
-		rect("fill", 32, 32, 32, 32);
-		update(1);
-		// printf("DT: %f\n", (deltaTime));
-		// printf("FPS: %d\n", FPS);
+		rect("fill", cX, cY, 32, 32);
+		update();
 		if (keyInput.left == true)
 		{
-			scrTransX -= 60 * deltaTime; 
+			cX -= 6;
+			r = 255;
+			g = 255;
+			b = 0; 
 		}
 		if (keyInput.right == true)
 		{
-			scrTransX += 60 * deltaTime; 
+			cX += 6; 
+			r = 0;
+			g = 255;
+			b = 0; 
 		}
+		capFrameRate(30);
 	}
 	printf("\n");
 	return 0;

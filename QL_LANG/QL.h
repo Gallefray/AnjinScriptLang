@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_main.h>
 #include <time.h>
 #include <math.h>
 #include <limits.h>
@@ -36,34 +37,41 @@ int scrScaleX, scrScaleY;
 int scrColour;
 
 // Framerate
-int FPS, framesRendered;
-int previousTime, currentTime;
-int previousFPSUpdateTime;
-float deltaTime;
+int FPS, drawTime, timeDelta;
+int timeOne, timeTwo;
 
 // Shape displaying stuff
 int colour;
 int lineWidth;
 
 // Function definitions:
-bool initWindow(int height, int width, bool fullscreen, char *name);
+bool initWindow(int height, int width, bool fullscreen, char *name); // Creates a window, this must be done before any graphics - related operations. Returns true if successful 
 void clear();
 void grabInput();
 #ifdef EMSCRIPTEN
-float update(int desFPS, void main)
+void update(int desFPS, void main)
 #else
-float update(int desFPS);
+void update();
 #endif
+void capFrameRate(int desFPS); // Caps the frame rate, then updates FPS.
+
 void pixel(int x, int y); // Blatantly copied from the SDL example
 
-bool rectRectCollision(int Ax, int Ay, int Ah, int Aw, int Bx, int By, int Bh, int Bw);
+bool rectRectCollision(int Ax, int Ay, int Ah, int Aw, int Bx, int By, int Bh, int Bw); // Returns true if a collision is detected
 
-int setColour(int r, int g, int b, int a);
-int setScrColour(int r, int g, int b, int a);
-void setLineWidth(int width);
+void setColour(int r, int g, int b, int a);   // Sets the current colour to the r, g, b, a specified.
+void setScrColour(int r, int g, int b, int a); // Sets the background of the window to the r, g, b, a specified;
+void setLineWidth(int width); // Does nothing as there's no un-broken line drawing func yet :/
 
-void line(int xi, int yi, int xii, int yii);
-int rect(char *type, int x, int y, int w, int h);
-int circle(char *type, int x, int y, float radius);
+void line(int xi, int yi, int xii, int yii); // Does nothing as such, very broken :/
+int rect(char *type, int x, int y, int w, int h); // Draws a rect. Returns false if an error has been encountered.
+int circle(char *type, int x, int y, float radius); // Draws a circle with the middle at the x, y. Returns false if an error has been encountered.
 
-int randomNum(int min, int max);
+float degreesToRadians(float deg); // Returns a float containing the radians.
+float radiansToDegrees(float rad); // Returns a float containing the degrees.
+int randomNum(int min, int max); // Returns a random number, is inclusive.
+// bool noiseGen(double *noise, double width, double height); // Returns an array full of noise.
+// double smoothNoise(double noise[][], double x, double y, double width, double height); // Smooths the noise. Don't use this, it's only for the noiseDraw() function.
+// double turbulentNoise(double x, double y, double scale); // Applies turbulence to the noise. Don't use this, it's only for the noiseDraw() function.
+// bool noiseDraw(char *type, double noise[][], double width, double height, double scale) // Draws noise created with noiseGen(). Supported args are "normal", "smooth" and "turbulence" (Don't use turbulence with a scale value of 0)
+

@@ -3,11 +3,11 @@
 #include <stdlib.h> // standard C library I believe?
 #include <stdint.h> // this allows Sint16 and stuff like that
 #include <SDL/SDL.h>// SDL library
+#include <SDL/SDL_main.h>
 #include <time.h>   // Gives access to system time (used to set the seed :D )
 #include <math.h> 	// Pi, sin, cos, tan, etc :D
 //#include <limits.h>
 #include <assert.h>
-//#include <SDL/SDL_gfxPrimitives.h> // SDL gfx library. Yeah, so what. I'm using SDL_gfx. And?
 
 // Defines:
 #define true 1
@@ -31,6 +31,11 @@ typedef struct
 	bool button1, button2, button3, button4, button5, button6, button7, button8, button9;
 } mouseObj;
 
+typedef struct
+{
+	SDL_Surface img;
+} bmpImg;
+
 // SDL variables needed
 SDL_Surface *screen;
 SDL_Event event;
@@ -46,10 +51,8 @@ int scrScaleX, scrScaleY;
 int scrColour;
 
 // Framerate
-int FPS, framesRendered;
-int previousTime, currentTime;
-double previousFPSUpdateTime;
-float deltaTime;
+int FPS, drawTime, timeDelta;
+int timeOne, timeTwo;
 
 // Shape displaying stuff
 int colour;
@@ -59,19 +62,18 @@ const SDL_VideoInfo* info = NULL;
 // Yes, yes. The library structure is a mess... I will reorganise it when the core libs are in :P
 
 // long round(double x) {
-//    assert(x >= LONG_MIN-0.5);
-//    assert(x <= LONG_MAX+0.5);
-//    if (x >= 0)
-//       return (long) (x+0.5);
-//    return (long) (x-0.5);
+// 	assert(x >= LONG_MIN-0.5);
+// 	assert(x <= LONG_MAX+0.5);
+// 	if (x >= 0)
+// 	  return (long) (x+0.5);
 // }
 
 bool initWindow(int width, int height, bool fullscreen, char *name)
 {
 	srand(time(NULL));
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) // Init the SDL libs, if there's an error then catch and report it. Yeah, I'm initing all of them, eh.
-
 	{ 
+		printf("QuackLang - ERROR:");
 	    printf("Couldn't initialize SDL: %s\n", SDL_GetError());
 	    exit(1);
 	}
@@ -86,7 +88,7 @@ bool initWindow(int width, int height, bool fullscreen, char *name)
 		screen = SDL_SetVideoMode(width, height, bitPerPixel, SDL_DOUBLEBUF |SDL_FULLSCREEN);
 		if ( screen == NULL ) 
 		{
-			
+			printf("QuackLang - ERROR:");
 		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
 		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
 		    exit(1);
@@ -97,6 +99,7 @@ bool initWindow(int width, int height, bool fullscreen, char *name)
 		screen = SDL_SetVideoMode(width, height, bitPerPixel, SDL_DOUBLEBUF);
 		if ( screen == NULL ) 
 		{
+			printf("QuackLang - ERROR:");
 		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
 		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
 		    exit(1);
@@ -107,9 +110,7 @@ bool initWindow(int width, int height, bool fullscreen, char *name)
 	scrColour = SDL_MapRGBA(screen->format, 0, 0, 0, 255); // Default colour is white.
 	scrWidth = width;
 	scrHeight = height;
-	currentTime = SDL_GetTicks();
-	previousFPSUpdateTime = currentTime; // This is going to set it off a bit but :P
-	SDL_WM_SetCaption(name, NULL ); // set the caption, as per the new 4th arg!
+	SDL_WM_SetCaption(name, NULL); // set the caption, as per the new 4th arg!
 	return true;
 }
 
@@ -120,12 +121,16 @@ void clear()
 
 void grabInput()
 {
+	//printf("bloop\n");
 	SDL_PollEvent(&event);   //Poll our SDL key event for any keystrokes.
     switch(event.type)
     {
+    	//printf("bleep\n");
 	    case SDL_KEYDOWN:
+	    	//printf("0 - 1");
 	    	switch(event.key.keysym.sym)
 	    	{
+	    		//printf("0 - 2");
 	    		// Function keys start;
 	    		case SDLK_F1:
 	    			keyInput.F1 = true;
@@ -166,8 +171,8 @@ void grabInput()
 	    		// Function keys end;
 	    		// Control Keys start;
 	    		case SDLK_ESCAPE:
-	          		keyInput.ESC = true;
-	          		break;
+		 			keyInput.ESC = true;
+			 		break;
 	          	case SDLK_LSHIFT:
 	          		keyInput.lSHIFT = true;
 	          		break;
@@ -389,8 +394,10 @@ void grabInput()
 	    	}
 	    	break;
 	    case SDL_KEYUP:
+	    	//printf("1 - 1");
 	    	switch(event.key.keysym.sym)
 	    	{
+	    		//printf("1 - 2");
 	    		// Function keys start;
 	    		case SDLK_F1:
 	    			keyInput.F1 = false;
@@ -651,7 +658,7 @@ void grabInput()
   	}
 }
 #ifdef EMSCRIPTEN
-float update(int desFPS, void main)
+void update(int desFPS, void main)
 {
 	emscripten_set_main_loop(main, FPS, 0);
 	SDL_Flip(screen); // Hmm, does this need to be there? :P
@@ -660,31 +667,25 @@ float update(int desFPS, void main)
 
 #else
 
-float update(int desFPS) // Desired FPS
+void update() // Desired FPS
 {
-	framesRendered++; // Increment the number of frames rendered since the last update
-
-	previousTime = currentTime;    // Do some wibbly wobbily timey wimey stuff here :D
-	currentTime = SDL_GetTicks();
-
-	deltaTime = (currentTime - previousTime); // Get the delta
-	deltaTime = deltaTime/100;
-
-	double timeSinceLastUpdate = currentTime - previousFPSUpdateTime; // Get the time since the last update
-	printf("boop");
-	if (timeSinceLastUpdate > desFPS) 
-	{
-		printf("beep");
-		FPS = round((framesRendered/timeSinceLastUpdate) + 0.5);
-		previousFPSUpdateTime = currentTime;
-		framesRendered = 0;
-	}
-	
+	timeOne = SDL_GetTicks();
 	SDL_Flip(screen); // Draw the shapes/images/whatever
 	grabInput();      // Get the input
-	return deltaTime;
 }
 #endif
+
+void capFrameRate(int desFPS)
+{
+	drawTime = 1000/desFPS;
+	timeTwo = SDL_GetTicks();
+
+	timeDelta = (timeTwo - timeOne);
+	if (timeDelta < drawTime)
+	{
+		SDL_Delay(drawTime - timeDelta);
+	}
+}
 
 void pixel(int x, int y) // Blatantly copied from the SDL example
 {
@@ -722,7 +723,7 @@ void pixel(int x, int y) // Blatantly copied from the SDL example
 	        *(Uint32 *)p = colour; // Unit32
 	        break;
 	    }
-	    SDL_LockSurface(screen);
+	    SDL_UnlockSurface(screen);
 	}
 }
 
@@ -742,16 +743,15 @@ bool rectRectCollision(int Ax, int Ay, int Ah, int Aw, int Bx, int By, int Bh, i
 // Collision handling functions END
 // ----------------------------------------------------------------------
 // Set functions START (Funcs that set variables :D)
-int setColour(int r, int g, int b, int a)
+void setColour(int r, int g, int b, int a)
 {
 	colour = SDL_MapRGBA(screen->format, r, g, b, a);
-	return 0;
+	//printf("bloop");
 }
 
-int setScrColour(int r, int g, int b, int a)
+void setScrColour(int r, int g, int b, int a)
 {
 	scrColour = SDL_MapRGBA(screen->format, r, g, b, a);
-	return 0;
 }
 
 void setLineWidth(int width)
@@ -813,7 +813,7 @@ void line(int xi, int yi, int xii, int yii) // This needs to be changed to int l
 	}
 }
 
-int rect(char *type, int x, int y, int w, int h)
+bool rect(char *type, int x, int y, int w, int h)
 {
 	if (strcmp(type, "fill") == 0)
 	{
@@ -828,6 +828,7 @@ int rect(char *type, int x, int y, int w, int h)
 			}
 			px = x;
 		}
+		//printf("woo");
 
 	}
 	else if (strcmp(type, "line") == 0)
@@ -836,21 +837,22 @@ int rect(char *type, int x, int y, int w, int h)
 	}
 	else
 	{
+		printf("QuackLang - ERROR:");
 		printf("Incorrect first argument given to the rect function! D:\n");
 		printf("You gave %s\n", type);
 		printf("Only 'line' or 'fill' can be accepted.");
-		return 1;
+		return false;
 	}
-	return 0;
+	return true;
 }
 
-int circle(char *type, int x, int y, float radius)
+bool circle(char *type, int x, int y, float radius)
 {
+	float maxDegrees = 360.0;
+	float r, angle;
+	int px, py;
 	if (strcmp(type, "line") == 0)
 	{
-		float maxDegrees = 360.0;
-		float angle;
-		int px, py;
 		for (angle = 0.0; angle <= maxDegrees; angle += 1.0)
 		{
 			px = (cosf(angle)*radius + x);
@@ -862,32 +864,172 @@ int circle(char *type, int x, int y, float radius)
 	{
 		// This might be an inefficient way of doing it, but I'm aiming for readability at this stage ;)
 		// Step back through the radius until it becomes 0 and the entire circle has been plot
-		float maxDegrees = 360.0;
-		float r, angle;
-		int px, py;
 		for (r = radius; r >= 0; r -= 1.0)
 		{
 			for (angle = 0.0; angle <= maxDegrees; angle += 1.0)
 			{
 				px = (cosf(angle)*radius + x);
+				printf("\nPX = %d", px);
 				py = (sinf(angle)*radius + y);
+				printf("\nPY = %d", py);
 				pixel(px, py);
 			}
+			printf("\n%f", r);
+
 		}
 	}
 	else
 	{
+		printf("QuackLang - ERROR:");
 		printf("Incorrect first argument given to the rect function! D:\n");
 		printf("You gave %s\n", type);
 		printf("Only 'line' or 'fill' can be accepted.");
-		return 1;
+		return false;
 	}
-	return 0;
+	return true;
 }
 // Shape functions END
 // ----------------------------------------------------------------------
 // Misc functions START
-int randomNum(int min, int max)
+float degreesToRadians(float deg) // Should go in QLmath
+{
+	return deg * M_PI / 180;
+}
+
+float radiansToDegrees(float rad) // Should go in QLmath
+{
+	return rad * 180 / M_PI;
+}
+
+int randomNum(int min, int max) // Should go in QLrand
 {	
 	return min + (rand() % ((max + 1) - min)); // inclusive :D
 }
+
+// bool noiseGen(double *noise, double width, double height) // QLrand
+// {
+// 	int x, y;
+// 	for (x = 0; x < width; x++)
+// 	{
+// 		for (y = 0; y < height; y++)
+// 		{
+// 			noise[x][y] = (rand() % 32768) / 32768.0;
+// 		}
+// 	}
+// 	return true;
+// }
+
+// double smoothNoise(double *noise, double x, double y, double width, double height) // QLrand
+// {  
+// 	double fractX = x - int(x);
+// 	double fractY = y - int(y);
+   
+// 	int x1 = x + width) % width;
+// 	int y1 = y + height) % height;
+	
+// 	int x2 = (x1 + width - 1) % width;
+// 	int y2 = (y1 + height - 1) % height;
+
+// 	//smooth the noise!!! :D
+// 	double value = 0.0;
+// 	value += fractX * fractY * noise[x1][y1];
+// 	value += fractX * (1 - fractY) * noise[x1][y2];
+// 	value += (1 - fractX) * fractY * noise[x2][y1];
+// 	value += (1 - fractX) * (1 - fractY) * noise[x2][y2];
+
+//    return value;
+// }
+
+// double turbulentNoise(double x, double y, double scale) // QLrand
+// {
+//     double value = 0.0, initialScale = scale;
+    
+//     while(scale >= 1)
+//     {
+//         value += smoothNoise(x / scale, y / scale) * scale;
+//         scale /= 2.0;
+//     }
+    
+//     return(128.0 * value / initialScale);
+// }
+
+// bool noiseDraw(char *type, double noise[][], double width, double height, double scale) // QLrand
+// {
+// 	int r, g, b;
+// 	int x, y;
+// 	if(strcmp(type, "normal") || strcmp(type, "Normal"))
+// 	{
+// 		if (scale == 0)
+// 		{ 
+// 			for(x = 0; x < width; x++)
+// 			{
+//     			for(y = 0; y < height; y++)
+//     			{
+//     				r = g = b = int(256 * noise[x][y]);
+//     				setColour(r, g, b, 255);
+//         			pixel(x, y);
+//     			}
+// 			}
+//     	}
+//     	else 
+//     	{
+//     		for(x = 0; x < width; x++)
+// 			{
+//     			for(y = 0; y < height; y++)
+//     			{
+//     				r = g = b = int(256 * noise[x / scale][y / scale]);
+//     				setColour(r, g, b, 255);
+//         			pixel(x, y);
+//     			}
+// 			}
+//     	}     
+        
+//     }
+//     else if (strcmp(type, "smooth") || strcmp(type, "Smooth"))
+//     {
+//     	if (scale == 0)
+// 		{ 
+// 			for(x = 0; x < width; x++)
+// 			{
+//     			for(y = 0; y < height; y++)
+//     			{
+//     				r = g = b = int(256 * smoothNoise(noise[][], x, y, width, height));
+//     				setColour(r, g, b, 255);
+//         			pixel(x, y);
+//     			}
+// 			}
+//     	}
+//     	else 
+//     	{
+//     		for(x = 0; x < width; x++)
+// 			{
+//     			for(y = 0; y < height; y++)
+//     			{
+//     				r = g = b = int(256 * smoothNoise(noise[][], x / scale, y / scale, width, height));
+//     				setColour(r, g, b, 255);
+//         			pixel(x, y);
+//     			}
+// 			}
+//     	}  
+//     }
+//     else if (strcmp(type, "turbulence") || strcmp(type, "Turbulence"))
+//     {
+//     	if (scale == 0)
+//     	{
+//     		printf("QuackLang - ERROR:");
+//     		printf("Invalid argument given! For turbulent noise, scale must be > 0");
+//     		return false;
+//     	}
+//     	else
+//     	{
+//     		r = g = b = int(256 * turbulentNoise(x, y, scale));
+//     		setColour(r, g, b, 255);
+//         	pixel(x, y);
+//     	}
+//     }
+//     return true;
+// }
+// Misc functions END
+// ----------------------------------------------------------------------
+// Image functions START
+// void loadBMP()
