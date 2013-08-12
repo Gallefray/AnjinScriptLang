@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"scr",
+				"scrWidth"
+			],
+			[
 				"set",
 				"setColour"
 			],
@@ -50,10 +54,6 @@
 			[
 				"line",
 				"lineWidth"
-			],
-			[
-				"scr",
-				"scrHeight"
 			],
 			[
 				"scrTrans",
@@ -523,7 +523,7 @@
 			"file": "QL.c",
 			"settings":
 			{
-				"buffer_size": 26170,
+				"buffer_size": 27169,
 				"line_ending": "Unix"
 			}
 		},
@@ -548,7 +548,7 @@
 			"file": "QL.h",
 			"settings":
 			{
-				"buffer_size": 3251,
+				"buffer_size": 3506,
 				"line_ending": "Unix"
 			}
 		},
@@ -561,10 +561,10 @@
 			}
 		},
 		{
-			"contents": "Added:\nWindows exporting. It's now a .dll too! :D \n|> (For some reason keyboard input isn't working? :/)\nSome basic explainations in QL.h, in leiu of full docs.\nFrame rate capping with capFrameRate(desired FPS). \nA function to convert between radians to degrees and another vice-versa\n//Noise functions!\n//|> (noiseGen() & noiseDraw)\n//|> Instructions are in the header. (Bleh, I'll do docs soonly :P)\n// Noise functions are depped at the moment due to those 2D arrays and me wanting to stay with c89 :/.\n\nRemoved:\n\n\nChanged:\nA few of the return values to make it more uniform.\n\nRefactored:\n\n\nFixed:\nFrame rate capping now works.\n\nTodo:\nFix the input problem in the NT build.\nModularise QuackLang to make it easier to maintain. - Started\nMouse Input. - Started\nAdd more shapes. (Circle[fill], Line[], rect[line], triangle[fill, line]) - Working on Line[]\nAdd more collision detection functions.\nAdd the missing controls.\nTest Emscripten Support. - On hold\nConvert for use in (Python/C++/Lua.. etc) other programming languages. - On hold\n\n",
+			"contents": "Added:\nThe fill mode for the circle. Don't ue this as it needs optimisation. D:\nEllipses, it only has a line mode at the moment.\n\nRemoved:\n\n\nChanged:\nQL.h - Added `extern`s and an ellipse declaration.\n\nRefactored:\n\n\nFixed:\nThe Circle's fill mode. I was *radius instead of *r. Credits to euske from #ludumdare for spotting that one :3\nThe input problem in the NT build. \n\nTodo:\nModularise QuackLang to make it easier to maintain. - Started\nMouse Input. - Started\nAdd more shapes. (Ellipse[fill], Line[], rect[line], triangle[fill, line]). - Working on it\nAdd more collision detection functions.\nAdd the missing controls.\n\n|> On hold:\n	Test Emscripten Support.\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
 			"settings":
 			{
-				"buffer_size": 1038,
+				"buffer_size": 732,
 				"line_ending": "Unix",
 				"name": "Added:"
 			}
@@ -755,6 +755,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"void",
+			"int",
 			"(int",
 			"size",
 			"double ",
@@ -880,9 +882,7 @@
 			"Main",
 			"main",
 			"Main",
-			"\n",
-			"\n ",
-			"2"
+			"\n"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -904,7 +904,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -913,15 +913,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 26170,
+						"buffer_size": 27169,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								22954,
-								22954
+								23318,
+								23318
 							]
 						],
 						"settings":
@@ -930,7 +930,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 13545.0,
+						"translation.y": 12952.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -993,7 +993,7 @@
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -1002,15 +1002,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3251,
+						"buffer_size": 3506,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3251,
-								3251
+								2472,
+								2472
 							]
 						],
 						"settings":
@@ -1018,7 +1018,7 @@
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 467.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1036,8 +1036,8 @@
 						"selection":
 						[
 							[
-								354,
-								354
+								184,
+								184
 							]
 						],
 						"settings":
@@ -1056,15 +1056,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1038,
+						"buffer_size": 732,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1038,
-								1038
+								200,
+								200
 							]
 						],
 						"settings":
@@ -1136,7 +1136,7 @@
 		"cols":
 		[
 			0.0,
-			0.646875,
+			0.58984375,
 			1.0
 		],
 		"rows":
@@ -1148,7 +1148,7 @@
 	"menu_visible": false,
 	"output.exec":
 	{
-		"height": 159.0
+		"height": 162.0
 	},
 	"project": "QL.sublime-project",
 	"replace":

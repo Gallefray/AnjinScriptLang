@@ -24,27 +24,28 @@ typedef struct
 } keyObj;
 
 // SDL variables needed
-SDL_Surface *screen;
-SDL_Event event;
+extern SDL_Surface *screen;
+extern SDL_Event event;
 
 // Input
-keyObj keyInput;
+extern keyObj keyInput;
 
 // Screen 
-int scrWidth, scrHeight;
-int scrTransX, scrTransY;
-int scrScaleX, scrScaleY;
-int scrColour;
+extern int scrWidth, scrHeight;
+extern int scrTransX, scrTransY;
+extern int scrScaleX, scrScaleY;
+extern int scrColour;
 
 // Framerate
-int FPS, drawTime, timeDelta;
-int timeOne, timeTwo;
+extern int FPS, drawTime, timeDelta;
+extern int timeOne, timeTwo;
 
 // Shape displaying stuff
-int colour;
-int lineWidth;
+extern int colour;
+extern int lineWidth;
 
 // Function definitions:
+// Need an extern here? D:
 bool initWindow(int height, int width, bool fullscreen, char *name); // Creates a window, this must be done before any graphics - related operations. Returns true if successful 
 void clear();
 void grabInput();
@@ -66,6 +67,7 @@ void setLineWidth(int width); // Does nothing as there's no un-broken line drawi
 void line(int xi, int yi, int xii, int yii); // Does nothing as such, very broken :/
 int rect(char *type, int x, int y, int w, int h); // Draws a rect. Returns false if an error has been encountered.
 int circle(char *type, int x, int y, float radius); // Draws a circle with the middle at the x, y. Returns false if an error has been encountered.
+bool ellipse(char *type, int x, int y, int w, int h); // Draws an ellipse with the middle at the x, y. Returns false if an error has been encountered.
 
 float degreesToRadians(float deg); // Returns a float containing the radians.
 float radiansToDegrees(float rad); // Returns a float containing the degrees.
