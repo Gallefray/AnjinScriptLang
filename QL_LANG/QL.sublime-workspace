@@ -523,7 +523,7 @@
 			"file": "QL.c",
 			"settings":
 			{
-				"buffer_size": 26615,
+				"buffer_size": 26859,
 				"line_ending": "Unix"
 			}
 		},
@@ -561,12 +561,12 @@
 			}
 		},
 		{
-			"contents": "Added:\nrandomNumF() for random floating point numbers.\nNow including QL.h in QL.c to make my life easier :3\ngiveAngle(x0, y0, x1, y1). It returns the angle of x1, y1 where x0, y0 is the center.\n\nRemoved:\nthe definition of keyObj in QL.c. It's been moved to QL.h\n\nChanged:\nline(x0, y0, x1, y1) - It now works! :D\n\n\nRefactored:\n\n\nFixed:\n\n\nTodo:\nModularise QuackLang to make it easier to maintain. - Started\nTest Emscripten Support (before the LD)\nMouse Input. - Started\nAdd more shapes. (Ellipse[fill], Line[], rect[line], triangle[fill, line]). - Working on it\nAdd more collision detection functions.\nAdd the missing controls.\n\n|> On hold:\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
+			"contents": "Line mostly works! :D\nAdded:\nrandomNumF() for random floating point numbers.\nNow including QL.h in QL.c to make my life easier :3\ngiveAngle(x0, y0, x1, y1). It returns the angle of x1, y1 where x0, y0 is the center.\n\nRemoved:\nthe definition of keyObj in QL.c. It's been moved to QL.h\n\nChanged:\nline(x0, y0, x1, y1) - It now works, unless the line is horizontal/vertical. This has yet to be fixed.\nrect(\"line, ...\") is now implimented, but doesn't work due to the above problem.\n\n\nRefactored:\n\n\nFixed:\n\n\nTodo:\nModularise QuackLang to make it easier to maintain. - Started\nTest Emscripten Support (before the LD)\nMouse Input. - Started\nAdd more shapes. (Ellipse[fill], Line[], rect[line], triangle[fill, line]). - Working on it\nAdd more collision detection functions.\nAdd the missing controls.\nAdd Sound, Image support.\nAdd the licenses for SDL and such.\n\n|> On hold:\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
 			"settings":
 			{
-				"buffer_size": 712,
+				"buffer_size": 939,
 				"line_ending": "Unix",
-				"name": "Added:"
+				"name": "Line mostly works! :D"
 			}
 		},
 		{
@@ -913,15 +913,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 26615,
+						"buffer_size": 26859,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								19752,
-								19752
+								20558,
+								20558
 							]
 						],
 						"settings":
@@ -930,7 +930,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 10999.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1018,7 +1018,7 @@
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 37.0,
-						"translation.y": 720.0,
+						"translation.y": 362.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1056,20 +1056,20 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 712,
+						"buffer_size": 939,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								272,
-								272
+								939,
+								0
 							]
 						],
 						"settings":
 						{
-							"auto_name": "Added:",
+							"auto_name": "Line mostly works! :D",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,

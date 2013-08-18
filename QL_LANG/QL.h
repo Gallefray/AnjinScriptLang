@@ -1,12 +1,8 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_main.h>
 #include <time.h>
 #include <math.h>
-#include <limits.h>
-#include <assert.h>
 
 #define true 1
 #define false 0
@@ -14,14 +10,25 @@
 
 typedef struct 
 {
-	bool F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12; // Handled
-	bool ESC, lSHIFT, rSHIFT, lCTRL, rCTRL, lWIN, rWIN, lALT, rALT, CAPS, NUM; // Handled
-	bool one, two, three, four, five, six, seven, eight, nine, zero; // Handled
-	bool a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z; // Handled
-	bool tab, insert, home, del, end, pgUp, pgDown, backspace; // Handled
-	bool up, down, left, right; // Handled
-	bool NUMone, NUMtwo, NUMthree, NUMfour, NUMfive, NUMsix, NUMseven, NUMeight, NUMnine, NUMzero; // Handled
+	bool F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12;
+	bool ESC, lSHIFT, rSHIFT, lCTRL, rCTRL, lWIN, rWIN, lALT, rALT, CAPS, NUM;
+	bool one, two, three, four, five, six, seven, eight, nine, zero;
+	bool a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
+	bool tab, insert, home, del, end, pgUp, pgDown, backspace;
+	bool up, down, left, right;
+	bool NUMone, NUMtwo, NUMthree, NUMfour, NUMfive, NUMsix, NUMseven, NUMeight, NUMnine, NUMzero;
 } keyObj;
+
+typedef struct
+{
+	int x, y;
+	bool button1, button2, button3, button4, button5, button6, button7, button8, button9;
+} mouseObj;
+
+typedef struct
+{
+	SDL_Surface img;
+} bmpImg;
 
 // SDL variables needed
 extern SDL_Surface *screen;

@@ -1,9 +1,13 @@
-#proj=test
 currDir=$(echo pwd)
 
+#All code is position independent with minGW, so the -fpic is not needed...
 build forNT:
-	i486-mingw32-gcc -c -fpic QL.c -Wall -g
-	i486-mingw32-gcc -shared -o libQL.dll QL.o -lmingw32 -lSDLmain -lSDL #-mwindows
+	i486-mingw32-gcc -c QLmath.c -Wall -g -Werror
+	i486-mingw32-gcc -c QLcollisionHand.c -Wall -g -Werror
+	i486-mingw32-gcc -c QLinput.c -Wall -g -Werror
+	i486-mingw32-gcc -c QL.c -Wall -g -Werror
+	i486-mingw32-gcc -c QLshapes.c -Wall -g -Werror
+	i486-mingw32-gcc -shared -o libQL.dll QLmath.o QLcollisionHand.o QLinput.o QL.o QLshapes.o -lmingw32 -lSDLmain -lSDL #-mwindows
 # Install SDL with minGW on windows as per: http://stackoverflow.com/questions/8307091/setting-up-sdl-in-mingw
 
 build projForNT:
@@ -12,7 +16,11 @@ build projForNT:
 build proj:
 	gcc test.c -o test ./libQL.so -lm -Wall -g
 
-build: QL.c QL.h
+build: QL.h
+	gcc -c -fpic QLmath.c -Wall -g -Werror
+	gcc -c -fpic QLcollisionHand.c -Wall -g -Werror
+	gcc -c -fpic QLinput.c -Wall -g -Werror
 	gcc -c -fpic QL.c -Wall -g -Werror
-	gcc -shared -o libQL.so QL.o -lm -lSDL
+	gcc -c -fpic QLshapes.c -Wall -g -Werror
+	gcc -shared -o libQL.so QLmath.o QLcollisionHand.o QLinput.o QL.o QLshapes.o -lm -lSDL
 # -Wall -Wextra # Thanks to Fififox and ninzine from #ludumdare for the help with the SDL libs and the waring options (-Wall -Wextra) :D
