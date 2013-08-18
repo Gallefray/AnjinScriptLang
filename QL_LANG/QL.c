@@ -1,29 +1,17 @@
 // Includes:
-#include <stdio.h> 	// standard input output library
 #include <stdlib.h> // standard C library I believe?
-#include <stdint.h> // this allows Sint16 and stuff like that
 #include <SDL/SDL.h>// SDL library
-#include <SDL/SDL_main.h>
+#include <SDL/SDL_main.h> // for windows
 #include <time.h>   // Gives access to system time (used to set the seed :D )
 #include <math.h> 	// Pi, sin, cos, tan, etc :D
 //#include <limits.h>
-#include <assert.h>
+// #include <assert.h>
+#include "QL.h" // EL.c's header file
 
 // Defines:
 #define true 1
 #define false 0
 #define bool int
-
-typedef struct 
-{
-	bool F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12; // Handled
-	bool ESC, lSHIFT, rSHIFT, lCTRL, rCTRL, lWIN, rWIN, lALT, rALT, CAPS, NUM; // Handled
-	bool one, two, three, four, five, six, seven, eight, nine, zero; // Handled
-	bool a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z; // Handled
-	bool tab, insert, home, del, end, pgUp, pgDown, backspace; // Handled
-	bool up, down, left, right; // Handled
-	bool NUMone, NUMtwo, NUMthree, NUMfour, NUMfive, NUMsix, NUMseven, NUMeight, NUMnine, NUMzero; // Handled
-} keyObj;
 
 typedef struct
 {
@@ -761,79 +749,53 @@ void setLineWidth(int width)
 // Set functions END
 // ----------------------------------------------------------------------
 // Shape functions START
-void line(int xi, int yi, int xii, int yii) // This needs to be changed to int later on.
+void line(int x0, int y0, int x1, int y1)
 {
-	int lX, rX, tY, bY; // leftX, rightX, topY, bottomY;
-	if (xi > xii)
+	// int xi, yi, a; // x increment, y increment, angle
+	// int px, py; // pixel x, y
+	// int xDelta = abs(x1 - x0); // height
+	// int yDelta = abs(y1 - y0); // width
+	// a = giveAngle(x0, y0, x1, y1);
+
+	// if (xDelta > yDelta)
+	// {
+	// 	for (xi = x0; )
+	// }
+	int rad;
+	int px = x0; int py = y0;
+	int xDelta = abs(x1 - x0);
+	int yDelta = abs(y1 - y0);
+	
+	float angle = giveAngle(x0, y0, x1, y1);
+	for (rad = 0;  (abs(px) <= abs(xDelta) && xDelta != 0) || (abs(py) <= abs(yDelta) && yDelta != 0); rad++)
 	{
-		lX = xii;
-		rX = xi;
-	}
-	else 
-	{
-		lX = xi;
-		rX = xii;
+		px = cos(angle)*rad + x0;
+		py = sin(angle)*rad + y0;
+		pixel(px, py);
 	}
 
-	if (yi > yii)
-	{
-		tY = yii;
-		bY = yi;
-	}
-	else 
-	{
-		tY = yi;
-		bY = yii;
-	}
-
-	int xdelta = rX - lX;
-	int ydelta = bY - tY;
-	int px, py; // plotx-ploty or pixelx-pixely
-	if (xdelta > ydelta)
-	{
-		SDL_LockSurface(screen);
-		py = tY;
-		for (px = lX; px <= rX ; px++)
-		{
-			pixel(px, py);
-			px++;
-			pixel(px, py);
-			if (py < bY)
-			{
-				py++;
-			}
-		}
-		SDL_UnlockSurface(screen);
-	}
-	else if (ydelta < xdelta)
-	{
-		SDL_LockSurface(screen);
-		
-		SDL_UnlockSurface(screen);
-	}
 }
 
 bool rect(char *type, int x, int y, int w, int h)
 {
 	if (strcmp(type, "fill") == 0)
 	{
-		//float 
-		//boxRGBA(screen, x, y, x+w, y+h, 255, 255, 255, 255);
 		int px, py;
 		for (py = y; py < y+h; py++)
 		{
 			for (px = x; px < (x+w); px++) 
 			{
-					pixel(px, py);
+				pixel(px, py);
 			}
 			px = x;
 		}
-		//printf("woo");
-
 	}
 	else if (strcmp(type, "line") == 0)
 	{
-		// rectangleRGBA(screen, x, y, x+w, y+h, red, green, blue, alpha);	
+		line(x, y, x+w, y);     // The top line
+		line(x, y, x, y+h);     // The left line
+		line(x, y+h, x+w, y+h); // The bottom line
+		line(x+w, y, x+w, y+h); // The right line
 	}
 	else
 	{
@@ -940,12 +902,24 @@ float radiansToDegrees(float rad) // Should go in QLmath
 	return rad * 180 / M_PI;
 }
 
-int randomNum(int min, int max) // Should go in QLrand
+float giveAngle(int x0, int y0, int x1, int y1) // Where z0 is the center and z1 are the coordinates you want the angle for.
+{
+	int xA = x1 - x0;
+	int yA = y1 - y0;
+	return atan2(yA, xA); // Returns it in Rad
+}
+
+int randomNum(int min, int max) // Should go in QLmath
 {	
 	return min + (rand() % ((max + 1) - min)); // inclusive :D
 }
 
-// bool noiseGen(double *noise, double width, double height) // QLrand
+float randomNumF(float min, float max) // Should go in QLmath
+{
+	return ( rand() / (float)RAND_MAX * max ) + min; // Thanks to evilBetty from #ludumdare (This is inclusive)
+}
+
+// bool noiseGen(double *noise, double width, double height) // QLmath
 // {
 // 	int x, y;
 // 	for (x = 0; x < width; x++)

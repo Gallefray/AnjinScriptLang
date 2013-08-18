@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"rand",
+				"randomNum"
+			],
+			[
 				"scr",
 				"scrWidth"
 			],
@@ -510,10 +514,6 @@
 			[
 				"fl",
 				"false"
-			],
-			[
-				"Pl",
-				"playerCollide"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "QL.c",
 			"settings":
 			{
-				"buffer_size": 27169,
+				"buffer_size": 26615,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,7 +531,7 @@
 			"file": "Makefile",
 			"settings":
 			{
-				"buffer_size": 670,
+				"buffer_size": 678,
 				"line_ending": "Unix"
 			}
 		},
@@ -548,7 +548,7 @@
 			"file": "QL.h",
 			"settings":
 			{
-				"buffer_size": 3506,
+				"buffer_size": 3710,
 				"line_ending": "Unix"
 			}
 		},
@@ -556,24 +556,24 @@
 			"file": "test.c",
 			"settings":
 			{
-				"buffer_size": 572,
+				"buffer_size": 315,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "Added:\nThe fill mode for the circle. Don't ue this as it needs optimisation. D:\nEllipses, it only has a line mode at the moment.\n\nRemoved:\n\n\nChanged:\nQL.h - Added `extern`s and an ellipse declaration.\n\nRefactored:\n\n\nFixed:\nThe Circle's fill mode. I was *radius instead of *r. Credits to euske from #ludumdare for spotting that one :3\nThe input problem in the NT build. \n\nTodo:\nModularise QuackLang to make it easier to maintain. - Started\nMouse Input. - Started\nAdd more shapes. (Ellipse[fill], Line[], rect[line], triangle[fill, line]). - Working on it\nAdd more collision detection functions.\nAdd the missing controls.\n\n|> On hold:\n	Test Emscripten Support.\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
+			"contents": "Added:\nrandomNumF() for random floating point numbers.\nNow including QL.h in QL.c to make my life easier :3\ngiveAngle(x0, y0, x1, y1). It returns the angle of x1, y1 where x0, y0 is the center.\n\nRemoved:\nthe definition of keyObj in QL.c. It's been moved to QL.h\n\nChanged:\nline(x0, y0, x1, y1) - It now works! :D\n\n\nRefactored:\n\n\nFixed:\n\n\nTodo:\nModularise QuackLang to make it easier to maintain. - Started\nTest Emscripten Support (before the LD)\nMouse Input. - Started\nAdd more shapes. (Ellipse[fill], Line[], rect[line], triangle[fill, line]). - Working on it\nAdd more collision detection functions.\nAdd the missing controls.\n\n|> On hold:\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
 			"settings":
 			{
-				"buffer_size": 732,
+				"buffer_size": 712,
 				"line_ending": "Unix",
 				"name": "Added:"
 			}
 		},
 		{
-			"contents": "lines\n<Sol_HSA> Gallefray: the basic idea is, you step one pixel at a time, and plot one pixel. This leads to two different kinds of lines: x-major and y-major. Meaning, if you step one pixel in X, the Y better change less than one pixel, or you get a gap.\n<Gallefray> Yeah\n<Sol_HSA> Gallefray: so first you check whether the x delta is bigger than y delta, and pick out of the two different line functions based on that\n<Gallefray> Whaddya mean by the `x delta`\n<Sol_HSA> Gallefray: abs(x0-x1)\n<Sol_HSA> delta means \"difference of\"\n<Sol_HSA> (more or less)",
+			"contents": "lines\n<Sol_HSA> Gallefray: the basic idea is, you step one pixel at a time, and plot one pixel. This leads to two different kinds of lines: x-major and y-major. Meaning, if you step one pixel in X, the Y better change less than one pixel, or you get a gap.\n<Gallefray> Yeah\n<Sol_HSA> Gallefray: so first you check whether the x delta is bigger than y delta, and pick out of the two different line functions based on that\n<Gallefray> Whaddya mean by the `x delta`\n<Sol_HSA> Gallefray: abs(x0-x1)\n<Sol_HSA> delta means \"difference of\"\n<Sol_HSA> (more or less)\n\n\npekuja:\n<Gallefray> pekuja: https://github.com/Gallefray/QuackLang/blob/master/QL_LANG/QL.c#L764\n<pekuja> still, that's not what Sol_HSA was suggestion you'd do\n<Gallefray> pekuja: AHHHHHH\n<Gallefray> pekuja: Missed that\n<Gallefray> How come it still worked... :O\n<pekuja> I thought you said it looked bad?\n<pekuja> try it with a perfectly horizontal line. that should look wrong\n<pekuja> I think all the lines that algorithm will draw will be diagonal\n<Gallefray> pekuja: yeah\n<Gallefray> pekuja: hmm\n<pekuja> anyways, you've misunderstood Sol_HSA's logic a bit\n<pekuja> this code that you have seems like it will produce a 45-degree diagonal line followed by a horizontal line\n<pekuja> am I correct?\n<Gallefray> yeah\n<pekuja> also your code will draw half of all lines incorrectly\n<Gallefray> my new line drawing code or the old?\n<pekuja> you're getting the left/right X and the top/bottom Y... but what if the line starts from low left and goes up right?\n<pekuja> the old code\n<pekuja> the QL.c\n<pekuja> anyways, the more important part is what you have on lines 801-804\n<pekuja> py is going to be less than bY every iteration until py reaches bY, which is not what you actually want\n<pekuja> also why are you plotting two pixels each time?\n<pekuja> well, not important, but\n<Gallefray> yeah\n<Gallefray> Okay, I have a problem with my new line drawing function D:\n<pekuja> I'm not sure about the optimal way to do this, but basically the idea is, you're drawing a mostly horizontal line, so you increment px every time, as you are doing\n<Gallefray> it worked once...\n<Gallefray> pekuja: yeah\n<Gallefray> http://hastebin.com/vuxodafumu.pl\n<pekuja> but for the py check, you want something like:\n<Gallefray> wzl: dda? :P\n<pekuja> py = px * (bY - tY) / (rX - lX);\n<pekuja> this is very likely not the optimal way to do it\n<pekuja> so you could replace lines 801-804 with that and it should work at least somewhat better\n<pekuja> also get rid of the second pixel plot on line 800\n<pekuja> although you might want to add one last pixel plot after the loop, to draw (rX,bY)",
 			"settings":
 			{
-				"buffer_size": 557,
+				"buffer_size": 2630,
 				"line_ending": "Unix",
 				"name": "lines"
 			}
@@ -755,6 +755,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"QLrand",
+			"rand",
 			"void",
 			"int",
 			"(int",
@@ -880,9 +882,7 @@
 			"jar",
 			".jar",
 			"Main",
-			"main",
-			"Main",
-			"\n"
+			"main"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -904,7 +904,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -913,15 +913,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 27169,
+						"buffer_size": 26615,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								23318,
-								23318
+								19752,
+								19752
 							]
 						],
 						"settings":
@@ -930,7 +930,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 12952.0,
+						"translation.y": 10999.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -941,15 +941,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 670,
+						"buffer_size": 678,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								670,
-								670
+								438,
+								438
 							]
 						],
 						"settings":
@@ -993,7 +993,7 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1002,23 +1002,23 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3506,
+						"buffer_size": 3710,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2472,
-								2472
+								2136,
+								2136
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": 37.0,
+						"translation.y": 720.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1029,15 +1029,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 572,
+						"buffer_size": 315,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								184,
-								184
+								205,
+								205
 							]
 						],
 						"settings":
@@ -1056,15 +1056,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 732,
+						"buffer_size": 712,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								200,
-								200
+								272,
+								272
 							]
 						],
 						"settings":
@@ -1083,15 +1083,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 557,
+						"buffer_size": 2630,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								557,
-								557
+								1747,
+								1747
 							]
 						],
 						"settings":
@@ -1136,7 +1136,7 @@
 		"cols":
 		[
 			0.0,
-			0.58984375,
+			0.63828125,
 			1.0
 		],
 		"rows":

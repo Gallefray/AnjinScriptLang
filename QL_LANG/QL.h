@@ -64,7 +64,7 @@ void setColour(int r, int g, int b, int a);   // Sets the current colour to the 
 void setScrColour(int r, int g, int b, int a); // Sets the background of the window to the r, g, b, a specified;
 void setLineWidth(int width); // Does nothing as there's no un-broken line drawing func yet :/
 
-void line(int xi, int yi, int xii, int yii); // Does nothing as such, very broken :/
+void line(int x0, int y0, int x1, int y1); // Draws a line.
 int rect(char *type, int x, int y, int w, int h); // Draws a rect. Returns false if an error has been encountered.
 int circle(char *type, int x, int y, float radius); // Draws a circle with the middle at the x, y. Returns false if an error has been encountered.
 bool ellipse(char *type, int x, int y, int w, int h); // Draws an ellipse with the middle at the x, y. Returns false if an error has been encountered.
@@ -72,6 +72,9 @@ bool ellipse(char *type, int x, int y, int w, int h); // Draws an ellipse with t
 float degreesToRadians(float deg); // Returns a float containing the radians.
 float radiansToDegrees(float rad); // Returns a float containing the degrees.
 int randomNum(int min, int max); // Returns a random number, is inclusive.
+float randomNumF(float min, float max); // Returns a random number of floating point. (is inclusive?)
+float giveAngle(int x0, int y0, int x1, int y1); // Where z0 is the center and z1 are the coordinates you want the angle for.
+
 // bool noiseGen(double *noise, double width, double height); // Returns an array full of noise.
 // double smoothNoise(double noise[][], double x, double y, double width, double height); // Smooths the noise. Don't use this, it's only for the noiseDraw() function.
 // double turbulentNoise(double x, double y, double scale); // Applies turbulence to the noise. Don't use this, it's only for the noiseDraw() function.
