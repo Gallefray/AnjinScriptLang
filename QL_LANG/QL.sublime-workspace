@@ -4,6 +4,74 @@
 		"selected_items":
 		[
 			[
+				"SDL_",
+				"SDL_UnlockSurface"
+			],
+			[
+				"def",
+				"define"
+			],
+			[
+				"rS",
+				"rSquared"
+			],
+			[
+				"x",
+				"xDelta"
+			],
+			[
+				"tar",
+				"targY"
+			],
+			[
+				"org",
+				"origY"
+			],
+			[
+				"or",
+				"origX"
+			],
+			[
+				"targ",
+				"targY"
+			],
+			[
+				"ori",
+				"origY"
+			],
+			[
+				"copy",
+				"copySurface"
+			],
+			[
+				"img",
+				"imgType"
+			],
+			[
+				"QL",
+				"QLimage"
+			],
+			[
+				"type",
+				"typedef"
+			],
+			[
+				"im",
+				"imgType"
+			],
+			[
+				"mouse",
+				"mouseInput"
+			],
+			[
+				"de",
+				"default"
+			],
+			[
+				"lef",
+				"leftButton"
+			],
+			[
 				"rand",
 				"randomNum"
 			],
@@ -88,10 +156,6 @@
 				"keyInput"
 			],
 			[
-				"SDL_",
-				"SDL_QUIT"
-			],
-			[
 				"co",
 				"cos	constant string"
 			],
@@ -154,10 +218,6 @@
 			[
 				"bak",
 				"background-color"
-			],
-			[
-				"img",
-				"imgButtons"
 			],
 			[
 				"background",
@@ -454,76 +514,57 @@
 			[
 				"fot",
 				"font-family"
-			],
-			[
-				"PTSansB",
-				"PTSansCaptionBold"
-			],
-			[
-				"back",
-				"background-color"
-			],
-			[
-				"out",
-				"outline-style"
-			],
-			[
-				"bck",
-				"background-attachment"
-			],
-			[
-				"fon",
-				"font-weight"
-			],
-			[
-				"h",
-				"h2	Tag"
-			],
-			[
-				"D",
-				"DT	Tag"
-			],
-			[
-				"t",
-				"title	Tag"
-			],
-			[
-				"a",
-				"anomaly1"
-			],
-			[
-				"me",
-				"messagerun"
-			],
-			[
-				"animal",
-				"animallist"
-			],
-			[
-				"message",
-				"messagerun"
-			],
-			[
-				"pl",
-				"playerCollide"
-			],
-			[
-				"playe",
-				"player"
-			],
-			[
-				"fl",
-				"false"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
+			"file": "QLmath.c",
+			"settings":
+			{
+				"buffer_size": 4036,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "QLcollisionHand.c",
+			"settings":
+			{
+				"buffer_size": 690,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "QLinput.c",
+			"settings":
+			{
+				"buffer_size": 15241,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "QL.c",
 			"settings":
 			{
-				"buffer_size": 26859,
+				"buffer_size": 2776,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "QLshapes.c",
+			"settings":
+			{
+				"buffer_size": 5223,
+				"line_ending": "Unix",
+				"name": "#include \"QL.h\""
+			}
+		},
+		{
+			"file": "QLimage.c",
+			"settings":
+			{
+				"buffer_size": 1485,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,24 +572,15 @@
 			"file": "Makefile",
 			"settings":
 			{
-				"buffer_size": 678,
+				"buffer_size": 2027,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "license.txt",
-			"settings":
-			{
-				"buffer_size": 979,
-				"line_ending": "Unix",
-				"name": "Copyright (C) 2013 Finn 'Gallefray' O'leary"
 			}
 		},
 		{
 			"file": "QL.h",
 			"settings":
 			{
-				"buffer_size": 3710,
+				"buffer_size": 4886,
 				"line_ending": "Unix"
 			}
 		},
@@ -556,17 +588,33 @@
 			"file": "test.c",
 			"settings":
 			{
-				"buffer_size": 315,
+				"buffer_size": 659,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "Line mostly works! :D\nAdded:\nrandomNumF() for random floating point numbers.\nNow including QL.h in QL.c to make my life easier :3\ngiveAngle(x0, y0, x1, y1). It returns the angle of x1, y1 where x0, y0 is the center.\n\nRemoved:\nthe definition of keyObj in QL.c. It's been moved to QL.h\n\nChanged:\nline(x0, y0, x1, y1) - It now works, unless the line is horizontal/vertical. This has yet to be fixed.\nrect(\"line, ...\") is now implimented, but doesn't work due to the above problem.\n\n\nRefactored:\n\n\nFixed:\n\n\nTodo:\nModularise QuackLang to make it easier to maintain. - Started\nTest Emscripten Support (before the LD)\nMouse Input. - Started\nAdd more shapes. (Ellipse[fill], Line[], rect[line], triangle[fill, line]). - Working on it\nAdd more collision detection functions.\nAdd the missing controls.\nAdd Sound, Image support.\nAdd the licenses for SDL and such.\n\n|> On hold:\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
+			"file": "license.txt",
 			"settings":
 			{
-				"buffer_size": 939,
+				"buffer_size": 870,
 				"line_ending": "Unix",
-				"name": "Line mostly works! :D"
+				"name": "Copyright (C) 2013 Finn 'Gallefray' O'leary"
+			}
+		},
+		{
+			"file": "/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/README.md",
+			"settings":
+			{
+				"buffer_size": 1070,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\n\nAdded:\nsetTitle(x); - sets the window's title to x\nmouseInput.x, mouseInput.y now give the mouse's position. (A bit laggy when the framerate is set low :/, I might have to thread grabInput() :S)\nmouseInput.right/middle/leftButton has been added, is being handled, but does not correctly detect mouse button input.\n\nRemoved:\n\n\nChanged:\nlicense.txt - It's more or less the final one now. :P\nREADME.md - Modified the introductory message to allow for recent changes\n\nRefactored:\nShifted about a few bits of code in the QL modules and QL.h to give it some more order.\n\nFixed:\n\n\nTodo:\nAdd the licenses for SDL and such.\nAdd the missing keyboard buttons.\nAdd Sound, Image support.\nTest Emscripten Support (before the LD)\nFix Mouse button Input.\nUpdate for SDL 2.0\nAdd more collision detection functions.\nAdd more shapes. (Ellipse[fill], Line[], rect[line], triangle[fill, line]). - Working on it\n\n|> On hold:\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
+			"settings":
+			{
+				"buffer_size": 978,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -610,6 +658,10 @@
 	},
 	"file_history":
 	[
+		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/QL_LANG/QL.c",
+		"/home/finn/streamTwitch.sh",
+		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/QL_LANG/QLimage.o",
+		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/QL_LANG/QLinput.c",
 		"/media/KINGSTON/to arch/delta time.txt",
 		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/QL_LANG/test.c",
 		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/QL_LANG/QL.h",
@@ -625,7 +677,6 @@
 		"/home/finn/Documents/rude-love-f4536f333620/src/modules/timer/sdl/Timer.h",
 		"/home/finn/Dropbox/Git_Repo/professional/game and program development/newPrototypes/space/space - love2D/main.lua",
 		"/home/finn/Documents/delta time.txt",
-		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/QL_LANG/QL.c",
 		"/home/finn/Documents/C/curses/roguelike/main.c",
 		"/home/oldFinn/ubuntu 12.04 Home/Documents/twitch_stream.sh",
 		"/home/finn/Dropbox/Git_Repo/personal/code/C/stuff/numberVar test/main.c",
@@ -734,14 +785,11 @@
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/conf.lua",
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/classes.lua",
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/maps.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/Desktop/DevKit/config.yml",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/Desktop/gridlocked player/conf.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/main_collision_backup",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/gridlocked player/classes.lua"
+		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/Desktop/DevKit/config.yml"
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 46.0
 	},
 	"find_in_files":
 	{
@@ -755,6 +803,60 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"abs(",
+			"enemies[i].",
+			"i486-mingw32-",
+			"(",
+			"int",
+			">",
+			"rDelta",
+			"0",
+			"gy",
+			"X",
+			"x",
+			"X",
+			"x",
+			"X",
+			"x",
+			"X",
+			"x",
+			"gcc",
+			"g",
+			"p",
+			"*",
+			", ",
+			"g",
+			"i",
+			"scr",
+			"screen",
+			"x",
+			"y",
+			"x",
+			"j",
+			"i",
+			" i",
+			"i",
+			"surface)",
+			"Surface",
+			"surface",
+			"surface-",
+			"Surface",
+			"surface",
+			"	y",
+			"y",
+			"x",
+			"y",
+			"h",
+			"\nint ",
+			"int",
+			"LM",
+			"true",
+			");\n",
+			"// Handled",
+			"-Werror",
+			"-fpic",
+			"-Werror",
+			"gcc",
 			"QLrand",
 			"rand",
 			"void",
@@ -828,61 +930,7 @@
 			"x",
 			"height, width",
 			"height",
-			"y",
-			"x",
-			"px",
-			"pY",
-			"pX",
-			"X",
-			"x",
-			"X",
-			"x",
-			"X",
-			"=",
-			";\n",
-			"int16_t",
-			"16_t",
-			"keyInput.del ",
-			"keyInput.del",
-			"// Control Keys start;",
-			"KMOD",
-			"true",
-			";\n",
-			"keys",
-			"ESC",
-			"1",
-			"keyInput.",
-			"SDLK_",
-			"int",
-			"j",
-			"1",
-			"2",
-			" OH NOES! ",
-			"2\")",
-			"1\")",
-			"\")\n",
-			"\")",
-			"255",
-			"true",
-			",",
-			"UnlockLockSurface",
-			"pixel",
-			"Uint8",
-			"surface",
-			"x",
-			"yi",
-			"xi",
-			"xii",
-			"xi",
-			"x",
-			"SCREEN",
-			"screen",
-			"ASL",
-			"rror",
-			"jar",
-			".jar",
-			"Main",
-			"main"
+			"y"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -895,7 +943,7 @@
 			"plyer",
 			"entity"
 		],
-		"reverse": true,
+		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
 		"whole_word": false,
@@ -904,24 +952,52 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "QL.c",
+					"file": "QLmath.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 26859,
+						"buffer_size": 4036,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								20558,
-								20558
+								916,
+								916
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 180.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "QLcollisionHand.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 690,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								358,
+								358
 							]
 						],
 						"settings":
@@ -936,108 +1012,48 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "Makefile",
+					"buffer": 2,
+					"file": "QLinput.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 678,
+						"buffer_size": 15241,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								438,
-								438
+								374,
+								374
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 11.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
-				{
-					"buffer": 2,
-					"file": "license.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 979,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								536,
-								536
-							]
-						],
-						"settings":
-						{
-							"auto_name": "Copyright (C) 2013 Finn 'Gallefray' O'leary",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 2,
-			"sheets":
-			[
 				{
 					"buffer": 3,
-					"file": "QL.h",
+					"file": "QL.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3710,
+						"buffer_size": 2776,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2136,
-								2136
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 37.0,
-						"translation.y": 362.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "test.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 315,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								205,
-								205
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1052,24 +1068,171 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 4,
+					"file": "QLshapes.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 939,
+						"buffer_size": 5223,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								939,
-								0
+								5081,
+								5081
 							]
 						],
 						"settings":
 						{
-							"auto_name": "Line mostly works! :D",
+							"auto_name": "#include \"QL.h\"",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3315.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "QLimage.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1485,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1477,
+								1477
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "Makefile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2027,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								503,
+								503
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 7,
+					"file": "QL.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4886,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3137,
+								3137
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "test.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 659,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								220,
+								220
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "license.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 870,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								870,
+								870
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Copyright (C) 2013 Finn 'Gallefray' O'leary",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -1079,7 +1242,61 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 10,
+					"file": "/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1070,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								981,
+								981
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 978,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								574,
+								574
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1136,7 +1353,7 @@
 		"cols":
 		[
 			0.0,
-			0.63828125,
+			0.5109375,
 			1.0
 		],
 		"rows":
@@ -1148,7 +1365,7 @@
 	"menu_visible": false,
 	"output.exec":
 	{
-		"height": 162.0
+		"height": 227.0
 	},
 	"project": "QL.sublime-project",
 	"replace":
@@ -1171,7 +1388,7 @@
 		[
 			[
 				"",
-				"~/Dropbox/Git_Repo/personal/code/C/QuackLang Proj/galacticRift/.galacticRift.sublime-project"
+				"~/Dropbox/Git_Repo/personal/code/C/LD27/rik0r/.rik0r.sublime-project"
 			]
 		],
 		"width": 380.0

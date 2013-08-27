@@ -9,8 +9,45 @@ mouseObj mouseInput;
 void grabInput()
 {
 	SDL_PollEvent(&event);   //Poll our SDL key event for any keystrokes.
-    switch(event.type)
+    switch(event.type) // The case with the least amount of checks is done first :P
     {
+    	case SDL_MOUSEMOTION:
+	  		mouseInput.x = event.motion.x;
+	  		mouseInput.y = event.motion.y;
+	  		break;
+
+	  	// case SDL_MOUSEBUTTONDOWN:
+	  	// 	switch(event.button.button)
+	  	// 	{
+	  	// 		case SDL_BUTTON_LEFT:
+	  	// 			mouseInput.leftButton = true;
+	  	// 			break;
+				// case SDL_BUTTON_MIDDLE:
+				// 	mouseInput.middleButton = true;
+				// 	break;
+	  	// 		case SDL_BUTTON_RIGHT:
+		  // 			mouseInput.rightButton = true;
+		  // 			break;
+		  // 		default:
+		  // 			break;
+	  	// 	}
+
+	  	// case SDL_MOUSEBUTTONUP:
+	  	// 	switch(event.button.button)
+	  	// 	{
+	  	// 		case SDL_BUTTON_LEFT:
+	  	// 			mouseInput.leftButton = false;
+	  	// 			break;
+				// case SDL_BUTTON_MIDDLE:
+				// 	mouseInput.middleButton = false;
+				// 	break;
+	  	// 		case SDL_BUTTON_RIGHT:
+		  // 			mouseInput.rightButton = false;
+		  // 			break;
+		  // 		default:
+		  // 			break;
+	  	// 	}
+
 	    case SDL_KEYDOWN:
 	    	switch(event.key.keysym.sym)
 	    	{
@@ -224,6 +261,9 @@ void grabInput()
 	           	case SDLK_BACKSPACE:
 	          		keyInput.backspace = true;
 	          		break;
+	          	case SDLK_SPACE:
+	          		keyInput.spacebar = true;
+	          		break;
 	          	// Editing Keys end;
 	          	// Keypad Number Keys start;
 	          	case SDLK_KP0:
@@ -271,11 +311,11 @@ void grabInput()
 	          		keyInput.down = true;
 	          		break;
 	          	// Arrow Keys end;
-
 	        	default:
 	          		break;
 	    	}
 	    	break;
+
 	    case SDL_KEYUP:
 	    	//printf("1 - 1");
 	    	switch(event.key.keysym.sym)
@@ -485,6 +525,9 @@ void grabInput()
 	           	case SDLK_BACKSPACE:
 	          		keyInput.backspace = false;
 	          		break;
+	          	case SDLK_SPACE:
+	          		keyInput.spacebar = false;
+	          		break;
 	          	// Editing Keys end;
 	          	// Keypad Number Keys start;
 	          	case SDLK_KP0:
@@ -535,8 +578,9 @@ void grabInput()
 		        default:
 		          	break;
 		    }
-	  	// case SDL_MOUSEMOTION:
-	  	// 	if (event.motion.type)
-	   //  	{
+		    break;
+
+		default:
+			break;
   	}
 }

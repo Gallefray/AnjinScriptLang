@@ -1,6 +1,3 @@
-(Yeah, I nicked this from somewhere else)
-(Don't consider this the final one, I might go under the zlib or something else :D)
-
 Copyright (C) 2013 Finn 'Gallefray' O'leary
 
 This software is provided 'as-is', without any express or implied

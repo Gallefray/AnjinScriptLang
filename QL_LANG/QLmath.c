@@ -29,6 +29,18 @@ float randomNumF(float min, float max) // Should go in QLmath
 	return ( rand() / (float)RAND_MAX * max ) + min; // Thanks to evilBetty from #ludumdare (This is inclusive)
 }
 
+int sign(int num)
+{
+	int res = (num < 0) ? -1 : ((num > 0) ? 1 : 0); // I bally love C
+	return res;
+}
+
+float signf(float num)
+{
+	int res = (num < 0.0) ? -1 : ((num > 0.0) ? 1 : 0); // I bally love C
+	return res;
+}
+
 // bool noiseGen(double *noise, double width, double height) // QLmath
 // {
 // 	int x, y;

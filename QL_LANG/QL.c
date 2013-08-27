@@ -1,6 +1,5 @@
 #include "QL.h" // QL.c's header file
 
-
 SDL_Surface *screen;
 
 // Screen 
@@ -70,6 +69,11 @@ void clear()
 void setScrColour(int r, int g, int b, int a)
 {
 	scrColour = SDL_MapRGBA(screen->format, r, g, b, a);
+}
+
+void setTitle(char *name)
+{
+	SDL_WM_SetCaption(name, NULL);
 }
 
 #ifdef EMSCRIPTEN
