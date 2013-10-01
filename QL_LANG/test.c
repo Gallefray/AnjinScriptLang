@@ -19,11 +19,7 @@ int main(int argc, char *argv[])
 		clear();
 
 		setColour(255, 0, 0, 255);
-		line(x, y, h, w);
-		pixel(x, y);
-		setColour(0, 255, 0, 255);
-		pixel(h, w);
-		//circle("line", x, y, rad);
+		rect("line", 20, 20, 100, 100);
 
 		update();
 		w = cos(angle)*rad + x;

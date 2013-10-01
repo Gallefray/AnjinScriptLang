@@ -66,7 +66,7 @@ void line(int ox, int oy, int tx, int ty) // origin x, y; target x, y;
 	int linlen = sqrt(sq(xd) + sq(yd)); // line length
 
 	int r = 0; // rad
-	while (r < linlen)
+	while (r <= linlen)
 	{	
 		px = (cosf(a)*r + ox);
 		py = (sinf(a)*r + oy);
@@ -83,60 +83,6 @@ void line(int ox, int oy, int tx, int ty) // origin x, y; target x, y;
 		// 	break;
 		// }
 }
-
-	// // int xi, yi, a; // x increment, y increment, angle
-	// // int px, py; // pixel x, y
-	// // 
-	// // int yDelta = abs(y1 - y0); // width
-	// // a = giveAngle(x0, y0, x1, y1);
-
-	// // if (xDelta > yDelta)
-	// // {
-	// // 	for (xi = x0; )
-	// // }
-	// int targX, targY, origX, origY;
-	// if (x0 < x1)
-	// {
-	// 	origX = x0;
-	// 	targX = x1;
-	// }
-	// else if(x1 < x0)
-	// {
-	// 	origX = x1;
-	// 	targX = x0;	
-	// }
-	// if (y0 < y1)
-	// {
-	// 	origY = y0;
-	// 	targY = y1;
-	// }
-	// else if (y1 < y0)
-	// {
-	// 	origY = y1;
-	// 	targY = y0;	
-	// }
-
-	// int rad = 0;
-	// int px = origX; int py = origY;
-	// int xDelta = abs(targX - origX);
-	// int yDelta = abs(targX - origX);
-	
-	// float angle = giveAngle(origX, origY, targX, targY);
-	// // for (rad = 0;  (abs(px) <= abs(xDelta) && xDelta != 0) || (abs(py) <= abs(yDelta) && yDelta != 0); rad++)
-	// // {
-	// // 	px = cos(angle)*rad + x0;
-	// // 	py = sin(angle)*rad + y0;
-	// // 	pixel(px, py);
-	// // }
-
-	// while((px <= xDelta) || (py <= yDelta))
-	// {
-	// 	rad++;
-	// 	px = cos(angle)*rad + origX;
-	// 	py = sin(angle)*rad + origY;
-	// 	pixel(px, py);
-	// }
-
 
 
 bool rect(char *type, int x, int y, int w, int h)
@@ -157,7 +103,7 @@ bool rect(char *type, int x, int y, int w, int h)
 	{
 		line(x, y, x+w, y);     // The top line
 		line(x, y, x, y+h);     // The left line
-		line(x, y+h, x+w, y+h); // The bottom line
+		line(x-1, y+h, x+w, y+h); // The bottom line
 		line(x+w, y, x+w, y+h); // The right line
 	}
 	else
