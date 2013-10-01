@@ -588,7 +588,7 @@
 			"file": "test.c",
 			"settings":
 			{
-				"buffer_size": 659,
+				"buffer_size": 613,
 				"line_ending": "Unix"
 			}
 		},
@@ -599,14 +599,6 @@
 				"buffer_size": 870,
 				"line_ending": "Unix",
 				"name": "Copyright (C) 2013 Finn 'Gallefray' O'leary"
-			}
-		},
-		{
-			"file": "/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/README.md",
-			"settings":
-			{
-				"buffer_size": 1070,
-				"line_ending": "Unix"
 			}
 		},
 		{
@@ -658,6 +650,9 @@
 	},
 	"file_history":
 	[
+		"/home/finn/Documents/QuackLang/QL_LANG/QL.sublime-workspace",
+		"/home/finn/Documents/QuackLang/QL_LANG/QL.sublime-project",
+		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/README.md",
 		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/QL_LANG/QL.c",
 		"/home/finn/streamTwitch.sh",
 		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/QL_LANG/QLimage.o",
@@ -782,14 +777,11 @@
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/epicness.lua",
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/main.lua",
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/depracated_code_graveyard.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/conf.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/classes.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/maps.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/Desktop/DevKit/config.yml"
+		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/conf.lua"
 	],
 	"find":
 	{
-		"height": 46.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -803,6 +795,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"C++",
 			"abs(",
 			"enemies[i].",
 			"i486-mingw32-",
@@ -929,8 +922,7 @@
 			"y",
 			"x",
 			"height, width",
-			"height",
-			"y"
+			"height"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -952,7 +944,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -996,8 +988,8 @@
 						"selection":
 						[
 							[
-								358,
-								358
+								224,
+								224
 							]
 						],
 						"settings":
@@ -1062,7 +1054,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1153.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1080,8 +1072,8 @@
 						"selection":
 						[
 							[
-								5081,
-								5081
+								1506,
+								1506
 							]
 						],
 						"settings":
@@ -1091,7 +1083,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3315.0,
+						"translation.y": 692.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1109,8 +1101,8 @@
 						"selection":
 						[
 							[
-								1477,
-								1477
+								419,
+								419
 							]
 						],
 						"settings":
@@ -1119,7 +1111,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 270.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1137,8 +1129,8 @@
 						"selection":
 						[
 							[
-								503,
-								503
+								1803,
+								1803
 							]
 						],
 						"settings":
@@ -1146,7 +1138,7 @@
 							"syntax": "Packages/Makefile/Makefile.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1176,11 +1168,11 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
+							"syntax": "Packages/C++/C.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 540.0,
+						"translation.y": 1440.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1191,15 +1183,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 659,
+						"buffer_size": 613,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								220,
-								220
+								381,
+								381
 							]
 						],
 						"settings":
@@ -1243,33 +1235,6 @@
 				},
 				{
 					"buffer": 10,
-					"file": "/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/README.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1070,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								981,
-								981
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 11,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1296,7 +1261,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 11,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1388,7 +1353,7 @@
 		[
 			[
 				"",
-				"~/Dropbox/Git_Repo/personal/code/C/LD27/rik0r/.rik0r.sublime-project"
+				"~/Documents/projectAlpha/.projAlpha.sublime-project"
 			]
 		],
 		"width": 380.0

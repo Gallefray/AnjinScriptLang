@@ -1,3 +1,6 @@
+#ifndef QL_H  // Thanks to http://www.github.com/antonijn for the
+#define QL_H  // include guard :3
+
 #include <stdlib.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_main.h>
@@ -6,8 +9,10 @@
 
 #define true 1
 #define false 0
-#define bool char
+typedef char bool;
 
+
+#define sq(x) (x * x)
 #define Pi M_PI
 #define Tau Pi*2
 
@@ -119,3 +124,4 @@ void drawPartCircle(int x, int y, int r, float a, int c); // Draws the part of t
 // QLimage:
 img loadImage(char *location, int type); // Where location is something like "res/img.bmp" and type is either BMP or PNG.
 void drawImage(img image, int x, int y); // draws the image returned from loadImage at position x, y
+#endif

@@ -3,32 +3,39 @@
 #endif
 #include "QL.h"
 
+int x, y, w, h, rad; 
+float angle;
+
 int main(int argc, char *argv[])
 {
+	x = 200;
+	y = 200;
+	angle = 0;
+	rad = 100;
+
 	initWindow(400, 400, false, "test :3");
-	// int x, y; int angle, rad;
-	// angle = 30;
-	// rad = 100;
-	int num = sign(10);
-	printf("%d", num);
 	while (keyInput.ESC != true)
 	{
-		// img testImg = loadImage("testRes", BMP);
-		// x = cos(degreesToRadians(angle))*rad + 200;
-		// y = sin(degreesToRadians(angle))*rad + 200;
 		clear();
-		// setColour(0, 255, 0, 255);
-		// line(200, 200, x, y);
+
+		setColour(255, 0, 0, 255);
+		line(x, y, h, w);
+		pixel(x, y);
+		setColour(0, 255, 0, 255);
+		pixel(h, w);
+		//circle("line", x, y, rad);
 
 		update();
-		// if(keyInput.left)
-		// {
-		// 	angle--;
-		// }
-		// if(keyInput.right)
-		// {
-		// 	angle++;
-		// }
+		w = cos(angle)*rad + x;
+		h = sin(angle)*rad + y;
+		if(keyInput.left)
+		{
+			angle -= 0.01; 
+		}
+		if(keyInput.right)
+		{
+			angle += 0.01;
+		}
 		capFrameRate(60);
 	}
 	printf("\n");

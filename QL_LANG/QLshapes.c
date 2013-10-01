@@ -53,62 +53,91 @@ void pixel(int x, int y) // Blatantly copied from the SDL example
 }
 
 
-void line(int x0, int y0, int x1, int y1)
+void line(int ox, int oy, int tx, int ty) // origin x, y; target x, y;
 {
-	// int xi, yi, a; // x increment, y increment, angle
-	// int px, py; // pixel x, y
-	// int xDelta = abs(x1 - x0); // height
-	// int yDelta = abs(y1 - y0); // width
-	// a = giveAngle(x0, y0, x1, y1);
+	int px, py; // pixel x, y;
 
-	// if (xDelta > yDelta)
+	float a; // angle;
+	a = giveAngle(ox, oy, tx, ty);
+
+	int xd = abs(tx - ox); // x delta
+	int yd = abs(ty - oy); // y delta, also cosine :P
+
+	int linlen = sqrt(sq(xd) + sq(yd)); // line length
+
+	int r = 0; // rad
+	while (r < linlen)
+	{	
+		px = (cosf(a)*r + ox);
+		py = (sinf(a)*r + oy);
+
+		pixel(px, py);
+		r++;
+	}
+		// if (px == tx && py == ty)
+		// {
+		// 	break;
+		// }
+		// if (py == ty)
+		// {
+		// 	break;
+		// }
+}
+
+	// // int xi, yi, a; // x increment, y increment, angle
+	// // int px, py; // pixel x, y
+	// // 
+	// // int yDelta = abs(y1 - y0); // width
+	// // a = giveAngle(x0, y0, x1, y1);
+
+	// // if (xDelta > yDelta)
+	// // {
+	// // 	for (xi = x0; )
+	// // }
+	// int targX, targY, origX, origY;
+	// if (x0 < x1)
 	// {
-	// 	for (xi = x0; )
+	// 	origX = x0;
+	// 	targX = x1;
 	// }
-	int targX, targY, origX, origY;
-	if (x0 < x1)
-	{
-		origX = x0;
-		targX = x1;
-	}
-	else if(x1 < x0)
-	{
-		origX = x1;
-		targX = x0;	
-	}
-	if (y0 < y1)
-	{
-		origY = y0;
-		targY = y1;
-	}
-	else if (y1 < y0)
-	{
-		origY = y1;
-		targY = y0;	
-	}
-
-	int rad = 0;
-	int px = origX; int py = origY;
-	int xDelta = abs(targX - origX);
-	int yDelta = abs(targX - origX);
-	
-	float angle = giveAngle(origX, origY, targX, targY);
-	// for (rad = 0;  (abs(px) <= abs(xDelta) && xDelta != 0) || (abs(py) <= abs(yDelta) && yDelta != 0); rad++)
+	// else if(x1 < x0)
 	// {
-	// 	px = cos(angle)*rad + x0;
-	// 	py = sin(angle)*rad + y0;
+	// 	origX = x1;
+	// 	targX = x0;	
+	// }
+	// if (y0 < y1)
+	// {
+	// 	origY = y0;
+	// 	targY = y1;
+	// }
+	// else if (y1 < y0)
+	// {
+	// 	origY = y1;
+	// 	targY = y0;	
+	// }
+
+	// int rad = 0;
+	// int px = origX; int py = origY;
+	// int xDelta = abs(targX - origX);
+	// int yDelta = abs(targX - origX);
+	
+	// float angle = giveAngle(origX, origY, targX, targY);
+	// // for (rad = 0;  (abs(px) <= abs(xDelta) && xDelta != 0) || (abs(py) <= abs(yDelta) && yDelta != 0); rad++)
+	// // {
+	// // 	px = cos(angle)*rad + x0;
+	// // 	py = sin(angle)*rad + y0;
+	// // 	pixel(px, py);
+	// // }
+
+	// while((px <= xDelta) || (py <= yDelta))
+	// {
+	// 	rad++;
+	// 	px = cos(angle)*rad + origX;
+	// 	py = sin(angle)*rad + origY;
 	// 	pixel(px, py);
 	// }
 
-	while((px <= xDelta) || (py <= yDelta))
-	{
-		rad++;
-		px = cos(angle)*rad + origX;
-		py = sin(angle)*rad + origY;
-		pixel(px, py);
-	}
 
-}
 
 bool rect(char *type, int x, int y, int w, int h)
 {
