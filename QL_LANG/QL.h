@@ -24,7 +24,6 @@ typedef char bool;
 
 typedef struct 
 {
-	int key, scancode, action, mod; // For the input whatever
 	bool F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12;
 	bool ESC, lSHIFT, rSHIFT, lCTRL, rCTRL, lWIN, rWIN, lALT, rALT, CAPS, NUM;
 	bool one, two, three, four, five, six, seven, eight, nine, zero;
@@ -40,11 +39,6 @@ typedef struct
 	//bool button1, button2, button3, button4, button5, button6, button7, button8; // A nice round number! :D
 	bool leftButton, rightButton, middleButton; // same as 1, 2, 3
 } mouseObj;
-
-typedef struct
-{
-	int r, g, b, a;
-} colours;
 
 enum { BMP, PNG }; // imgType
 
@@ -63,9 +57,9 @@ typedef struct
 	int angle;
 } vect;
 
-// SDL variables needed
+// GLFW variables that are needed
 extern GLFWmonitor  *monitor;
-// extern SDL_Event event;
+extern GLFWwindow *window;
 
 // Input
 extern keyObj keyInput;
@@ -75,14 +69,12 @@ extern mouseObj mouseInput;
 extern int scrWidth, scrHeight;
 extern int scrTransX, scrTransY;
 extern int scrScaleX, scrScaleY;
-// extern int scrColour;
 
 // Framerate
 extern int FPS, drawTime, timeDelta;
 extern double timeOne, timeTwo;
 
 // Shape displaying stuff
-extern colours colour;
 extern int lineWidth;
 
 // Function definitions:

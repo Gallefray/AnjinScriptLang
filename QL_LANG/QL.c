@@ -7,8 +7,6 @@ GLFWwindow *window;
 int scrWidth, scrHeight;
 int scrTransX, scrTransY;
 int scrScaleX, scrScaleY;
-// int scrColour;
-colours colour; // It should be in QLshapes.c but it gets set upon initWindow, so...
 
 // Framerate
 int FPS, drawTime, timeDelta;
@@ -65,9 +63,7 @@ bool initWindow(int width, int height, bool fullscreen, char *name)
 	}
 
 	glfwMakeContextCurrent(window);
-	// scrWidth = width;
-	// scrHeight = height;
-	colour.r = colour.g = colour.b = colour.a = 255; // IIRC this will work
+	
 	glfwGetFramebufferSize(window, &scrWidth, &scrHeight);
 	glViewport(scrTransX, scrTransY, scrWidth, scrHeight);
 
@@ -99,23 +95,13 @@ void setTitle(char *name)
 	glfwSetWindowTitle(window, name);
 }
 
-// #ifdef EMSCRIPTEN
-// void update(int desFPS, void main)
-// {
-// 	emscripten_set_main_loop(main, FPS, 0);
-// 	glfwSwapBuffers(window); // Hmm, does this need to be there? :P
-// 	grabInput();
-// }
-
-// #else
-
 void update() // Desired FPS
 {
 	timeOne = glfwGetTime();
+	glViewport(scrTransX, scrTransY, scrWidth, scrHeight);
 	glfwSwapBuffers(window); // Draw the shapes/images/whatever
 	glfwPollEvents(); 	     // Poll our key event for any keystrokes.
 }
-// #endif
 
 void capFrameRate(int desFPS)
 {

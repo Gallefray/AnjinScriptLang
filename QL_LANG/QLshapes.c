@@ -33,8 +33,12 @@ bool rect(char *type, int x, int y, int w, int h)
 {
 	if (strcmp(type, "fill") == 0)
 	{
-		glBegin(GL_TRIANGLES);
+		glBegin(GL_TRIANGLE_STRIP);
 		glVertex2i(x, y);
+		glVertex2i(x, y+h);
+		glVertex2i(x+w, y+h);
+		glVertex2i(x, y);
+		glVertex2i(x+w, y);
 		glVertex2i(x+w, y+h);
 		glEnd();
 	}
@@ -42,7 +46,7 @@ bool rect(char *type, int x, int y, int w, int h)
 	{
 		line(x, y, x+w, y);     // The top line
 		line(x, y, x, y+h);     // The left line
-		line(x-1, y+h, x+w, y+h); // The bottom line
+		line(x, y+h, x+w, y+h); // The bottom line
 		line(x+w, y, x+w, y+h); // The right line
 	}
 	else
