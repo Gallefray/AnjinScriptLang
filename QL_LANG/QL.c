@@ -19,6 +19,17 @@ void error_callback(int error, const char* description)
 	printf(description);
 }
 
+// void quit_callback(GLFWwindow *window)
+// {
+// 	glfwSetWindowCloseCallback();
+// }
+
+void quitQL()
+{
+	glfwDestroyWindow(window);
+	glfwTerminate();
+}
+
 bool initWindow(int width, int height, bool fullscreen, char *name)
 {
 	srand(time(NULL));
@@ -65,18 +76,17 @@ bool initWindow(int width, int height, bool fullscreen, char *name)
 	glOrtho(0.0, scrWidth, scrHeight, 0.0, 0.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glfwSetWindowCloseCallback(window, quitQL);
 	glfwSetKeyCallback(window, grabKeyInput);
 	return true;
 }
 
-void quitQL()
-{
-	glfwTerminate();
-}
-
 void clear()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void setScrColour(int r, int g, int b, int a)

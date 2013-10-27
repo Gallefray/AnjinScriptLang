@@ -4,10 +4,7 @@ int lineWidth;
 
 void setColour(int r, int g, int b, int a)
 {
-	colour.r = r;
-	colour.g = g;
-	colour.b = b;
-	colour.a = a;
+	glColor4f(r / 255.0, g / 255.0, b / 255.0, a / 255.0);
 }
 
 void setLineWidth(int width)
@@ -17,22 +14,17 @@ void setLineWidth(int width)
 
 void pixel(GLint x, GLint y) // Blatantly copied from antonijn
 {
-	// float nx = x+scrTransX; // Is it within the viewport? :D
-	// float ny = y+scrTransY;
-	// if (nx >= 0 && nx < scrWidth && ny >= 0 && ny < scrHeight)
-	// {
 	glBegin(GL_POINTS);
-    glColor4f(colour.r / 255.0, colour.g / 255.0, colour.b / 255.0, colour.a / 255.0);
     glVertex2i(x, y);
     glEnd();
-	// }
 }
 
 
 void line(int ox, int oy, int tx, int ty) // origin x, y; target x, y;
 {
 	glBegin(GL_LINES);
-	glColor4f(colour.r / 255.0, colour.g / 255.0, colour.b / 255.0, colour.a / 255.0);
+	glVertex2i(ox, oy);
+	glVertex2i(tx, ty);
 	glEnd();
 }
 
@@ -41,15 +33,10 @@ bool rect(char *type, int x, int y, int w, int h)
 {
 	if (strcmp(type, "fill") == 0)
 	{
-		int px, py;
-		for (py = y; py < y+h; py++)
-		{
-			for (px = x; px < (x+w); px++) 
-			{
-				pixel(px, py);
-			}
-			px = x;
-		}
+		glBegin(GL_TRIANGLES);
+		glVertex2i(x, y);
+		glVertex2i(x+w, y+h);
+		glEnd();
 	}
 	else if (strcmp(type, "line") == 0)
 	{
@@ -119,8 +106,8 @@ bool ellipse(char *type, int x, int y, int w, int h)
 	{
 		for (angle = 0.0; angle <= maxDegrees; angle += 1.0)
 		{
-			px = (cosf(angle)*w + x);
-			py = (sinf(angle)*h + y);
+			px = (cosf(angle)*(w/2) + x);
+			py = (sinf(angle)*(h/2) + y);
 			pixel(px, py);
 		}
 	}

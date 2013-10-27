@@ -111,6 +111,7 @@ void grabKeyInput(GLFWwindow* window, int key, int scancode, int action, int mod
 
 
 // QL:
+void quitQL(); // Cleans up and quits
 bool initWindow(int height, int width, bool fullscreen, char *name); // Creates a window, this must be done before any graphics - related operations. Returns true if successful 
 void clear(void);
 void setScrColour(int r, int g, int b, int a); // Sets the background of the window to the r, g, b, a specified;

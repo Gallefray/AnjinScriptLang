@@ -14,13 +14,16 @@ int main(int argc, char *argv[])
 	// rad = 100;
 
 	initWindow(800, 600, false, "test :3");
+	setScrColour(250, 250, 250, 255);
 	while (!keyInput.ESC)
 	{
 		clear();
-
-		setColour(255, 0, 0, 255);
-		// rect("line", 20, 20, 100, 100);
-		pixel(1, 1);
+		setColour(255, 0, 0, 150);
+		rect("fill", 20, 20, 32, 32);
+		setColour(0, 255, 0, 150);
+		rect("fill", 30, 30, 32, 32);
+		line(100, 100, 200, 200);
+		pixel(scrWidth/2, scrHeight/2);
 
 		update();
 		// w = cos(angle)*rad + x;
@@ -35,6 +38,7 @@ int main(int argc, char *argv[])
 		// }
 		// capFrameRate(60);
 	}
+	quitQL();
 	printf("\n");
 	return 0;
 }
