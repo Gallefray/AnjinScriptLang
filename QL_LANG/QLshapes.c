@@ -4,7 +4,10 @@ int lineWidth;
 
 void setColour(int r, int g, int b, int a)
 {
-	colour = SDL_MapRGBA(screen->format, r, g, b, a);
+	colour.r = r;
+	colour.g = g;
+	colour.b = b;
+	colour.a = a;
 }
 
 void setLineWidth(int width)
@@ -12,76 +15,25 @@ void setLineWidth(int width)
 	lineWidth = width;
 }
 
-void pixel(int x, int y) // Blatantly copied from the SDL example
+void pixel(GLint x, GLint y) // Blatantly copied from antonijn
 {
-	int nx = x+scrTransX;
-	int ny = y+scrTransY;
-	if (nx >= 0 && nx < scrWidth && ny >= 0 && ny < scrHeight)
-	{
-		SDL_LockSurface(screen);
-		int bpp = screen->format->BytesPerPixel;
-	    /* Here p is the address to the pixel we want to set */
-	    Uint8 *p = (Uint8 *)screen->pixels + ny * screen->pitch + nx * bpp; // Uint8
-
-	    switch(bpp) {
-		    case 1:
-		        *p = colour;
-		        break;
-
-		    case 2:
-		        *(Uint16 *)p = colour; // Uint16
-		        break;
-
-		    case 3:
-		        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-		            p[0] = (colour >> 16) & 0xff;
-		            p[1] = (colour >> 8) & 0xff;
-		            p[2] = colour & 0xff;
-		        } else {
-		            p[0] = colour & 0xff;
-		            p[1] = (colour >> 8) & 0xff;
-		            p[2] = (colour >> 16) & 0xff;
-		        }
-		        break;
-
-		    case 4:
-		        *(Uint32 *)p = colour; // Unit32
-		        break;
-	    }
-	    SDL_UnlockSurface(screen);
-	}
+	// float nx = x+scrTransX; // Is it within the viewport? :D
+	// float ny = y+scrTransY;
+	// if (nx >= 0 && nx < scrWidth && ny >= 0 && ny < scrHeight)
+	// {
+	glBegin(GL_POINTS);
+    glColor4f(colour.r / 255.0, colour.g / 255.0, colour.b / 255.0, colour.a / 255.0);
+    glVertex2i(x, y);
+    glEnd();
+	// }
 }
 
 
 void line(int ox, int oy, int tx, int ty) // origin x, y; target x, y;
 {
-	int px, py; // pixel x, y;
-
-	float a; // angle;
-	a = giveAngle(ox, oy, tx, ty);
-
-	int xd = abs(tx - ox); // x delta
-	int yd = abs(ty - oy); // y delta, also cosine :P
-
-	int linlen = sqrt(sq(xd) + sq(yd)); // line length
-
-	int r = 0; // rad
-	while (r <= linlen)
-	{	
-		px = (cosf(a)*r + ox);
-		py = (sinf(a)*r + oy);
-
-		pixel(px, py);
-		r++;
-	}
-		// if (px == tx && py == ty)
-		// {
-		// 	break;
-		// }
-		// if (py == ty)
-		// {
-		// 	break;
-		// }
+	glBegin(GL_LINES);
+	glColor4f(colour.r / 255.0, colour.g / 255.0, colour.b / 255.0, colour.a / 255.0);
+	glEnd();
 }
 
 

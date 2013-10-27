@@ -1,107 +1,124 @@
 #include "QL.h" // QL.c's header file
 
-SDL_Surface *screen;
+GLFWmonitor *monitor;
+GLFWwindow *window;
 
 // Screen 
 int scrWidth, scrHeight;
 int scrTransX, scrTransY;
 int scrScaleX, scrScaleY;
-int scrColour;
-int colour; // It should be in QLshapes.c but it gets set upon initWindow, so...
+// int scrColour;
+colours colour; // It should be in QLshapes.c but it gets set upon initWindow, so...
 
 // Framerate
 int FPS, drawTime, timeDelta;
-int timeOne, timeTwo;
+double timeOne, timeTwo;
 
-const SDL_VideoInfo* info = NULL;
+void error_callback(int error, const char* description)
+{
+	printf(description);
+}
 
 bool initWindow(int width, int height, bool fullscreen, char *name)
 {
 	srand(time(NULL));
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) // Init the SDL libs, if there's an error then catch and report it. Yeah, I'm initing all of them, eh.
+	glfwSetErrorCallback(error_callback);
+
+	if (!glfwInit()) // Init the glfw libs, if there's an error then catch and report it. Yeah, I'm initing all of them, eh.
 	{ 
-		printf("QuackLang - ERROR:");
-	    printf("Couldn't initialize SDL: %s\n", SDL_GetError());
-	    exit(1);
+		printf("QuackLang - ERROR");
+	    exit(EXIT_FAILURE);
 	}
 
-	atexit(SDL_Quit);// Clean up everything when the program exits! :D
+	// atexit();// Clean up everything when the program exits! :D
 
-	info = SDL_GetVideoInfo( ); // Retrieve video information
-	int bitPerPixel = info->vfmt->BitsPerPixel;  // Grabbing the bpp from the screen now ;)
+	monitor = glfwGetPrimaryMonitor();
 
 	if (fullscreen == true)
 	{
-		screen = SDL_SetVideoMode(width, height, bitPerPixel, SDL_DOUBLEBUF |SDL_FULLSCREEN);
-		if ( screen == NULL ) 
+		window = glfwCreateWindow(width, height, name, monitor, NULL);
+		if (window == NULL) 
 		{
-			printf("QuackLang - ERROR:");
-		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
-		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
-		    exit(1);
+			printf("QuackLang - ERROR");
+		    exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		screen = SDL_SetVideoMode(width, height, bitPerPixel, SDL_DOUBLEBUF);
-		if ( screen == NULL ) 
+		window = glfwCreateWindow(width, height, name, NULL, NULL);
+		if (window == NULL) 
 		{
 			printf("QuackLang - ERROR:");
-		    fprintf(stderr, "Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
-		    printf("Couldn't set %dx%d video mode or mode not supported: %s\n", width, height, SDL_GetError());
-		    exit(1);
+		    exit(EXIT_FAILURE);
 		}
 	}
 
-	colour = SDL_MapRGBA(screen->format, 255, 255, 255, 255); // Default colour is white.
-	scrColour = SDL_MapRGBA(screen->format, 0, 0, 0, 255); // Default colour is white.
-	scrWidth = width;
-	scrHeight = height;
-	SDL_WM_SetCaption(name, NULL); // set the caption, as per the new 4th arg!
+	glfwMakeContextCurrent(window);
+	// scrWidth = width;
+	// scrHeight = height;
+	colour.r = colour.g = colour.b = colour.a = 255; // IIRC this will work
+	glfwGetFramebufferSize(window, &scrWidth, &scrHeight);
+	glViewport(scrTransX, scrTransY, scrWidth, scrHeight);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0.0, scrWidth, scrHeight, 0.0, 0.0, 1.0);
+	glMatrixMode(GL_MODELVIEW);
+
+	glfwSetKeyCallback(window, grabKeyInput);
 	return true;
+}
+
+void quitQL()
+{
+	glfwTerminate();
 }
 
 void clear()
 {
-	SDL_FillRect(screen, NULL, scrColour);
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void setScrColour(int r, int g, int b, int a)
 {
-	scrColour = SDL_MapRGBA(screen->format, r, g, b, a);
+	glClearColor(r / 255.0, g / 255.0, b / 255.0, a / 255.0);
 }
 
 void setTitle(char *name)
 {
-	SDL_WM_SetCaption(name, NULL);
+	glfwSetWindowTitle(window, name);
 }
 
-#ifdef EMSCRIPTEN
-void update(int desFPS, void main)
-{
-	emscripten_set_main_loop(main, FPS, 0);
-	SDL_Flip(screen); // Hmm, does this need to be there? :P
-	grabInput();
-}
+// #ifdef EMSCRIPTEN
+// void update(int desFPS, void main)
+// {
+// 	emscripten_set_main_loop(main, FPS, 0);
+// 	glfwSwapBuffers(window); // Hmm, does this need to be there? :P
+// 	grabInput();
+// }
 
-#else
+// #else
 
 void update() // Desired FPS
 {
-	timeOne = SDL_GetTicks();
-	SDL_Flip(screen); // Draw the shapes/images/whatever
-	grabInput();      // Get the input
+	timeOne = glfwGetTime();
+	glfwSwapBuffers(window); // Draw the shapes/images/whatever
+	glfwPollEvents(); 	     // Poll our key event for any keystrokes.
 }
-#endif
+// #endif
 
 void capFrameRate(int desFPS)
 {
 	drawTime = 1000/desFPS;
-	timeTwo = SDL_GetTicks();
+	timeTwo = glfwGetTime();
 
 	timeDelta = (timeTwo - timeOne);
 	if (timeDelta < drawTime)
 	{
-		SDL_Delay(drawTime - timeDelta);
+	#ifdef _WIN32
+		Sleep(drawTime - timeDelta);
+	#else
+		usleep(drawTime - timeDelta);
+	#endif
 	}
 }

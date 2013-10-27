@@ -1,16 +1,22 @@
 #ifndef QL_H  // Thanks to http://www.github.com/antonijn for the
 #define QL_H  // include guard :3
 
+// #define GLFW_INCLUDE_ES1
+
 #include <stdlib.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_main.h>
+#include <stdio.h>
 #include <time.h>
 #include <math.h>
+#include <GLFW/glfw3.h>
+#ifndef _WIN32
+#include <pthread.h>
+#else
+#include <windows.h>
+#endif
 
 #define true 1
 #define false 0
 typedef char bool;
-
 
 #define sq(x) (x * x)
 #define Pi M_PI
@@ -18,6 +24,7 @@ typedef char bool;
 
 typedef struct 
 {
+	int key, scancode, action, mod; // For the input whatever
 	bool F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12;
 	bool ESC, lSHIFT, rSHIFT, lCTRL, rCTRL, lWIN, rWIN, lALT, rALT, CAPS, NUM;
 	bool one, two, three, four, five, six, seven, eight, nine, zero;
@@ -34,15 +41,21 @@ typedef struct
 	bool leftButton, rightButton, middleButton; // same as 1, 2, 3
 } mouseObj;
 
-enum { BMP, PNG }; // imgType
-
 typedef struct
 {
-	SDL_Surface *img;
-	SDL_Rect *pos;
-	int type;
-	int width, height;
-} img;
+	int r, g, b, a;
+} colours;
+
+enum { BMP, PNG }; // imgType
+
+// *POP* GOES IMAGE SUPPORT ;_;
+// typedef struct
+// {
+// 	SDL_Surface *img;
+// 	SDL_Rect *pos;
+// 	int type;
+// 	int width, height;
+// } img;
 
 typedef struct
 {
@@ -51,8 +64,8 @@ typedef struct
 } vect;
 
 // SDL variables needed
-extern SDL_Surface *screen;
-extern SDL_Event event;
+extern GLFWmonitor  *monitor;
+// extern SDL_Event event;
 
 // Input
 extern keyObj keyInput;
@@ -62,14 +75,14 @@ extern mouseObj mouseInput;
 extern int scrWidth, scrHeight;
 extern int scrTransX, scrTransY;
 extern int scrScaleX, scrScaleY;
-extern int scrColour;
+// extern int scrColour;
 
 // Framerate
 extern int FPS, drawTime, timeDelta;
-extern int timeOne, timeTwo;
+extern double timeOne, timeTwo;
 
 // Shape displaying stuff
-extern int colour;
+extern colours colour;
 extern int lineWidth;
 
 // Function definitions:
@@ -94,18 +107,18 @@ bool circleCircleCollision(int Ax, int Ay, int Ar, int Bx, int By, int Br);
 bool pointCircleCollision(int pX, int pY, int cX, int cY, int cR);
 
 // QLinput:
-void grabInput();
+void grabKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 
 // QL:
 bool initWindow(int height, int width, bool fullscreen, char *name); // Creates a window, this must be done before any graphics - related operations. Returns true if successful 
-void clear();
+void clear(void);
 void setScrColour(int r, int g, int b, int a); // Sets the background of the window to the r, g, b, a specified;
 void setTitle(char *name); // Sets the title of the window to name
 #ifdef EMSCRIPTEN
 void update(int desFPS, void main)
 #else
-void update();
+void update(void);
 #endif
 void capFrameRate(int desFPS); // Caps the frame rate, then updates FPS.
 
@@ -113,7 +126,7 @@ void capFrameRate(int desFPS); // Caps the frame rate, then updates FPS.
 // QLshapes:
 void setColour(int r, int g, int b, int a);   // Sets the current colour to the r, g, b, a specified.
 void setLineWidth(int width); // Does nothing as there's no un-broken line drawing func yet :/
-void pixel(int x, int y); // Blatantly copied from the SDL example. draws a pixel at the given x and y;
+void pixel(GLint x, GLint y); // Blatantly copied from antonijn
 void line(int x0, int y0, int x1, int y1); // Draws a line.
 bool rect(char *type, int x, int y, int w, int h); // Draws a rect. Returns false if an error has been encountered.
 bool circle(char *type, int x, int y, float radius); // Draws a circle with the middle at the x, y. Returns false if an error has been encountered.
@@ -122,6 +135,6 @@ void drawPartCircle(int x, int y, int r, float a, int c); // Draws the part of t
 
 
 // QLimage:
-img loadImage(char *location, int type); // Where location is something like "res/img.bmp" and type is either BMP or PNG.
-void drawImage(img image, int x, int y); // draws the image returned from loadImage at position x, y
+// img loadImage(char *location, int type); // Where location is something like "res/img.bmp" and type is either BMP or PNG.
+// void drawImage(img image, int x, int y); // draws the image returned from loadImage at position x, y
 #endif

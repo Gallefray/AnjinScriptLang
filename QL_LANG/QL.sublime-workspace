@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"scr",
+				"scrTransY"
+			],
+			[
+				"tra",
+				"scrTransX"
+			],
+			[
 				"SDL_",
 				"SDL_UnlockSurface"
 			],
@@ -74,10 +82,6 @@
 			[
 				"rand",
 				"randomNum"
-			],
-			[
-				"scr",
-				"scrWidth"
 			],
 			[
 				"set",
@@ -510,10 +514,6 @@
 			[
 				"PT",
 				"PTSansBoldItalic"
-			],
-			[
-				"fot",
-				"font-family"
 			]
 		]
 	},
@@ -539,7 +539,7 @@
 			"file": "QLinput.c",
 			"settings":
 			{
-				"buffer_size": 15241,
+				"buffer_size": 15966,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "QL.c",
 			"settings":
 			{
-				"buffer_size": 2776,
+				"buffer_size": 2304,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,7 +555,7 @@
 			"file": "QLshapes.c",
 			"settings":
 			{
-				"buffer_size": 5223,
+				"buffer_size": 3522,
 				"line_ending": "Unix",
 				"name": "#include \"QL.h\""
 			}
@@ -569,18 +569,10 @@
 			}
 		},
 		{
-			"file": "Makefile",
-			"settings":
-			{
-				"buffer_size": 2027,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "QL.h",
 			"settings":
 			{
-				"buffer_size": 4886,
+				"buffer_size": 5256,
 				"line_ending": "Unix"
 			}
 		},
@@ -588,7 +580,15 @@
 			"file": "test.c",
 			"settings":
 			{
-				"buffer_size": 613,
+				"buffer_size": 617,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 1846,
 				"line_ending": "Unix"
 			}
 		},
@@ -602,20 +602,20 @@
 			}
 		},
 		{
-			"contents": "\n\nAdded:\nsetTitle(x); - sets the window's title to x\nmouseInput.x, mouseInput.y now give the mouse's position. (A bit laggy when the framerate is set low :/, I might have to thread grabInput() :S)\nmouseInput.right/middle/leftButton has been added, is being handled, but does not correctly detect mouse button input.\n\nRemoved:\n\n\nChanged:\nlicense.txt - It's more or less the final one now. :P\nREADME.md - Modified the introductory message to allow for recent changes\n\nRefactored:\nShifted about a few bits of code in the QL modules and QL.h to give it some more order.\n\nFixed:\n\n\nTodo:\nAdd the licenses for SDL and such.\nAdd the missing keyboard buttons.\nAdd Sound, Image support.\nTest Emscripten Support (before the LD)\nFix Mouse button Input.\nUpdate for SDL 2.0\nAdd more collision detection functions.\nAdd more shapes. (Ellipse[fill], Line[], rect[line], triangle[fill, line]). - Working on it\n\n|> On hold:\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
-			"settings":
-			{
-				"buffer_size": 978,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"contents": "lines\n<Sol_HSA> Gallefray: the basic idea is, you step one pixel at a time, and plot one pixel. This leads to two different kinds of lines: x-major and y-major. Meaning, if you step one pixel in X, the Y better change less than one pixel, or you get a gap.\n<Gallefray> Yeah\n<Sol_HSA> Gallefray: so first you check whether the x delta is bigger than y delta, and pick out of the two different line functions based on that\n<Gallefray> Whaddya mean by the `x delta`\n<Sol_HSA> Gallefray: abs(x0-x1)\n<Sol_HSA> delta means \"difference of\"\n<Sol_HSA> (more or less)\n\n\npekuja:\n<Gallefray> pekuja: https://github.com/Gallefray/QuackLang/blob/master/QL_LANG/QL.c#L764\n<pekuja> still, that's not what Sol_HSA was suggestion you'd do\n<Gallefray> pekuja: AHHHHHH\n<Gallefray> pekuja: Missed that\n<Gallefray> How come it still worked... :O\n<pekuja> I thought you said it looked bad?\n<pekuja> try it with a perfectly horizontal line. that should look wrong\n<pekuja> I think all the lines that algorithm will draw will be diagonal\n<Gallefray> pekuja: yeah\n<Gallefray> pekuja: hmm\n<pekuja> anyways, you've misunderstood Sol_HSA's logic a bit\n<pekuja> this code that you have seems like it will produce a 45-degree diagonal line followed by a horizontal line\n<pekuja> am I correct?\n<Gallefray> yeah\n<pekuja> also your code will draw half of all lines incorrectly\n<Gallefray> my new line drawing code or the old?\n<pekuja> you're getting the left/right X and the top/bottom Y... but what if the line starts from low left and goes up right?\n<pekuja> the old code\n<pekuja> the QL.c\n<pekuja> anyways, the more important part is what you have on lines 801-804\n<pekuja> py is going to be less than bY every iteration until py reaches bY, which is not what you actually want\n<pekuja> also why are you plotting two pixels each time?\n<pekuja> well, not important, but\n<Gallefray> yeah\n<Gallefray> Okay, I have a problem with my new line drawing function D:\n<pekuja> I'm not sure about the optimal way to do this, but basically the idea is, you're drawing a mostly horizontal line, so you increment px every time, as you are doing\n<Gallefray> it worked once...\n<Gallefray> pekuja: yeah\n<Gallefray> http://hastebin.com/vuxodafumu.pl\n<pekuja> but for the py check, you want something like:\n<Gallefray> wzl: dda? :P\n<pekuja> py = px * (bY - tY) / (rX - lX);\n<pekuja> this is very likely not the optimal way to do it\n<pekuja> so you could replace lines 801-804 with that and it should work at least somewhat better\n<pekuja> also get rid of the second pixel plot on line 800\n<pekuja> although you might want to add one last pixel plot after the loop, to draw (rX,bY)",
 			"settings":
 			{
 				"buffer_size": 2630,
 				"line_ending": "Unix",
 				"name": "lines"
+			}
+		},
+		{
+			"contents": "\n\nAdded:\n\n\n\nRemoved:\n\n\nChanged:\n\n\nRefactored:\n\n\nFixed:\n\n\nTodo:\nAdd the licenses for SDL and such.\nAdd the missing keyboard buttons.\nAdd Sound, Image support.\nTest Emscripten Support (before the LD)\nFix Mouse button Input.\nUpdate for SDL 2.0\nAdd more collision detection functions.\nAdd more shapes. (Ellipse[fill], triangle[fill, line]). - Working on it\n\n|> On hold:\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
+			"settings":
+			{
+				"buffer_size": 439,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -650,6 +650,7 @@
 	},
 	"file_history":
 	[
+		"/home/finn/Documents/prog/QuackLang/QL_LANG/QL.h",
 		"/home/finn/Documents/QuackLang/QL_LANG/QL.sublime-workspace",
 		"/home/finn/Documents/QuackLang/QL_LANG/QL.sublime-project",
 		"/home/finn/Dropbox/Git_Repo/personal/code/QuackLang/README.md",
@@ -776,12 +777,11 @@
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/animals program/main.lua",
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/epicness.lua",
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/main.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/depracated_code_graveyard.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/conf.lua"
+		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/depracated_code_graveyard.lua"
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -795,6 +795,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"-lSDL",
+			"-Wall",
+			" -Wall",
+			"-Wall",
+			" -Werror",
+			"                        ",
+			"                       ",
+			"                      ",
+			"                     ",
+			"\"",
+			"\",",
+			"SDL",
 			"C++",
 			"abs(",
 			"enemies[i].",
@@ -910,19 +922,7 @@
 			"int ",
 			"player.move.",
 			"x",
-			" += 1 * dt",
-			" -= 1 * dt",
-			"    ",
-			"*",
-			"X",
-			"delta",
-			"40",
-			"20",
-			"Y",
-			"y",
-			"x",
-			"height, width",
-			"height"
+			" += 1 * dt"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -944,7 +944,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -960,8 +960,8 @@
 						"selection":
 						[
 							[
-								916,
-								916
+								263,
+								263
 							]
 						],
 						"settings":
@@ -970,7 +970,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 180.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1009,15 +1009,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15241,
+						"buffer_size": 15966,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								374,
-								374
+								36,
+								36
 							]
 						],
 						"settings":
@@ -1026,7 +1026,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 11.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1037,15 +1037,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2776,
+						"buffer_size": 2304,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								2304,
+								2304
 							]
 						],
 						"settings":
@@ -1054,7 +1054,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1153.0,
+						"translation.y": 1122.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1065,15 +1065,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5223,
+						"buffer_size": 3522,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1506,
-								1506
+								133,
+								133
 							]
 						],
 						"settings":
@@ -1083,7 +1083,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 692.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1115,83 +1115,28 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "Makefile",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2027,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1803,
-								1803
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Makefile/Makefile.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 135.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
-					"buffer": 7,
+					"buffer": 6,
 					"file": "QL.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4886,
+						"buffer_size": 5256,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3137,
-								3137
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1440.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "test.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 613,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								381,
-								381
+								484,
+								484
 							]
 						],
 						"settings":
@@ -1200,6 +1145,61 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
+						"translation.y": 255.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "test.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 617,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								475,
+								475
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "Makefile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1846,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1709,
+								1709
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 298.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
@@ -1218,8 +1218,8 @@
 						"selection":
 						[
 							[
-								870,
-								870
+								639,
+								639
 							]
 						],
 						"settings":
@@ -1238,33 +1238,6 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 978,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								574,
-								574
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"semi_transient": false,
-					"settings":
-					{
 						"buffer_size": 2630,
 						"regions":
 						{
@@ -1279,6 +1252,33 @@
 						"settings":
 						{
 							"auto_name": "lines",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 439,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								439,
+								439
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -1318,7 +1318,7 @@
 		"cols":
 		[
 			0.0,
-			0.5109375,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -1353,7 +1353,7 @@
 		[
 			[
 				"",
-				"~/Documents/projectAlpha/.projAlpha.sublime-project"
+				"~/Documents/projectAlpha/.projAlpha.sublime-workspace"
 			]
 		],
 		"width": 380.0
