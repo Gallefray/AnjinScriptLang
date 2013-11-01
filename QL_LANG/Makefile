@@ -25,7 +25,6 @@ build projForNT:
 
 build proj:
 	gcc test.c -o test ./libQL.so -g -lm -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi
-	./test
 
 build em: QL.h
 	emcc -c -fpic QLmath.c -Wall -g
@@ -36,7 +35,7 @@ build em: QL.h
 	emcc -c -fpic QLimage.c -Wall -g
 	emcc -shared -o libQL.so QLmath.o QLcollisionHand.o QLinput.o QL.o QLshapes.o QLimage.o -lm -lglfw3
 
-build: QL.h
+build lin: QL.h
 	gcc -c -fpic QLmath.c -g
 	gcc -c -fpic QLcollisionHand.c -g
 	gcc -c -fpic QLinput.c -g
@@ -46,3 +45,8 @@ build: QL.h
 	# gcc -shared -o libQL.so QLmath.o QLcollisionHand.o QLinput.o QL.o QLshapes.o QLimage.o -lm -lglfw3 -lGL 
 	gcc -shared -o libQL.so QLmath.o QLcollisionHand.o QLinput.o QL.o QLshapes.o -lm -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi
 # -Wall -Wextra # Thanks to Fififox and ninzine from #ludumdare for the help with the SDL libs and the waring options (-Wall -Wextra) :D
+
+build:
+	make lin
+	make proj
+	./test

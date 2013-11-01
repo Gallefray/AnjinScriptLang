@@ -6,7 +6,7 @@ GLFWwindow *window;
 // Screen 
 int scrWidth, scrHeight;
 int scrTransX, scrTransY;
-int scrScaleX, scrScaleY;
+float scrScaleX, scrScaleY;
 
 // Framerate
 int FPS, drawTime, timeDelta;
@@ -95,10 +95,15 @@ void setTitle(char *name)
 	glfwSetWindowTitle(window, name);
 }
 
+void scale(double x, double y)
+{
+	glScaled(x, y, 0);
+}
+
 void update() // Desired FPS
 {
 	timeOne = glfwGetTime();
-	glViewport(scrTransX, scrTransY, scrWidth, scrHeight);
+	//glViewport(scrTransX, scrTransY, scrWidth+scrTransX, scrHeight+scrTransY);
 	glfwSwapBuffers(window); // Draw the shapes/images/whatever
 	glfwPollEvents(); 	     // Poll our key event for any keystrokes.
 }

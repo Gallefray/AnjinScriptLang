@@ -14,32 +14,43 @@ void setLineWidth(int width)
 
 void pixel(GLint x, GLint y) // Blatantly copied from antonijn
 {
-	glBegin(GL_POINTS);
-    glVertex2i(x, y);
-    glEnd();
+	int nx = x+scrTransX; // Need this for translation?
+	int ny = y+scrTransY;
+	if (nx >= 0 && nx < scrWidth && ny >= 0 && ny < scrHeight)
+	{
+		glBegin(GL_POINTS);
+    	glVertex2i(nx, ny);
+    	glEnd();
+    }
 }
 
 
 void line(int ox, int oy, int tx, int ty) // origin x, y; target x, y;
 {
+	int nox = ox+scrTransX;
+	int noy = oy+scrTransY;
+	int ntx = tx+scrTransX;
+	int nty = ty+scrTransY;
 	glBegin(GL_LINES);
-	glVertex2i(ox, oy);
-	glVertex2i(tx, ty);
+	glVertex2i(nox, noy);
+	glVertex2i(ntx, nty);
 	glEnd();
 }
 
 
 bool rect(char *type, int x, int y, int w, int h)
 {
+	int nx = x+scrTransX; // Need this for translation?
+	int ny = y+scrTransY;
 	if (strcmp(type, "fill") == 0)
 	{
 		glBegin(GL_TRIANGLE_STRIP);
-		glVertex2i(x, y);
-		glVertex2i(x, y+h);
-		glVertex2i(x+w, y+h);
-		glVertex2i(x, y);
-		glVertex2i(x+w, y);
-		glVertex2i(x+w, y+h);
+		glVertex2i(nx, ny);
+		glVertex2i(nx, ny+h);
+		glVertex2i(nx+w, ny+h);
+		glVertex2i(nx, ny);
+		glVertex2i(nx+w, ny);
+		glVertex2i(nx+w, ny+h);
 		glEnd();
 	}
 	else if (strcmp(type, "line") == 0)

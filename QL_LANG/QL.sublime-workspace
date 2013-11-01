@@ -4,12 +4,28 @@
 		"selected_items":
 		[
 			[
-				"gl",
-				"glVertex2i"
+				"sc",
+				"scrScaleY"
 			],
 			[
 				"scr",
-				"scrTransY"
+				"scrScaleX"
+			],
+			[
+				"scrSc",
+				"scrScaleX"
+			],
+			[
+				"scrS",
+				"scrScaleX"
+			],
+			[
+				"audio",
+				"audiorate"
+			],
+			[
+				"gl",
+				"glVertex2i"
 			],
 			[
 				"tra",
@@ -498,22 +514,6 @@
 			[
 				"bor",
 				"border-left"
-			],
-			[
-				"mr",
-				"margin-top"
-			],
-			[
-				"padd",
-				"padding-top"
-			],
-			[
-				"paddin",
-				"padding-top"
-			],
-			[
-				"pad",
-				"padding-left"
 			]
 		]
 	},
@@ -531,7 +531,7 @@
 			"file": "QLcollisionHand.c",
 			"settings":
 			{
-				"buffer_size": 690,
+				"buffer_size": 647,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "QL.c",
 			"settings":
 			{
-				"buffer_size": 2818,
+				"buffer_size": 2515,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,17 +555,9 @@
 			"file": "QLshapes.c",
 			"settings":
 			{
-				"buffer_size": 3392,
+				"buffer_size": 3825,
 				"line_ending": "Unix",
 				"name": "#include \"QL.h\""
-			}
-		},
-		{
-			"file": "/home/finn/Documents/prog/C/GLFW/tut/tut.c",
-			"settings":
-			{
-				"buffer_size": 1570,
-				"line_ending": "Unix"
 			}
 		},
 		{
@@ -580,7 +572,7 @@
 			"file": "QL.h",
 			"settings":
 			{
-				"buffer_size": 5363,
+				"buffer_size": 5208,
 				"line_ending": "Unix"
 			}
 		},
@@ -588,7 +580,7 @@
 			"file": "test.c",
 			"settings":
 			{
-				"buffer_size": 744,
+				"buffer_size": 908,
 				"line_ending": "Unix"
 			}
 		},
@@ -596,7 +588,7 @@
 			"file": "Makefile",
 			"settings":
 			{
-				"buffer_size": 2049,
+				"buffer_size": 2082,
 				"line_ending": "Unix"
 			}
 		},
@@ -619,10 +611,10 @@
 			}
 		},
 		{
-			"contents": "\n\nAdded:\nMoved to GLFW.\n\nRemoved:\n\n\nChanged:\nEverything excluding QLmath.c & QLcollisionHand.c\n\nRefactored:\nMost of the code!\n\nFixed:\n\n\nTodo:\nAdd the licenses for GLFW and such.\nAdd the missing keyboard buttons.\nAdd Sound, Image support.\nTest Emscripten Support (before the LD)\nFix Mouse button Input.\nAdd more collision detection functions.\nAdd more shapes. (Ellipse[fill], triangle[fill, line]). - Working on it\n\n|> On hold:\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
+			"contents": "\n\nAdded:\n\n\nRemoved:\n\nChanged:\n\nRefactored:\n\nFixed:\n\nKnown Bugs:\n\nTodo:\nChange README.md - This will be annoying.\nTest windows support.\nFix Mouse Input.\nAdd Sound, Image support.\nReimpliment the Perlin Noise functions.\nChange it to a choice of eother delta time or frameRate capping\nAdd the missing keyboard buttons.\nAdd more collision detection functions.\nAdd more shapes. (Ellipse[fill], triangle[fill, line], arc[fill, line]). - Working on it\nAdd the licenses for GLFW and such.\nPhysics \\o/\nParticle Effects!!!!!!!!!!!!!!! (You can never have enough exclaimation marks after Particle Effects!!!!!!!!!!!!)\n\n|> On hold:\n	Convert for use in (Python/C++/Lua.. etc) other programming languages.\n\n",
 			"settings":
 			{
-				"buffer_size": 500,
+				"buffer_size": 693,
 				"line_ending": "Unix"
 			}
 		}
@@ -630,7 +622,7 @@
 	"build_system": "Packages/Makefile/Make.sublime-build",
 	"command_palette":
 	{
-		"height": 272.0,
+		"height": 392.0,
 		"selected_items":
 		[
 			[
@@ -638,7 +630,7 @@
 				"Package Control: Discover Packages"
 			]
 		],
-		"width": 449.0
+		"width": 392.0
 	},
 	"console":
 	{
@@ -658,6 +650,11 @@
 	},
 	"file_history":
 	[
+		"/home/finn/Documents/prog/QuackLang/QL_LANG/test.c",
+		"/home/finn/Documents/git/QuackLang/QL_LANG/QLshapes.c",
+		"/home/finn/Documents/prog/C/GLFW/tut/tut.c",
+		"/home/finn/.bin/stream_old.sh",
+		"/home/finn/.bin/stream.sh",
 		"/home/finn/Documents/prog/QuackLang/QL_LANG/QL.h",
 		"/home/finn/Documents/QuackLang/QL_LANG/QL.sublime-workspace",
 		"/home/finn/Documents/QuackLang/QL_LANG/QL.sublime-project",
@@ -780,12 +777,7 @@
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/lua/animals program/animals.lua",
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/lua/animals program/main.lua",
 		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/Desktop/gzdoom-bin-1-5-06/zdoom-Finn.ini",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/lua/environment.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/animals program/animals.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/animals program/main.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/epicness.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/main.lua",
-		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/professional/game and program development/Sokoblob/gridlocked player/depracated_code_graveyard.lua"
+		"/C/Documents and Settings/Finn.BERNARD-H5B21OH/My Documents/Dropbox/Git_Repo/personal/lua/environment.lua"
 	],
 	"find":
 	{
@@ -803,6 +795,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"float",
+			"ny",
+			"nx",
+			"n",
+			"o",
+			"ox",
+			"x",
+			"ox",
 			"o",
 			"colour.",
 			"r",
@@ -922,15 +922,7 @@
 			"../bin/",
 			" += 1 * deltaTime",
 			"round",
-			"previousFPSUpdate",
-			"delta",
-			"FPSUpdateFreq",
-			"Cap",
-			"LastUpdate",
-			"Update",
-			"{\n",
-			"previousTime",
-			"time2"
+			"previousFPSUpdate"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -952,7 +944,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -968,8 +960,8 @@
 						"selection":
 						[
 							[
-								263,
-								263
+								440,
+								440
 							]
 						],
 						"settings":
@@ -989,15 +981,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 690,
+						"buffer_size": 647,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								224,
-								224
+								178,
+								178
 							]
 						],
 						"settings":
@@ -1030,7 +1022,7 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
+							"syntax": "Packages/C++/C.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
@@ -1045,24 +1037,24 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2818,
+						"buffer_size": 2515,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1858,
-								1858
+								1768,
+								1768
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
+							"syntax": "Packages/C++/C.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 817.0,
+						"translation.x": 27.0,
+						"translation.y": 1122.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1073,15 +1065,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3392,
+						"buffer_size": 3825,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								620,
-								620
+								2101,
+								2101
 							]
 						],
 						"settings":
@@ -1091,42 +1083,13 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 306.0,
+						"translation.y": 840.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "/home/finn/Documents/prog/C/GLFW/tut/tut.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1570,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1190,
-								1190
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 255.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
 					"file": "QLimage.c",
 					"semi_transient": false,
 					"settings":
@@ -1144,11 +1107,11 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
+							"syntax": "Packages/C++/C.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 90.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1156,57 +1119,61 @@
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
-					"buffer": 7,
+					"buffer": 6,
 					"file": "QL.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5363,
+						"buffer_size": 5208,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3672,
-								3672
+								3945,
+								3945
+							],
+							[
+								3955,
+								3955
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
+							"syntax": "Packages/C++/C.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1334.0,
+						"translation.y": 1377.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 7,
 					"file": "test.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 744,
+						"buffer_size": 908,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								456,
-								456
+								271,
+								271
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
+							"syntax": "Packages/C++/C.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
@@ -1216,20 +1183,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 8,
 					"file": "Makefile",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2049,
+						"buffer_size": 2082,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								671,
-								671
+								352,
+								352
 							]
 						],
 						"settings":
@@ -1237,13 +1204,13 @@
 							"syntax": "Packages/Makefile/Makefile.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 204.0,
+						"translation.y": 73.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 9,
 					"file": "license.txt",
 					"semi_transient": false,
 					"settings":
@@ -1271,7 +1238,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 10,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1298,19 +1265,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 11,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 500,
+						"buffer_size": 693,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								302,
-								302
+								64,
+								64
 							]
 						],
 						"settings":
@@ -1355,7 +1322,7 @@
 		"cols":
 		[
 			0.0,
-			0.52109375,
+			0.49375,
 			1.0
 		],
 		"rows":
@@ -1367,7 +1334,7 @@
 	"menu_visible": false,
 	"output.exec":
 	{
-		"height": 184.0
+		"height": 368.0
 	},
 	"project": "QL.sublime-project",
 	"replace":
@@ -1390,7 +1357,7 @@
 		[
 			[
 				"",
-				"~/Documents/projectAlpha/.projAlpha.sublime-workspace"
+				"~/Documents/prog/galacticRift/.galacticRift.sublime-project"
 			]
 		],
 		"width": 380.0

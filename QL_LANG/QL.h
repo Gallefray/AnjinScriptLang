@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 #include <math.h>
 #include <GLFW/glfw3.h>
@@ -68,7 +69,7 @@ extern mouseObj mouseInput;
 // Screen 
 extern int scrWidth, scrHeight;
 extern int scrTransX, scrTransY;
-extern int scrScaleX, scrScaleY;
+extern float scrScaleX, scrScaleY;
 
 // Framerate
 extern int FPS, drawTime, timeDelta;
@@ -108,11 +109,8 @@ bool initWindow(int height, int width, bool fullscreen, char *name); // Creates 
 void clear(void);
 void setScrColour(int r, int g, int b, int a); // Sets the background of the window to the r, g, b, a specified;
 void setTitle(char *name); // Sets the title of the window to name
-#ifdef EMSCRIPTEN
-void update(int desFPS, void main)
-#else
+void scale(double x, double y);
 void update(void);
-#endif
 void capFrameRate(int desFPS); // Caps the frame rate, then updates FPS.
 
 
