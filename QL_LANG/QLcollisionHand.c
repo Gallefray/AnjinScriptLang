@@ -1,5 +1,7 @@
 #include "QL.h"
 
+// Collision detection:
+
 bool rectRectCollision(int Ax, int Ay, int Ah, int Aw, int Bx, int By, int Bh, int Bw)
 { 
 	return (Ax + Aw >= Bx && Ax <= Bx+Bw && Ay + Ah >= By && Ay <= By+Bh);
@@ -19,3 +21,5 @@ bool pointCircleCollision(int pX, int pY, int cX, int cY, int cR)
 	int yDelta = (pY - cY);
 	return (xDelta*xDelta + yDelta*yDelta <= cR*cR);
 }
+
+// Collision handling:

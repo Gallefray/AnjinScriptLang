@@ -9,6 +9,9 @@
 #include <time.h>
 #include <math.h>
 #include <GLFW/glfw3.h>
+#include <IL/il.h>
+#include <IL/ilu.h>
+
 #ifndef _WIN32
 #include <pthread.h>
 #else

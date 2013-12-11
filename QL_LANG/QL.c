@@ -39,6 +39,8 @@ bool initWindow(int width, int height, bool fullscreen, char *name)
 	    exit(EXIT_FAILURE);
 	}
 
+	ilInit(); // Load the DevIL image loading stuff.
+
 	// atexit();// Clean up everything when the program exits! :D
 
 	monitor = glfwGetPrimaryMonitor();

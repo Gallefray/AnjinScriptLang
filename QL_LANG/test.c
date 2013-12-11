@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
 	setScrColour(30, 30, 30, 255);
 	while (!keyInput.ESC)
 	{
-		scale(.9, .9);
 		clear();
 		setColour(255, 0, 0, 150);
 		rect("fill", 200, 200, 32, 32);

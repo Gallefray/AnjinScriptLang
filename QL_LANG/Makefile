@@ -24,7 +24,7 @@ build projForNT:
 	i486-mingw32-gcc test.c -o test.exe ./libQL.dll -Wall -g -mwindows -lmingw32 -lSDLmain -lglfw3
 
 build proj:
-	gcc test.c -o test ./libQL.so -g -lm -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi
+	gcc test.c -o test ./libQL.so -g -lm -lglfw #-lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi
 
 build em: QL.h
 	emcc -c -fpic QLmath.c -Wall -g
@@ -43,7 +43,7 @@ build lin: QL.h
 	gcc -c -fpic QLshapes.c -g # Still hatin' on you, GCC.
 	# gcc -c -fpic QLimage.c -g
 	# gcc -shared -o libQL.so QLmath.o QLcollisionHand.o QLinput.o QL.o QLshapes.o QLimage.o -lm -lglfw3 -lGL 
-	gcc -shared -o libQL.so QLmath.o QLcollisionHand.o QLinput.o QL.o QLshapes.o -lm -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi
+	gcc -shared -o libQL.so QLmath.o QLcollisionHand.o QLinput.o QL.o QLshapes.o -lm -lGL -lglfw -lIL #-lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi
 # -Wall -Wextra # Thanks to Fififox and ninzine from #ludumdare for the help with the SDL libs and the waring options (-Wall -Wextra) :D
 
 build:
