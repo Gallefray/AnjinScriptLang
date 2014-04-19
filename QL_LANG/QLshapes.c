@@ -25,12 +25,12 @@ void pixel(GLint x, GLint y) // Blatantly copied from antonijn
 }
 
 
-void line(int ox, int oy, int tx, int ty) // origin x, y; target x, y;
+void line(GLint ox, GLint oy, GLint tx, GLint ty) // origin x, y; target x, y;
 {
-	int nox = ox+scrTransX;
-	int noy = oy+scrTransY;
-	int ntx = tx+scrTransX;
-	int nty = ty+scrTransY;
+	GLint nox = ox+scrTransX;
+	GLint noy = oy+scrTransY;
+	GLint ntx = tx+scrTransX;
+	GLint nty = ty+scrTransY;
 	glBegin(GL_LINES);
 	glVertex2i(nox, noy);
 	glVertex2i(ntx, nty);
@@ -148,6 +148,34 @@ bool ellipse(char *type, int x, int y, int w, int h)
 		printf("Incorrect first argument given to the rect function! D:\n");
 		printf("You gave %s\n", type);
 		printf("Only 'line' can be accepted.");
+		return false;
+	}
+	return true;
+}
+
+bool triangle(char *type, int x, int y, int z)
+{
+	// int nx = x+scrTransX; // Need this for translation?
+	// int ny = y+scrTransY;
+	if (strcmp(type, "fill") == 0)
+	{
+		glBegin(GL_TRIANGLE_STRIP);
+		glVertex3i(nx, ny);
+		glEnd();
+	}
+	else if (strcmp(type, "line") == 0)
+	{
+		line(x, y, x+w, y);     // The top line
+		line(x, y, x, y+h);     // The left line
+		line(x, y+h, x+w, y+h); // The bottom line
+		line(x+w, y, x+w, y+h); // The right line
+	}
+	else
+	{
+		printf("QuackLang - ERROR:");
+		printf("Incorrect first argument given to the rect function! D:\n");
+		printf("You gave %s\n", type);
+		printf("Only 'line' or 'fill' can be accepted.");
 		return false;
 	}
 	return true;

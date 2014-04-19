@@ -41,18 +41,18 @@ float signf(float num)
 	return res;
 }
 
-// bool noiseGen(double *noise, double width, double height) // QLmath
-// {
-// 	int x, y;
-// 	for (x = 0; x < width; x++)
-// 	{
-// 		for (y = 0; y < height; y++)
-// 		{
-// 			noise[x][y] = (rand() % 32768) / 32768.0;
-// 		}
-// 	}
-// 	return true;
-// }
+bool noiseGen(double *noise, double width, double height) // QLmath
+{
+	int x, y;
+	for (x = 0; x < width; x++)
+	{
+		for (y = 0; y < height; y++)
+		{
+			noise[x][y] = (rand() % 32768) / 32768.0;
+		}
+	}
+	return true;
+}
 
 // double smoothNoise(double *noise, double x, double y, double width, double height) // QLrand
 // {  

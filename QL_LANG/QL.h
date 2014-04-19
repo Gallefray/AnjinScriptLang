@@ -35,6 +35,7 @@ typedef struct
 	bool tab, insert, home, del, end, pgUp, pgDown, backspace, spacebar;
 	bool up, down, left, right;
 	bool NUMone, NUMtwo, NUMthree, NUMfour, NUMfive, NUMsix, NUMseven, NUMeight, NUMnine, NUMzero;
+	bool caret, minus, equal, hash;
 } keyObj;
 
 typedef struct
@@ -44,16 +45,16 @@ typedef struct
 	bool leftButton, rightButton, middleButton; // same as 1, 2, 3
 } mouseObj;
 
-enum { BMP, PNG }; // imgType
+typedef uint8_t byte_t;
 
-// *POP* GOES IMAGE SUPPORT ;_;
-// typedef struct
-// {
-// 	SDL_Surface *img;
-// 	SDL_Rect *pos;
-// 	int type;
-// 	int width, height;
-// } img;
+typedef struct {
+	ILconst_string filename;
+	// The rest are set by functions, don't touch 'em;
+	ILuint id;
+	byte_t *data;
+} img;
+
+extern ILuint _IMGINDEX;
 
 typedef struct
 {
@@ -129,6 +130,9 @@ void drawPartCircle(int x, int y, int r, float a, int c); // Draws the part of t
 
 
 // QLimage:
+void img_init();
+void img_load(img i);
+void img_delete(img i);
 // img loadImage(char *location, int type); // Where location is something like "res/img.bmp" and type is either BMP or PNG.
 // void drawImage(img image, int x, int y); // draws the image returned from loadImage at position x, y
 #endif

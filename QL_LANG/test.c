@@ -10,11 +10,14 @@ int main(int argc, char *argv[])
 {
 	x = 200;
 	y = 200;
+	double sx = 1.0;
+	double sy = 1.0;
 
 	initWindow(800, 600, false, "test :3");
 	setScrColour(30, 30, 30, 255);
 	while (!keyInput.ESC)
 	{
+		scale(sx, sy);
 		clear();
 		setColour(255, 0, 0, 150);
 		rect("fill", 200, 200, 32, 32);
@@ -29,21 +32,20 @@ int main(int argc, char *argv[])
 		// w = cos(angle)*rad + x;
 		// h = sin(angle)*rad + y;
 		if (keyInput.up)
-		{
 			scrTransY -= 20;
-		}
+	
 		if (keyInput.down)
-		{
 			scrTransY += 20;
-		}
+	
 		if (keyInput.left)
-		{
 		 	scrTransX -= 20;
-		}
+	
 		if (keyInput.right)
-		{
 			scrTransX += 20;
-		}
+
+		if (keyInput.lSHIFT && keyInput.equal)
+			sx, sy += 0.1;
+
 		capFrameRate(60);
 	}
 	quitQL();
